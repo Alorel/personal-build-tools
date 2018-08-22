@@ -7,143 +7,68 @@ import {alo} from '../src/alo';
 import {tmpDir, tmpFile} from './util/tmp-test';
 
 describe('copy-files', () => {
-  describe('one source one dest', () => {
-    let srcDir: string;
-    let destDir: string;
-    let fileList: string[];
-
-    before(() => {
-      srcDir = tmpDir();
-      destDir = tmpDir();
-    });
-
-    before('create dummy files', () => {
-      ['foo.yml', 'bar.yaml', 'foo.md']
-        .map(p => join(srcDir, p))
-        .forEach(p => fs.writeFileSync(p, '.'));
-    });
-
-    before('run', () => {
-      return alo(['copy-files', '--from', join(srcDir, '*.{yml,yaml}'), '--to', destDir]);
-    });
-
-    before('get file list', () => {
-      fileList = fs.readdirSync(destDir, 'utf8');
-    });
-
-    it('should have foo.yml', () => {
-      expect(fileList).to.contain('foo.yml');
-    });
-
-    it('should have bar.yaml', () => {
-      expect(fileList).to.contain('bar.yaml');
-    });
-
-    it('Should not have foo.md', () => {
-      expect(fileList).to.not.contain('foo.md');
-    });
-
-    for (const f of ['foo.yml', 'bar.yaml']) {
-      it(`Should have ${f}`, () => {
-        expect(fileList).to.contain(f);
-      });
-      it(`Contents of ${f} should be "."`, () => {
-        const c = fs.readFileSync(join(destDir, f), 'utf8');
-        expect(c).to.eq('.');
-      });
+  describe('With CLI args', () => {
+    const enum Variant {
+      ONE_ONE = 'One source one destination',
+      MULTI_ONE = 'Multiple sources one destination',
+      MULTI_MULTI = 'Multple sources multiple destinations'
     }
-  });
 
-  describe('Multiple sources one dest', () => {
-    let srcDir: string;
-    let destDir: string;
-    let fileList: string[];
+    for (const variant of [Variant.ONE_ONE, Variant.MULTI_ONE, Variant.MULTI_MULTI]) {
+      describe(variant, () => {
+        let srcDir: string;
+        let destDir: string;
+        let fileList: string[];
 
-    before(() => {
-      srcDir = tmpDir();
-      destDir = tmpDir();
-    });
+        before(() => {
+          srcDir = tmpDir();
+          destDir = tmpDir();
+        });
 
-    before('create dummy files', () => {
-      ['foo.yml', 'bar.yaml', 'foo.md']
-        .map(p => join(srcDir, p))
-        .forEach(p => fs.writeFileSync(p, '.'));
-    });
+        before('create dummy files', () => {
+          ['foo.yml', 'bar.yaml', 'foo.md']
+            .map(p => join(srcDir, p))
+            .forEach(p => fs.writeFileSync(p, '.'));
+        });
 
-    before('run', () => {
-      return alo(['copy-files', '--from', join(srcDir, '*.yml'), join(srcDir, '*.yaml'), '--to', destDir]);
-    });
+        before('run', () => {
+          const args: any[] = ['copy-files', '--from'];
+          if (variant === Variant.ONE_ONE) {
+            args.push(join(srcDir, '*.{yml,yaml}'), '--to', destDir);
+          } else if (variant === Variant.MULTI_ONE) {
+            args.push(join(srcDir, '*.yml'), join(srcDir, '*.yaml'), '--to', destDir);
+          } else {
+            args.push(join(srcDir, '*.yml'), join(srcDir, '*.yaml'), '--to', destDir, destDir);
+          }
 
-    before('get file list', () => {
-      fileList = fs.readdirSync(destDir, 'utf8');
-    });
+          return alo(args);
+        });
 
-    it('should have foo.yml', () => {
-      expect(fileList).to.contain('foo.yml');
-    });
+        before('get file list', () => {
+          fileList = fs.readdirSync(destDir, 'utf8');
+        });
 
-    it('should have bar.yaml', () => {
-      expect(fileList).to.contain('bar.yaml');
-    });
+        it('should have foo.yml', () => {
+          expect(fileList).to.contain('foo.yml');
+        });
 
-    it('Should not have foo.md', () => {
-      expect(fileList).to.not.contain('foo.md');
-    });
+        it('should have bar.yaml', () => {
+          expect(fileList).to.contain('bar.yaml');
+        });
 
-    for (const f of ['foo.yml', 'bar.yaml']) {
-      it(`Should have ${f}`, () => {
-        expect(fileList).to.contain(f);
-      });
-      it(`Contents of ${f} should be "."`, () => {
-        const c = fs.readFileSync(join(destDir, f), 'utf8');
-        expect(c).to.eq('.');
-      });
-    }
-  });
+        it('Should not have foo.md', () => {
+          expect(fileList).to.not.contain('foo.md');
+        });
 
-  describe('Multiple sources multiple dests', () => {
-    let srcDir: string;
-    let destDir: string;
-    let fileList: string[];
-
-    before(() => {
-      srcDir = tmpDir();
-      destDir = tmpDir();
-    });
-
-    before('create dummy files', () => {
-      ['foo.yml', 'bar.yaml', 'foo.md']
-        .map(p => join(srcDir, p))
-        .forEach(p => fs.writeFileSync(p, '.'));
-    });
-
-    before('run', () => {
-      return alo(['copy-files', '--from', join(srcDir, '*.yml'), join(srcDir, '*.yaml'), '--to', destDir, destDir]);
-    });
-
-    before('get file list', () => {
-      fileList = fs.readdirSync(destDir, 'utf8');
-    });
-
-    it('should have foo.yml', () => {
-      expect(fileList).to.contain('foo.yml');
-    });
-
-    it('should have bar.yaml', () => {
-      expect(fileList).to.contain('bar.yaml');
-    });
-
-    it('Should not have foo.md', () => {
-      expect(fileList).to.not.contain('foo.md');
-    });
-
-    for (const f of ['foo.yml', 'bar.yaml']) {
-      it(`Should have ${f}`, () => {
-        expect(fileList).to.contain(f);
-      });
-      it(`Contents of ${f} should be "."`, () => {
-        const c = fs.readFileSync(join(destDir, f), 'utf8');
-        expect(c).to.eq('.');
+        for (const f of ['foo.yml', 'bar.yaml']) {
+          it(`Should have ${f}`, () => {
+            expect(fileList).to.contain(f);
+          });
+          it(`Contents of ${f} should be "."`, () => {
+            const c = fs.readFileSync(join(destDir, f), 'utf8');
+            expect(c).to.eq('.');
+          });
+        }
       });
     }
   });

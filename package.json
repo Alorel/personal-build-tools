@@ -1,6 +1,9 @@
 {
   "name": "@alorel-personal/build-tools",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=6.0"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -11,14 +14,34 @@
   "author": "Arturas Molcanovas <a.molcanovas@gmail.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "build:watch": "npm run build -- --watch",
+    "tslint": "tslint -s ./node_modules/custom-tslint-formatters/formatters -t grouped -p tsconfig.test.json",
+    "tslint:fix": "npm run tslint -- --fix",
+    "pretest": "rimraf coverage",
+    "test": "nyc mocha --opts ./mocha.opts",
+    "test:watch": "npm run test -- --watch"
+  },
   "dependencies": {
+    "glob": "^7.1.2",
     "yargs": "^12.0.1"
   },
   "devDependencies": {
-    "@alorel-personal/tslint-rules": "^1.2.2",
+    "@alorel-personal/tslint-rules": "1.2.2",
+    "@types/glob": "^5.0.35",
+    "@types/mocha": "^5.2.5",
     "@types/node": "^10.7.1",
     "@types/yargs": "^11.1.1",
+    "coveralls": "^3.0.2",
     "custom-tslint-formatters": "^2.4.0",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "rimraf": "^2.6.2",
+    "source-map-support": "^0.5.9",
+    "ts-node": "^7.0.1",
+    "tslib": "^1.9.3",
     "tslint": "^5.11.0",
     "typescript": "^3.0.1"
   }

@@ -1,0 +1,20 @@
+language: node_js
+sudo: false
+node_js:
+- stable
+- lts/carbon
+- lts/boron
+
+before_install: npm i -g yarn
+
+install: yarn install --check-files --ignore-engines
+
+script: yarn run tslint && yarn run build --noEmit && yarn test --forbid-only --forbid-pending
+
+after_success: cat ./coverage/lcov.info | coveralls
+
+before_cache: rm -rf ./node_modules/.cache
+cache:
+  yarn: true
+  directories:
+  - node_modules

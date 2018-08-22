@@ -3,5 +3,8 @@
 /dist/
 /coverage/
 /.nyc_output/
-/.tmp
+/.tmp/
 /package-lock.json
+/yarn-error.log
+/*.tgz
+/git_gpg_keys.asc

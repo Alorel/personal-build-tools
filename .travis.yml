@@ -5,12 +5,16 @@ node_js:
 - lts/carbon
 - lts/boron
 
-before_install: npm i -g yarn
+before_install:
+- npm i -g yarn greenkeeper-lockfile
+- &prepKey if [[ $GH_TOKEN ]]; then ./prepare-gpg-key.sh; fi;
+- greenkeeper-lockfile-update
 
 install: yarn install --check-files --ignore-engines
 
 script: yarn run tslint && yarn run build --noEmit && yarn test --forbid-only --forbid-pending
 
+after_script: if [[ $GH_TOKEN ]]; then greenkeeper-lockfile-upload; fi;
 after_success: cat ./coverage/lcov.info | coveralls
 
 before_cache: rm -rf ./node_modules/.cache
@@ -18,3 +22,20 @@ cache:
   yarn: true
   directories:
   - node_modules
+
+stages:
+- Test
+- Release
+
+jobs:
+  include:
+  - stage: Test
+  - stage: Release
+    if: branch = master AND type = push AND (NOT tag IS present)
+    before_install:
+    - npm i -g yarn
+    - *prepKey
+    before_script: yarn run build
+    script: semantic-release
+    after_success: []
+    after_script: []

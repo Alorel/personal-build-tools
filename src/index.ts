@@ -1,1 +1,3 @@
-console.log('stub');
+#!/usr/bin/env node
+
+import './alo';

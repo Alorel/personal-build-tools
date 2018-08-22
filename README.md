@@ -3,4 +3,3 @@
 [![Coverage Status](https://coveralls.io/repos/github/Alorel/personal-build-tools/badge.svg?branch=dev)](https://coveralls.io/github/Alorel/personal-build-tools?branch=dev)
 [![Build Status](https://travis-ci.com/Alorel/personal-build-tools.svg?branch=dev)](https://travis-ci.com/Alorel/personal-build-tools)
 [![Greenkeeper badge](https://badges.greenkeeper.io/Alorel/ngx-decorators.svg)](https://greenkeeper.io/)
-

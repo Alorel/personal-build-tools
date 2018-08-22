@@ -3,7 +3,6 @@ import {IOptions, sync as glob} from 'glob';
 import * as _ from 'lodash';
 import {basename, dirname, join} from 'path';
 import {CommandModule} from 'yargs';
-import {applyConfigOption} from '../lib/loadConfig';
 
 interface Conf {
   from: string[];
@@ -17,8 +16,7 @@ interface FromTo {
 
 const cmd: CommandModule = {
   builder(argv) {
-    return applyConfigOption(argv)
-      .array('from')
+    return argv.array('from')
       .demandOption('from')
       .describe('from', 'Glob(s) to copy')
       .array('to')

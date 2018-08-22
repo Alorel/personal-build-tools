@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as JSON5 from 'json5';
 import * as YAML from 'yamljs';
 import {Argv} from 'yargs';
+import {Group} from '../inc/Group';
 
 function loadConfig(p: string): any {
   if (/\.js(on)?$/.test(p)) {
@@ -21,5 +22,6 @@ function loadConfig(p: string): any {
 
 export function applyConfigOption<T extends Argv>(argv: T): T {
   return <T>argv.config('config', 'Path to config file', loadConfig)
+    .group('config', Group.GLOBAL_OPTIONS)
     .alias('c', 'config');
 }

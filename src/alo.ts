@@ -4,6 +4,7 @@ import {Group} from './inc/Group';
 
 let argv = yargs
   .scriptName('alo')
+  .wrap(yargs.terminalWidth())
   .commandDir(join(__dirname, 'commands'), {recurse: true, extensions: ['ts', 'js']})
   .help()
   .pkgConf('alo')

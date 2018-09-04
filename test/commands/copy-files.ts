@@ -94,7 +94,14 @@ describe('copy-files', () => {
 
       before('init config file', () => {
         let contents: string;
-        const cfg = {from: join(srcDir, '*.{yml,yaml}'), to: destDir};
+        const cfg = {
+          'copy-files': {
+            to: destDir
+          },
+          global: {
+            from: join(srcDir, '*.{yml,yaml}')
+          }
+        };
 
         switch (format) {
           case '.js':

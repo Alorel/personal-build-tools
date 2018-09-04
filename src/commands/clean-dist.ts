@@ -2,6 +2,8 @@ import * as fs from 'fs';
 import {sync as glob} from 'glob';
 import {basename, dirname, join} from 'path';
 import {CommandModule} from 'yargs';
+import {addConfig} from '../lib/addConfig';
+import {cmdName} from '../lib/cmdName';
 
 interface Conf {
   d: Conf['dist-dirs'];
@@ -126,14 +128,17 @@ function processJs(dirs: string[]): void {
   }
 }
 
+const command = cmdName(__filename);
+
 const cmd: CommandModule = {
   builder(argv) {
-    return argv.array('dist-dirs')
+    return addConfig(argv, command)
+      .array('dist-dirs')
       .alias('d', 'dist-dirs')
       .demandOption('dist-dirs')
       .describe('dirs', 'Directories to recursively scan');
   },
-  command: 'clean-dist',
+  command,
   describe: 'Clean dist directory from empty interface JS files and internal declarations',
   handler(c: Conf) {
     processDts(c.d);

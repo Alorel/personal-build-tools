@@ -1,7 +1,6 @@
 import {join} from 'path';
 import * as yargs from 'yargs';
 import {Group} from './inc/Group';
-import {loadConfig} from './lib/loadConfig';
 
 let argv = yargs
   .scriptName('alo')
@@ -9,11 +8,9 @@ let argv = yargs
   .help()
   .pkgConf('alo')
   .alias('v', 'version')
-  .config('config', 'Path to config file', loadConfig)
-  .alias('c', 'config')
   .demandCommand(1, 'You must specify at least one command');
 
-for (const k of ['version', 'help', 'config']) {
+for (const k of ['version', 'help']) {
   argv = yargs.group(k, Group.GLOBAL_OPTIONS);
 }
 

@@ -3,27 +3,34 @@ import {IOptions, sync as glob} from 'glob';
 import * as _ from 'lodash';
 import {basename, dirname, join} from 'path';
 import {CommandModule} from 'yargs';
+import {addConfig} from '../lib/addConfig';
+import {cmdName} from '../lib/cmdName';
 
 interface Conf {
   from: string[];
+
   to: string[];
 }
 
 interface FromTo {
   from: string;
+
   to: string;
 }
 
+const command = cmdName(__filename);
+
 const cmd: CommandModule = {
   builder(argv) {
-    return argv.array('from')
+    return addConfig(argv, command)
+      .array('from')
       .demandOption('from')
       .describe('from', 'Glob(s) to copy')
       .array('to')
       .demandOption('to')
       .describe('to', 'Dir(s) to copy to');
   },
-  command: 'copy-files',
+  command,
   describe: 'Copy files from point A to point B',
   handler(c: Conf) {
     if (!c.from.length || !c.to.length) {

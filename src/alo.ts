@@ -1,7 +1,7 @@
 import {join} from 'path';
 import * as yargs from 'yargs';
 import {Group} from './inc/Group';
-import {applyConfigOption} from './lib/loadConfig';
+import {loadConfig} from './lib/loadConfig';
 
 let argv = yargs
   .scriptName('alo')
@@ -9,18 +9,19 @@ let argv = yargs
   .help()
   .pkgConf('alo')
   .alias('v', 'version')
+  .config('config', 'Path to config file', loadConfig)
+  .alias('c', 'config')
   .demandCommand(1, 'You must specify at least one command');
 
-for (const k of ['version', 'help']) {
+for (const k of ['version', 'help', 'config']) {
   argv = yargs.group(k, Group.GLOBAL_OPTIONS);
 }
-
-argv = applyConfigOption(yargs);
 
 export function alo(args: string | string[]): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     argv.parse(args, {}, (err, _argv, output) => {
       if (err) {
+        process.stderr.write(output);
         reject(err);
       } else {
         resolve(output);

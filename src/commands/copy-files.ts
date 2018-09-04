@@ -25,7 +25,7 @@ const cmd: CommandModule = {
   },
   command: 'copy-files',
   describe: 'Copy files from point A to point B',
-  async handler(c: Conf) {
+  handler(c: Conf) {
     if (!c.from.length || !c.to.length) {
       throw new Error('At least one from/to path is required');
     }
@@ -60,7 +60,6 @@ const cmd: CommandModule = {
     for (const ft of fromTos) {
       fs.copySync(ft.from, ft.to, {dereference: true, preserveTimestamps: true});
     }
-
   }
 };
 

@@ -9,4 +9,4 @@
 --throw-deprecation
 --recursive
 --watch-extensions ts
-test/**/*.ts
+test/commands/**/*.ts

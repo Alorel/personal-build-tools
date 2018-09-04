@@ -3,8 +3,8 @@ import * as fs from 'fs';
 import * as JSON5 from 'json5';
 import {join} from 'path';
 import * as YAML from 'yamljs';
-import {alo} from '../src/alo';
-import {tmpDir, tmpFile} from './util/tmp-test';
+import {alo} from '../../src/alo';
+import {tmpDir, tmpFile} from '../util/tmp-test';
 
 describe('copy-files', () => {
   describe('With CLI args', () => {

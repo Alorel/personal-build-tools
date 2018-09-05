@@ -3,29 +3,39 @@ import {IOptions, sync as glob} from 'glob';
 import * as _ from 'lodash';
 import {basename, dirname, join} from 'path';
 import {CommandModule} from 'yargs';
+import {addConfig} from '../lib/addConfig';
+import {cmdName} from '../lib/cmdName';
+import {flattenGlob} from '../lib/flattenGlob';
 
 interface Conf {
   from: string[];
+
   to: string[];
 }
 
 interface FromTo {
   from: string;
+
   to: string;
 }
 
+const command = cmdName(__filename);
+
 const cmd: CommandModule = {
   builder(argv) {
-    return argv.array('from')
+    return addConfig(argv, command)
+    // from
+      .array('from')
       .demandOption('from')
       .describe('from', 'Glob(s) to copy')
+      // to
       .array('to')
       .demandOption('to')
       .describe('to', 'Dir(s) to copy to');
   },
-  command: 'copy-files',
+  command,
   describe: 'Copy files from point A to point B',
-  async handler(c: Conf) {
+  handler(c: Conf) {
     if (!c.from.length || !c.to.length) {
       throw new Error('At least one from/to path is required');
     }
@@ -42,14 +52,7 @@ const cmd: CommandModule = {
             return {from, to: join(c.to[idx] || c.to[0], basename(from))};
           });
       })
-      .reduce<FromTo[]>(
-        (acc, sources) => {
-          acc.push(...sources);
-
-          return acc;
-        },
-        []
-      );
+      .reduce<FromTo[]>(flattenGlob, []);
 
     _(fromTos)
       .map('to')
@@ -60,7 +63,6 @@ const cmd: CommandModule = {
     for (const ft of fromTos) {
       fs.copySync(ft.from, ft.to, {dereference: true, preserveTimestamps: true});
     }
-
   }
 };
 

@@ -5,5 +5,7 @@ clean-pkg-json:
   sort-scripts: true
 
 copy-files:
-  from: package.json
+  from:
+  - package.json
+  - index.d.ts
   to: *distDirs

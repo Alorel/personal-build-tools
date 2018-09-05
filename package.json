@@ -30,6 +30,7 @@
     "test:watch": "npm run test -- --watch"
   },
   "dependencies": {
+    "delete-empty": "^2.0.0",
     "fs-extra": "^7.0.0",
     "glob": "^7.1.2",
     "json5": "^2.0.1",

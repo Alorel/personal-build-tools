@@ -5,6 +5,10 @@ import {addConfig} from '../lib/addConfig';
 import {cmdName} from '../lib/cmdName';
 import {getFiles} from '../lib/getFiles';
 
+//todo: add typings
+//tslint:disable-next-line:no-var-requires
+const deleteEmpty: any = require('delete-empty');
+
 interface Conf {
   d: Conf['distDirs'];
 
@@ -131,6 +135,9 @@ const cmd: CommandModule = {
   handler(c: Conf) {
     processDts(c.distDirs);
     processJs(c.distDirs);
+    for (const d of c.distDirs) {
+      deleteEmpty(d);
+    }
   }
 };
 

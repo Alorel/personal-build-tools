@@ -26,10 +26,12 @@ const cmd: CommandModule = {
     return addConfig(argv, command)
     // from
       .array('from')
+      .alias('f', 'from')
       .demandOption('from')
       .describe('from', 'Glob(s) to copy')
       // to
       .array('to')
+      .alias('t', 'to')
       .demandOption('to')
       .describe('to', 'Dir(s) to copy to');
   },

@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/Alorel/personal-build-tools/compare/2.0.0...2.0.1) (2018-09-05)
+
+
+### Bug Fixes
+
+* **package:** Fix submitted README.md ([d06cdd9](https://github.com/Alorel/personal-build-tools/commit/d06cdd9))
+
 # [2.0.0](https://github.com/Alorel/personal-build-tools/compare/1.0.0...2.0.0) (2018-09-05)
 
 

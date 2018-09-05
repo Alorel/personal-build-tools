@@ -1,3 +1,25 @@
+# [3.0.0](https://github.com/Alorel/personal-build-tools/compare/2.0.1...3.0.0) (2018-09-05)
+
+
+### Bug Fixes
+
+* **copy-files:** --from and --to now have -f and -t aliases ([465ed71](https://github.com/Alorel/personal-build-tools/commit/465ed71))
+
+
+### Features
+
+* **config:** Global configuration can now be provided in ~/.alobuild.yml ([f7e6a09](https://github.com/Alorel/personal-build-tools/commit/f7e6a09))
+
+
+### Maintenance
+
+* Remove pkgConf option ([f9171ee](https://github.com/Alorel/personal-build-tools/commit/f9171ee))
+
+
+### BREAKING CHANGES
+
+* Config can no longer be specified in package.json
+
 ## [2.0.1](https://github.com/Alorel/personal-build-tools/compare/2.0.0...2.0.1) (2018-09-05)
 
 

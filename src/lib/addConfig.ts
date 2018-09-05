@@ -23,16 +23,25 @@ function readCfg(p: string): any {
 
 function loadConfig(key: string): (path: string) => any {
   return (p: string): any => {
-    const rawContents = readCfg(p);
-    const keyContents = cloneDeep(rawContents[key] || {});
-    const globalContents = cloneDeep(rawContents.global || {});
+    try {
+      const rawContents = readCfg(p);
+      const keyContents = cloneDeep(rawContents[key] || {});
+      const globalContents = cloneDeep(rawContents.global || {});
 
-    return merge(globalContents, keyContents);
+      return merge(globalContents, keyContents);
+    } catch (e) {
+      if (e.code === 'ENOENT') {
+        return {};
+      }
+
+      throw e;
+    }
   };
 }
 
 export function addConfig<T extends Argv = Argv>(argv: T, key: string): T {
-  return <T>argv.config('config', 'Path to config file', loadConfig(key))
+  return <T>argv.config('config', 'Path to config file (optional)', loadConfig(key))
+    .default('config', '.alobuild.yml')
     .alias('c', 'config')
     .group('config', Group.GLOBAL_OPTIONS);
 }

@@ -8,4 +8,7 @@ copy-files:
   from:
   - package.json
   - index.d.ts
+  - LICENSE
+  - CHANGELOG.md
+  - README.md
   to: *distDirs

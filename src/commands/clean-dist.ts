@@ -6,9 +6,9 @@ import {cmdName} from '../lib/cmdName';
 import {getFiles} from '../lib/getFiles';
 
 interface Conf {
-  d: Conf['dist-dirs'];
+  d: Conf['distDirs'];
 
-  'dist-dirs': string[];
+  distDirs: string[];
 }
 
 const enum LineType {
@@ -129,8 +129,8 @@ const cmd: CommandModule = {
   command,
   describe: 'Clean dist directory from empty interface JS files and internal declarations',
   handler(c: Conf) {
-    processDts(c.d);
-    processJs(c.d);
+    processDts(c.distDirs);
+    processJs(c.distDirs);
   }
 };
 

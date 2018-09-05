@@ -7,7 +7,7 @@ prepare:
 - '@semantic-release/changelog'
 - '@alorel-personal/semantic-release'
 - path: '@semantic-release/exec'
-  cmd: yarn run alo copy-files
+  cmd: node dist/alo copy-files
 - '@semantic-release/npm'
 - path: '@semantic-release/git'
   assets:

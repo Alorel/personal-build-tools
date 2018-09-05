@@ -7,7 +7,6 @@ let argv = yargs
   .wrap(yargs.terminalWidth())
   .commandDir(join(__dirname, 'commands'), {recurse: true, extensions: ['ts', 'js']})
   .help()
-  .pkgConf('alo')
   .alias('v', 'version')
   .demandCommand(1, 'You must specify at least one command');
 

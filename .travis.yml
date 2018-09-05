@@ -33,9 +33,9 @@ jobs:
     - *prepKey
     before_script:
       - yarn run build
-      - yarn run alo copy-files
-      - yarn run alo clean-dist
-      - yarn run alo clean-pkg-json
+      - node dist/alo copy-files
+      - node dist/alo clean-dist
+      - node dist/alo clean-pkg-json
     script: semantic-release
     after_success: []
     after_script: []

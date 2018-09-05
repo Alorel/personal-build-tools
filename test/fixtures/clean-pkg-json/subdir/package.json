@@ -1,0 +1,22 @@
+{
+  "scripts": {
+    "prestop": "qux",
+    "postinstall": "foo",
+    "custom": "bar"
+  },
+  "devDependencies": {
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "qux": "3",
+    "foo": "2",
+    "bar": "1"
+  },
+  "alo": 1,
+  "greenkeeper": 1,
+  "publishConfig": {
+    "access": "public"
+  },
+  "$schema": 1,
+  "angularCompilerOptions": 1
+}

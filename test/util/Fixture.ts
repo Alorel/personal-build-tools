@@ -45,6 +45,24 @@ export class Fixture {
     return globAsync('**/*.*', {cwd: this.outDir(), absolute});
   }
 
+  public readOut(file: string): Bluebird<string> {
+    return Bluebird.resolve(fs.readFileSync(path.join(this.outDir(), file), 'utf8'));
+  }
+
+  public readOutAndParse<T = any>(file: string): Bluebird<T> {
+    //tslint:disable-next-line:no-unbound-method
+    return this.readOut(file).then<any>(JSON.parse);
+  }
+
+  public readSrc(file: string): Bluebird<string> {
+    return Bluebird.resolve(fs.readFileSync(path.join(this.dir, file), 'utf8'));
+  }
+
+  public readSrcAndParse<T = any>(file: string): Bluebird<T> {
+    //tslint:disable-next-line:no-unbound-method
+    return this.readSrc(file).then<any>(JSON.parse);
+  }
+
   public sourceFiles(absolute = true): Bluebird<string[]> {
     return globAsync('**/*.*', {cwd: this.dir, absolute});
   }
@@ -53,11 +71,11 @@ export class Fixture {
     return Bluebird.all([this.sourceFiles(true), <any>this.emptyOutDir()])
       .spread<string[]>(sourceAbs => sourceAbs)
       .map<any>(sourceAbs => {
-        const filename = path.basename(sourceAbs);
         const dirname = path.dirname(sourceAbs);
+        const relative = path.relative(this.dir, sourceAbs);
 
         return this.mkdirp(dirname)
-          .then(() => fs.copy(sourceAbs, path.join(this.outDir(), filename)));
+          .then(() => fs.copy(sourceAbs, path.join(this.outDir(), relative)));
       })
       .then(noop);
   }

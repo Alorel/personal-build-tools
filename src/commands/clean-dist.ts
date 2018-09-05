@@ -1,9 +1,9 @@
 import * as fs from 'fs';
-import {sync as glob} from 'glob';
 import {basename, dirname, join} from 'path';
 import {CommandModule} from 'yargs';
 import {addConfig} from '../lib/addConfig';
 import {cmdName} from '../lib/cmdName';
+import {getFiles} from '../lib/getFiles';
 
 interface Conf {
   d: Conf['dist-dirs'];
@@ -16,18 +16,6 @@ const enum LineType {
   SRC_MAP,
   USE_STRICT,
   ANY
-}
-
-function getFiles(dirs: string[], ext: string): string[] {
-  return dirs.map<string[]>(cwd => glob(`**/*.${ext}`, {absolute: true, cwd}))
-    .reduce<string[]>(
-      (acc, files) => {
-        acc.push(...files);
-
-        return acc;
-      },
-      []
-    );
 }
 
 function getNonEmptyLines(contents: string): string[] {

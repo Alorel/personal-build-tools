@@ -1,3 +1,4 @@
+import * as Bluebird from 'bluebird';
 import {expect} from 'chai';
 import {noop} from 'lodash';
 import {Test} from 'mocha';
@@ -8,7 +9,7 @@ describe('clean-dist', () => {
   let fixture: Fixture;
   let srcFiles: string[];
 
-  function initFixture() {
+  function initFixture(): Bluebird<void> {
     fixture = new Fixture('clean-dist');
 
     return fixture.write();

@@ -5,6 +5,7 @@ import {basename, dirname, join} from 'path';
 import {CommandModule} from 'yargs';
 import {addConfig} from '../lib/addConfig';
 import {cmdName} from '../lib/cmdName';
+import {flattenGlob} from '../lib/flattenGlob';
 
 interface Conf {
   from: string[];
@@ -23,9 +24,11 @@ const command = cmdName(__filename);
 const cmd: CommandModule = {
   builder(argv) {
     return addConfig(argv, command)
+    // from
       .array('from')
       .demandOption('from')
       .describe('from', 'Glob(s) to copy')
+      // to
       .array('to')
       .demandOption('to')
       .describe('to', 'Dir(s) to copy to');
@@ -49,14 +52,7 @@ const cmd: CommandModule = {
             return {from, to: join(c.to[idx] || c.to[0], basename(from))};
           });
       })
-      .reduce<FromTo[]>(
-        (acc, sources) => {
-          acc.push(...sources);
-
-          return acc;
-        },
-        []
-      );
+      .reduce<FromTo[]>(flattenGlob, []);
 
     _(fromTos)
       .map('to')

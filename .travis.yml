@@ -16,11 +16,8 @@ script: yarn run tslint && yarn run build --noEmit && yarn test --forbid-only --
 after_script: if [[ $GH_TOKEN ]]; then greenkeeper-lockfile-upload; fi;
 after_success: cat ./coverage/lcov.info | coveralls
 
-before_cache: rm -rf ./node_modules/.cache
 cache:
   yarn: true
-  directories:
-  - node_modules
 
 stages:
 - Test

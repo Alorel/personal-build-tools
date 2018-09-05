@@ -12,7 +12,6 @@
     "foo": "2",
     "bar": "1"
   },
-  "alo": 1,
   "greenkeeper": 1,
   "publishConfig": {
     "access": "public"

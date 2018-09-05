@@ -88,7 +88,6 @@ const cmd: CommandModule = {
       'devDependencies',
       'alo',
       'greenkeeper',
-      'publishConfig',
       'angularCompilerOptions',
       '$schema',
       'private'

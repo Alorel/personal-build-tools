@@ -56,6 +56,9 @@ describe('clean-pkg-json', () => {
           qux: '3',
           foo: '2',
           bar: '1'
+        },
+        publishConfig: {
+          access: 'public'
         }
       });
     });
@@ -63,7 +66,8 @@ describe('clean-pkg-json', () => {
     it('Should be sorted', () => {
       const scripts = {postinstall: 'foo', prestop: 'qux'};
       const peerDependencies = {bar: '1', foo: '2', qux: '3'};
-      const exp = JSON.stringify({scripts, peerDependencies});
+      const publishConfig = {access: 'public'};
+      const exp = JSON.stringify({scripts, peerDependencies, publishConfig});
       const exist = JSON.stringify(outContent);
 
       expect(exist).to.eq(exp);

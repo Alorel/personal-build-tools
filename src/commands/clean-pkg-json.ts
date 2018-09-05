@@ -86,7 +86,6 @@ const cmd: CommandModule = {
   builder(argv) {
     const rmFields = [
       'devDependencies',
-      'alo',
       'greenkeeper',
       'angularCompilerOptions',
       '$schema',

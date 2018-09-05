@@ -124,7 +124,7 @@ const cmd: CommandModule = {
       .array('dist-dirs')
       .alias('d', 'dist-dirs')
       .demandOption('dist-dirs')
-      .describe('dirs', 'Directories to recursively scan');
+      .describe('dist-dirs', 'Directories to recursively scan');
   },
   command,
   describe: 'Clean dist directory from empty interface JS files and internal declarations',

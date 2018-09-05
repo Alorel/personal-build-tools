@@ -5,8 +5,19 @@ prepare:
 - '@semantic-release/changelog'
 - '@alorel-personal/semantic-release'
 - '@semantic-release/npm'
+- path: '@semantic-release/exec'
+  cmd: yarn run alo copy-files
+- path: '@semantic-release/exec'
+  cmd: yarn run alo clean-dist
+- path: '@semantic-release/exec'
+  cmd: yarn run alo clean-pkg-json
 - path: '@semantic-release/git'
   message: 'chore(release): ${nextRelease.version}'
+
+publish:
+  - path: '@semantic-release/npm'
+    pkgRoot: './dist'
+  - '@semantic-release/github'
 
 generateNotes:
   config: '@alorel-personal/conventional-changelog-alorel'

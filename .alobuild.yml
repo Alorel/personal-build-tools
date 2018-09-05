@@ -1,0 +1,9 @@
+global:
+  dist-dirs: &distDirs dist
+
+clean-pkg-json:
+  sort-scripts: true
+
+copy-files:
+  from: package.json
+  to: *distDirs

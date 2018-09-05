@@ -90,7 +90,8 @@ const cmd: CommandModule = {
       'greenkeeper',
       'publishConfig',
       'angularCompilerOptions',
-      '$schema'
+      '$schema',
+      'private'
     ].sort();
 
     const scriptWhitelist = [

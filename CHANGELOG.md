@@ -1,3 +1,15 @@
+## [3.0.1](https://github.com/Alorel/personal-build-tools/compare/3.0.0...3.0.1) (2018-09-06)
+
+
+### Bug Fixes
+
+* **clean-dist:** empty dist dirs are now deleted synchronously ([b867a01](https://github.com/Alorel/personal-build-tools/commit/b867a01))
+
+
+### Maintenance
+
+* **package:** Add delete-empty types ([a0b1492](https://github.com/Alorel/personal-build-tools/commit/a0b1492))
+
 # [3.0.0](https://github.com/Alorel/personal-build-tools/compare/2.0.1...3.0.0) (2018-09-05)
 
 

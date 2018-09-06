@@ -1,13 +1,10 @@
+import * as deleteEmpty from 'delete-empty';
 import * as fs from 'fs';
 import {basename, dirname, join} from 'path';
 import {CommandModule} from 'yargs';
 import {addConfig} from '../lib/addConfig';
 import {cmdName} from '../lib/cmdName';
 import {getFiles} from '../lib/getFiles';
-
-//todo: add typings
-//tslint:disable-next-line:no-var-requires
-const deleteEmpty: any = require('delete-empty');
 
 interface Conf {
   d: Conf['distDirs'];

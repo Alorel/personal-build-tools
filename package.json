@@ -50,6 +50,7 @@
     "@semantic-release/npm": "~5.0.2",
     "@types/bluebird": "~3.5.23",
     "@types/chai": "~4.1.4",
+    "@types/delete-empty": "~2.0.0",
     "@types/fs-extra": "~5.0.4",
     "@types/glob": "~5.0.35",
     "@types/json5": "~0.0.30",

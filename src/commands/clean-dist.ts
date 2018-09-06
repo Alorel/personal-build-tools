@@ -133,7 +133,7 @@ const cmd: CommandModule = {
     processDts(c.distDirs);
     processJs(c.distDirs);
     for (const d of c.distDirs) {
-      deleteEmpty(d);
+      deleteEmpty.sync(d);
     }
   }
 };

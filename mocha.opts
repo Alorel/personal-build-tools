@@ -10,3 +10,4 @@
 --recursive
 --watch-extensions ts
 test/commands/**/*.ts
+test/general/**/*.ts

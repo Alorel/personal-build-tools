@@ -50,6 +50,7 @@
     "@semantic-release/npm": "~5.0.2",
     "@types/bluebird": "~3.5.23",
     "@types/chai": "~4.1.4",
+    "@types/cross-spawn": "~6.0.0",
     "@types/delete-empty": "~2.0.0",
     "@types/fs-extra": "~5.0.4",
     "@types/glob": "~5.0.35",
@@ -58,12 +59,14 @@
     "@types/mocha": "~5.2.5",
     "@types/node": "~10.9.4",
     "@types/tmp": "~0.0.33",
+    "@types/uuid": "~3.4.4",
     "@types/yamljs": "~0.2.30",
     "@types/yargs": "~11.1.1",
     "bluebird": "~3.5.1",
     "chai": "~4.1.2",
     "coveralls": "~3.0.2",
     "cross-env": "~5.2.0",
+    "cross-spawn": "~6.0.5",
     "custom-tslint-formatters": "~2.4.0",
     "mocha": "~5.2.0",
     "nyc": "~13.0.0",
@@ -75,6 +78,7 @@
     "tslib": "~1.9.3",
     "tslint": "~5.11.0",
     "typescript": "~3.0.1",
-    "typescript-lazy-get-decorator": "~1.2.1"
+    "typescript-lazy-get-decorator": "~1.2.1",
+    "uuid": "~3.3.2"
   }
 }

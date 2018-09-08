@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/Alorel/personal-build-tools/compare/3.0.1...3.1.0) (2018-09-08)
+
+
+### Features
+
+* Commands will now exit with a non-zero code if an unknown command is specified ([9e8182a](https://github.com/Alorel/personal-build-tools/commit/9e8182a))
+
 ## [3.0.1](https://github.com/Alorel/personal-build-tools/compare/3.0.0...3.0.1) (2018-09-06)
 
 

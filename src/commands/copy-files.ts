@@ -24,16 +24,18 @@ const command = cmdName(__filename);
 const cmd: CommandModule = {
   builder(argv) {
     return addConfig(argv, command)
-    // from
-      .array('from')
-      .alias('f', 'from')
-      .demandOption('from')
-      .describe('from', 'Glob(s) to copy')
-      // to
-      .array('to')
-      .alias('t', 'to')
-      .demandOption('to')
-      .describe('to', 'Dir(s) to copy to');
+      .option('from', {
+        alias: 'f',
+        array: true,
+        demandOption: true,
+        describe: 'Glob(s) to copy'
+      })
+      .option('to', {
+        alias: 't',
+        array: true,
+        demandOption: true,
+        describe: 'Dir(s) to copy to'
+      });
   },
   command,
   describe: 'Copy files from point A to point B',

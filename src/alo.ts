@@ -1,31 +1,15 @@
-import {readdirSync} from 'fs';
-import {basename, join} from 'path';
+import {join} from 'path';
 import * as yargs from 'yargs';
-import {Group} from './inc/Group';
-import {checkCommand} from './lib/checkCommand';
+import {addCommandDir} from './fns/addCommandDir';
+import {applyGlobalGroup} from './fns/applyGlobalGroup';
 
-const ext = /\.js$/.test(__filename) ? 'js' : 'ts';
-
-const commandsNames: string[] = (() => {
-  const reg = new RegExp(`\.${ext}$`);
-
-  return readdirSync(join(__dirname, 'commands'), 'utf8')
-    .filter(f => reg.test(f))
-    .map(f => basename(f, `.${ext}`));
-})();
-
-let argv = yargs
+const argv = addCommandDir(join(__dirname, 'commands'), yargs)
   .scriptName('alo')
   .wrap(yargs.terminalWidth())
-  .commandDir(join(__dirname, 'commands'), {recurse: true, extensions: [ext]})
   .help()
-  .alias('v', 'version')
-  .demandCommand(1, 'You must specify at least one command')
-  .check(checkCommand(commandsNames));
+  .alias('v', 'version');
 
-for (const k of ['version', 'help']) {
-  argv = yargs.group(k, Group.GLOBAL_OPTIONS);
-}
+applyGlobalGroup(argv);
 
 export function alo(args: string | string[]): Promise<string> {
   return new Promise<string>((resolve, reject) => {

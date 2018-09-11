@@ -1,11 +1,11 @@
 import * as fs from 'fs';
 import {has, isEmpty, unset} from 'lodash';
 import {CommandModule} from 'yargs';
-import {addConfig} from '../lib/addConfig';
-import {cmdName} from '../lib/cmdName';
-import {depFields} from '../lib/depFields';
-import {flatGlob} from '../lib/getFiles';
-import {sortObjectByKey} from '../lib/sortObjectByKey';
+import {depFields} from '../const/depFields';
+import {addConfig} from '../fns/addConfig';
+import {cmdName} from '../fns/cmdName';
+import {flatGlobDirs} from '../fns/getFiles';
+import {sortObjectByKey} from '../fns/sortObjectByKey';
 
 interface StrObj {
   [k: string]: string;
@@ -110,43 +110,50 @@ const cmd: CommandModule = {
     ].sort();
 
     return addConfig(argv, command)
-    // dist-dirs
-      .array('dist-dirs')
-      .alias('d', 'dist-dirs')
-      .demandOption('dist-dirs')
-      .describe('dist-dirs', 'Directories containing package.json files')
-      // skip-clean-scripts
-      .boolean('skip-clean-scripts')
-      .default('skip-clean-scripts', false)
-      .describe('skip-clean-scripts', 'Don\'t clean the scripts section')
-      // skip-remove-fields
-      .boolean('skip-remove-fields')
-      .default('skip-remove-fields', false)
-      .describe('skip-remove-fields', 'Don\'t remove any fields')
-      // skip-sort-deps
-      .boolean('skip-sort-deps')
-      .default('skip-sort-deps', false)
-      .describe('skip-sort-deps', 'Don\'t sort dependencies alphabetically by name')
-      // remove-fields
-      .array('remove-fields')
-      .alias('r', 'remove-fields')
-      .default('remove-fields', rmFields)
-      .describe('remove-fields', 'Fields to remove from package.json')
-      // script-whitelist
-      .array('script-whitelist')
-      .alias('w', 'script-whitelist')
-      .default('script-whitelist', scriptWhitelist)
-      .describe('script-whitelist', 'Scripts to keep in package.json')
-      // sort-scripts
-      .boolean('sort-scripts')
-      .alias('s', 'sort-scripts')
-      .default('sort-scripts', false)
-      .describe('sort-scripts', 'Sort scripts alphabetically by name');
+      .option('dist-dirs', {
+        alias: 'd',
+        array: true,
+        demandOption: true,
+        describe: 'Directories containing package.json files'
+      })
+      .option('skip-clean-scripts', {
+        boolean: true,
+        default: false,
+        describe: 'Don\'t clean the scripts section'
+      })
+      .option('skip-remove-fields', {
+        boolean: true,
+        default: false,
+        describe: 'Don\'t remove any fields'
+      })
+      .option('skip-sort-deps', {
+        boolean: true,
+        default: false,
+        describe: 'Don\'t sort dependencies alphabetically by name'
+      })
+      .option('remove-fields', {
+        alias: 'r',
+        array: true,
+        default: rmFields,
+        describe: 'Fields to remove from package.json'
+      })
+      .option('script-whitelist', {
+        alias: 'w',
+        array: true,
+        default: scriptWhitelist,
+        describe: 'Scripts to keep in package.json'
+      })
+      .option('sort-scripts', {
+        alias: 's',
+        boolean: true,
+        default: false,
+        describe: 'Sort scripts alphabetically by name'
+      });
   },
   command,
   describe: 'Clean pre-dist package.json fields. Nested object paths can be separated by dot, e.g.: "foo.bar"',
   handler(c: Conf) {
-    const files = flatGlob(c.distDirs, '**/package.json');
+    const files = flatGlobDirs(c.distDirs, '**/package.json');
     for (const file of files) {
       const contents: any = JSON.parse(fs.readFileSync(file, 'utf8'));
       if (!c.skipRemoveFields) {

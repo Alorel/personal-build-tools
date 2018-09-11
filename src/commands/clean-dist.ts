@@ -2,9 +2,9 @@ import * as deleteEmpty from 'delete-empty';
 import * as fs from 'fs';
 import {basename, dirname, join} from 'path';
 import {CommandModule} from 'yargs';
-import {addConfig} from '../lib/addConfig';
-import {cmdName} from '../lib/cmdName';
-import {getFiles} from '../lib/getFiles';
+import {addConfig} from '../fns/addConfig';
+import {cmdName} from '../fns/cmdName';
+import {getFiles} from '../fns/getFiles';
 
 interface Conf {
   d: Conf['distDirs'];
@@ -122,10 +122,12 @@ const command = cmdName(__filename);
 const cmd: CommandModule = {
   builder(argv) {
     return addConfig(argv, command)
-      .array('dist-dirs')
-      .alias('d', 'dist-dirs')
-      .demandOption('dist-dirs')
-      .describe('dist-dirs', 'Directories to recursively scan');
+      .option('dist-dirs', {
+        alias: 'd',
+        array: true,
+        demandOption: true,
+        describe: 'Directories to recursively scan'
+      });
   },
   command,
   describe: 'Clean dist directory from empty interface JS files and internal declarations',

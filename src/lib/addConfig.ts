@@ -5,9 +5,8 @@ import {homedir} from 'os';
 import {join} from 'path';
 import * as YAML from 'yamljs';
 import {Argv} from 'yargs';
+import {defaultCfgName} from '../inc/defaultCfgName';
 import {Group} from '../inc/Group';
-
-const defaultCfgName = '.alobuild.yml';
 
 function readCfg(p: string): any {
   if (/\.js(on)?$/.test(p)) {

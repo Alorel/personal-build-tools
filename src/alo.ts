@@ -1,18 +1,9 @@
-import {readdirSync} from 'fs';
-import {basename, join} from 'path';
+import {join} from 'path';
 import * as yargs from 'yargs';
+import {ext} from './const/ext';
 import {checkCommand} from './fns/checkCommand';
+import {getCommandNames} from './fns/getCommandNames';
 import {Group} from './inc/Group';
-
-const ext = /\.js$/.test(__filename) ? 'js' : 'ts';
-
-const commandsNames: string[] = (() => {
-  const reg = new RegExp(`\.${ext}$`);
-
-  return readdirSync(join(__dirname, 'commands'), 'utf8')
-    .filter(f => reg.test(f))
-    .map(f => basename(f, `.${ext}`));
-})();
 
 let argv = yargs
   .scriptName('alo')
@@ -21,7 +12,7 @@ let argv = yargs
   .help()
   .alias('v', 'version')
   .demandCommand(1, 'You must specify at least one command')
-  .check(checkCommand(commandsNames));
+  .check(checkCommand(getCommandNames(join(__dirname, 'commands'))));
 
 for (const k of ['version', 'help']) {
   argv = yargs.group(k, Group.GLOBAL_OPTIONS);

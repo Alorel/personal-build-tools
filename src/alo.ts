@@ -1,22 +1,15 @@
 import {join} from 'path';
 import * as yargs from 'yargs';
-import {ext} from './const/ext';
-import {checkCommand} from './fns/checkCommand';
-import {getCommandNames} from './fns/getCommandNames';
-import {Group} from './inc/Group';
+import {addCommandDir} from './fns/addCommandDir';
+import {applyGlobalGroup} from './fns/applyGlobalGroup';
 
-let argv = yargs
+const argv = addCommandDir(join(__dirname, 'commands'), yargs)
   .scriptName('alo')
   .wrap(yargs.terminalWidth())
-  .commandDir(join(__dirname, 'commands'), {recurse: true, extensions: [ext]})
   .help()
-  .alias('v', 'version')
-  .demandCommand(1, 'You must specify at least one command')
-  .check(checkCommand(getCommandNames(join(__dirname, 'commands'))));
+  .alias('v', 'version');
 
-for (const k of ['version', 'help']) {
-  argv = yargs.group(k, Group.GLOBAL_OPTIONS);
-}
+applyGlobalGroup(argv);
 
 export function alo(args: string | string[]): Promise<string> {
   return new Promise<string>((resolve, reject) => {

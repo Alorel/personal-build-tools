@@ -23,7 +23,7 @@ export class ConfigWriter {
   public clear(): this {
     this.data = {};
 
-    return this.write();
+    return this.save();
   }
 
   public refresh(): this {
@@ -38,12 +38,27 @@ export class ConfigWriter {
     return this;
   }
 
-  public save(): this {
+  public refreshAndSave(): this {
     const d = cloneDeep(this.data);
     this.refresh();
     merge(this.data, d);
 
-    return this.write();
+    return this.save();
+  }
+
+  public save(): this {
+    if (isEmpty(this.data)) {
+      try {
+        fs.unlinkSync(ConfigWriter.filepath);
+      } catch {
+        //noop
+      }
+    } else {
+      //tslint:disable-next-line:no-magic-numbers
+      fs.writeFileSync(ConfigWriter.filepath, YAML.stringify(this.data, Number.MAX_VALUE, 2));
+    }
+
+    return this;
   }
 
   public set(key: string, value: any, scope: string = Conf.DEFAULT_SCOPE): this {
@@ -56,21 +71,6 @@ export class ConfigWriter {
     unset(this.data, [scope, key]);
     if (isEmpty(this.data[scope])) {
       delete this.data[scope];
-    }
-
-    return this;
-  }
-
-  private write(): this {
-    if (isEmpty(this.data)) {
-      try {
-        fs.unlinkSync(ConfigWriter.filepath);
-      } catch {
-        //noop
-      }
-    } else {
-      //tslint:disable-next-line:no-magic-numbers
-      fs.writeFileSync(ConfigWriter.filepath, YAML.stringify(this.data, Number.MAX_VALUE, 2));
     }
 
     return this;

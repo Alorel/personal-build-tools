@@ -1,6 +1,7 @@
-import {basename, extname} from 'path';
+import {basename} from 'path';
+import {ext as ext$} from '../const/ext';
 
-const ext = extname(__filename);
+const ext = `.${ext$}`;
 
 export function cmdName(currFile: string): string {
   return basename(currFile, ext);

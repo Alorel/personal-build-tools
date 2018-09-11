@@ -44,7 +44,7 @@ describe('ConfigWriter', () => {
       new ConfigWriter()
         .set(globalK, globalV)
         .set(scopedK, scopedV, scope)
-        .save();
+        .refreshAndSave();
     });
 
     before('read', () => {
@@ -99,7 +99,7 @@ describe('ConfigWriter', () => {
 
   describe('clear', () => {
     before('set data', () => {
-      new ConfigWriter().set(uuid(), uuid()).save();
+      new ConfigWriter().set(uuid(), uuid()).refreshAndSave();
     });
 
     it('Should not be empty initially', () => {
@@ -115,7 +115,7 @@ describe('ConfigWriter', () => {
 
   after('restore snapshot', () => {
     if (initialSnapshot && !isEmpty(initialSnapshot['data'])) {
-      initialSnapshot['write']();
+      initialSnapshot.save();
     }
   });
 });

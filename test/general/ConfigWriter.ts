@@ -1,6 +1,4 @@
 import {expect} from 'chai';
-import * as fs from 'fs-extra';
-import {isEmpty, noop} from 'lodash';
 import {v4 as uuid} from 'uuid';
 import {ConfigWriter} from '../../src/lib/ConfigWriter';
 
@@ -11,7 +9,7 @@ describe('ConfigWriter', () => {
     initialSnapshot = new ConfigWriter();
   });
 
-  before('remove file', () => fs.unlink(ConfigWriter.filepath).catch(noop));
+  before('remove file', () => new ConfigWriter().clear());
 
   describe('Setting data without saving', () => {
     const k = uuid();
@@ -39,6 +37,8 @@ describe('ConfigWriter', () => {
     const scope = uuid();
 
     let data: any;
+
+    before('remove file', () => new ConfigWriter().clear());
 
     before('write', () => {
       new ConfigWriter()
@@ -68,10 +68,14 @@ describe('ConfigWriter', () => {
   });
 
   describe('unset', () => {
-    const w = new ConfigWriter()
-      .set('a', 'b', 'two')
-      .set('c', 'd', 'two')
-      .set('e', 'f');
+    let w: ConfigWriter;
+    before('remove file', () => new ConfigWriter().clear());
+    before('write', () => {
+      w = new ConfigWriter()
+        .set('a', 'b', 'two')
+        .set('c', 'd', 'two')
+        .set('e', 'f');
+    });
 
     it('initial', () => {
       expect(w['data']).to.deep.eq({
@@ -95,9 +99,11 @@ describe('ConfigWriter', () => {
         }
       });
     });
+    before('remove file', () => new ConfigWriter().clear());
   });
 
   describe('clear', () => {
+    before('remove file', () => new ConfigWriter().clear());
     before('set data', () => {
       new ConfigWriter().set(uuid(), uuid()).refreshAndSave();
     });
@@ -114,7 +120,7 @@ describe('ConfigWriter', () => {
   });
 
   after('restore snapshot', () => {
-    if (initialSnapshot && !isEmpty(initialSnapshot['data'])) {
+    if (initialSnapshot) {
       initialSnapshot.save();
     }
   });

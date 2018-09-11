@@ -1,0 +1,3 @@
+{
+  "extends": "../commands/tslint.json"
+}

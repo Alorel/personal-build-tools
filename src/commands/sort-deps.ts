@@ -1,9 +1,10 @@
 import * as fs from 'fs';
 import {CommandModule} from 'yargs';
-import {addConfig} from '../lib/addConfig';
-import {cmdName} from '../lib/cmdName';
-import {flatGlob} from '../lib/getFiles';
-import {sortObjectByKey} from '../lib/sortObjectByKey';
+import {depFields} from '../const/depFields';
+import {addConfig} from '../fns/addConfig';
+import {cmdName} from '../fns/cmdName';
+import {flatGlob} from '../fns/getFiles';
+import {sortObjectByKey} from '../fns/sortObjectByKey';
 
 const command = cmdName(__filename);
 
@@ -45,7 +46,7 @@ const cmd: CommandModule = {
 
     for (const file of files) {
       const contents = JSON.parse(fs.readFileSync(file, 'utf8'));
-      for (const obj of ['dependencies', 'devDependencies', 'peerDependencies']) {
+      for (const obj of depFields) {
         if (contents[obj]) {
           contents[obj] = sortObjectByKey(contents[obj]);
         }

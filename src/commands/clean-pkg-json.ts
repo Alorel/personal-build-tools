@@ -1,11 +1,11 @@
 import * as fs from 'fs';
 import {has, isEmpty, unset} from 'lodash';
 import {CommandModule} from 'yargs';
-import {addConfig} from '../lib/addConfig';
-import {cmdName} from '../lib/cmdName';
-import {depFields} from '../lib/depFields';
-import {flatGlobDirs} from '../lib/getFiles';
-import {sortObjectByKey} from '../lib/sortObjectByKey';
+import {depFields} from '../const/depFields';
+import {addConfig} from '../fns/addConfig';
+import {cmdName} from '../fns/cmdName';
+import {flatGlobDirs} from '../fns/getFiles';
+import {sortObjectByKey} from '../fns/sortObjectByKey';
 
 interface StrObj {
   [k: string]: string;

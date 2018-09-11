@@ -2,9 +2,9 @@ import * as deleteEmpty from 'delete-empty';
 import * as fs from 'fs';
 import {basename, dirname, join} from 'path';
 import {CommandModule} from 'yargs';
-import {addConfig} from '../lib/addConfig';
-import {cmdName} from '../lib/cmdName';
-import {getFiles} from '../lib/getFiles';
+import {addConfig} from '../fns/addConfig';
+import {cmdName} from '../fns/cmdName';
+import {getFiles} from '../fns/getFiles';
 
 interface Conf {
   d: Conf['distDirs'];

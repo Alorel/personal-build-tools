@@ -1,8 +1,8 @@
 import {readdirSync} from 'fs';
 import {basename, join} from 'path';
 import * as yargs from 'yargs';
+import {checkCommand} from './fns/checkCommand';
 import {Group} from './inc/Group';
-import {checkCommand} from './lib/checkCommand';
 
 const ext = /\.js$/.test(__filename) ? 'js' : 'ts';
 

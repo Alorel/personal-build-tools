@@ -3,7 +3,7 @@ import {cloneDeep, isEmpty, merge, set} from 'lodash';
 import {homedir} from 'os';
 import {join} from 'path';
 import * as YAML from 'yamljs';
-import {defaultCfgName} from '../inc/defaultCfgName';
+import {defaultCfgName} from '../const/defaultCfgName';
 
 export class ConfigWriter {
 

@@ -5,7 +5,7 @@ import {homedir} from 'os';
 import {join} from 'path';
 import * as YAML from 'yamljs';
 import {Argv} from 'yargs';
-import {defaultCfgName} from '../inc/defaultCfgName';
+import {defaultCfgName} from '../const/defaultCfgName';
 import {Group} from '../inc/Group';
 
 function readCfg(p: string): any {

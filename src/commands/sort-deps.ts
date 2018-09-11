@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import {CommandModule} from 'yargs';
-import {addConfig} from '../lib/addConfig';
-import {cmdName} from '../lib/cmdName';
-import {depFields} from '../lib/depFields';
-import {flatGlob} from '../lib/getFiles';
-import {sortObjectByKey} from '../lib/sortObjectByKey';
+import {depFields} from '../const/depFields';
+import {addConfig} from '../fns/addConfig';
+import {cmdName} from '../fns/cmdName';
+import {flatGlob} from '../fns/getFiles';
+import {sortObjectByKey} from '../fns/sortObjectByKey';
 
 const command = cmdName(__filename);
 

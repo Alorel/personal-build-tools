@@ -1,3 +1,16 @@
+# [3.2.0](https://github.com/Alorel/personal-build-tools/compare/3.1.0...3.2.0) (2018-09-11)
+
+
+### Features
+
+* cfg command ([#8](https://github.com/Alorel/personal-build-tools/issues/8)) ([4ae414a](https://github.com/Alorel/personal-build-tools/commit/4ae414a))
+* sort-deps command ([f129b03](https://github.com/Alorel/personal-build-tools/commit/f129b03))
+
+
+### Refactoring
+
+* Commands now use .option() ([69f945c](https://github.com/Alorel/personal-build-tools/commit/69f945c))
+
 # [3.1.0](https://github.com/Alorel/personal-build-tools/compare/3.0.1...3.1.0) (2018-09-08)
 
 

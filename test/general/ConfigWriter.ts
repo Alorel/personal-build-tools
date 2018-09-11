@@ -64,7 +64,53 @@ describe('ConfigWriter', () => {
       expect(data).to.deep.eq(expected);
     });
 
-    after('cleanup', () => fs.unlink(ConfigWriter.filepath).catch(noop));
+    after('cleanup', () => new ConfigWriter().clear());
+  });
+
+  describe('unset', () => {
+    const w = new ConfigWriter()
+      .set('a', 'b', 'two')
+      .set('c', 'd', 'two')
+      .set('e', 'f');
+
+    it('initial', () => {
+      expect(w['data']).to.deep.eq({
+        global: {
+          e: 'f'
+        },
+        two: {
+          a: 'b',
+          c: 'd'
+        }
+      });
+    });
+
+    it('after rm', () => {
+      w.unset('e')
+        .unset('c', 'two');
+
+      expect(w['data']).to.deep.eq({
+        two: {
+          a: 'b'
+        }
+      });
+    });
+  });
+
+  describe('clear', () => {
+    before('set data', () => {
+      new ConfigWriter().set(uuid(), uuid()).save();
+    });
+
+    it('Should not be empty initially', () => {
+      expect(new ConfigWriter()['data']).to.not.be.empty;
+    });
+
+    it('should be empty after clearing', () => {
+      expect(new ConfigWriter().clear()['data']).to.be.empty;
+    });
+
+    after('cleanup', () => new ConfigWriter().clear());
   });
 
   after('restore snapshot', () => {

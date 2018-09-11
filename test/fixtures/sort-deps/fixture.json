@@ -1,0 +1,10 @@
+{
+  "name": "sort-deps-fixture",
+  "dependencies": {
+    "foo": "0.0.0",
+    "bar": "0.0.1"
+  },
+  "devDependencies": {
+    "qux": "0.0.2"
+  }
+}

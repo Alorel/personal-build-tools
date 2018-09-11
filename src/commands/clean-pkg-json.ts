@@ -4,7 +4,7 @@ import {CommandModule} from 'yargs';
 import {addConfig} from '../lib/addConfig';
 import {cmdName} from '../lib/cmdName';
 import {depFields} from '../lib/depFields';
-import {flatGlob} from '../lib/getFiles';
+import {flatGlobDirs} from '../lib/getFiles';
 import {sortObjectByKey} from '../lib/sortObjectByKey';
 
 interface StrObj {
@@ -153,7 +153,7 @@ const cmd: CommandModule = {
   command,
   describe: 'Clean pre-dist package.json fields. Nested object paths can be separated by dot, e.g.: "foo.bar"',
   handler(c: Conf) {
-    const files = flatGlob(c.distDirs, '**/package.json');
+    const files = flatGlobDirs(c.distDirs, '**/package.json');
     for (const file of files) {
       const contents: any = JSON.parse(fs.readFileSync(file, 'utf8'));
       if (!c.skipRemoveFields) {

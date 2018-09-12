@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/Alorel/personal-build-tools/compare/3.2.0...3.2.1) (2018-09-12)
+
+
+### Bug Fixes
+
+* **index.d.ts:** Update typings ([db3e70a](https://github.com/Alorel/personal-build-tools/commit/db3e70a))
+
 # [3.2.0](https://github.com/Alorel/personal-build-tools/compare/3.1.0...3.2.0) (2018-09-11)
 
 

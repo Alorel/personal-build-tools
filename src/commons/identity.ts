@@ -12,6 +12,10 @@ export interface HasUserWebsite {
   userWebsite: string;
 }
 
+export interface HasGhUser {
+  ghUser: string;
+}
+
 export function addName(argv: Argv): Argv {
   return argv.option('name', {
     describe: 'Your name',
@@ -22,6 +26,14 @@ export function addName(argv: Argv): Argv {
 export function addEmail(argv: Argv): Argv {
   return argv.option('email', {
     describe: 'Your email',
+    type: 'string'
+  });
+}
+
+export function addGhUser(argv: Argv): Argv {
+  return argv.option('gh-user', {
+    alias: 'ghu',
+    describe: 'Your GitHub username',
     type: 'string'
   });
 }

@@ -14,8 +14,31 @@ describe('init', () => {
     '--email',
     'foo@bar.com',
     '--user-website',
-    'https://foo.com'
+    'https://foo.com',
+    '--gh-user',
+    'Alorel'
   ];
+
+  function runBase(): Promise<any> {
+    return alo(baseArgs);
+  }
+
+  function run(...args: string[]): Promise<any> {
+    return alo(baseArgs.concat(args));
+  }
+
+  function mkTmpDir() {
+    tmpdir = tmpDir();
+    process.chdir(tmpdir);
+  }
+
+  function read(file: string): Promise<string> {
+    return fs.readFile(join(tmpdir, file), 'utf8');
+  }
+
+  function exists(file: string): Promise<boolean> {
+    return fs.pathExists(join(tmpdir, file));
+  }
 
   before('snapshot cwd', () => {
     origCwd = process.cwd();
@@ -27,17 +50,35 @@ describe('init', () => {
     }
   });
 
-  describe('gitignore', () => {
+  describe('CODEOWNERS', () => {
     describe('Don\'t skip', () => {
-      before('change cwd', () => {
-        tmpdir = tmpDir();
-        process.chdir(tmpdir);
-      });
-
-      before('run', () => alo(baseArgs));
+      before('cwd', mkTmpDir);
+      before('run', runBase);
 
       it('', async () => {
-        expect(await fs.readFile(join(tmpdir, '.gitignore'), 'utf8'))
+        expect(await read('.github/CODEOWNERS'))
+          .to.eq(['* @Alorel', ''].join('\n'));
+      });
+    });
+
+    describe('skip', () => {
+      before('cwd', mkTmpDir);
+      before('run', () => run('--skip-code-owners'));
+
+      it('', async () => {
+        expect(await exists('.github/CODEOWNERS')).to.be.false;
+      });
+    });
+  });
+
+  describe('.gitignore', () => {
+    describe('Don\'t skip', () => {
+      before('change cwd', mkTmpDir);
+
+      before('run', runBase);
+
+      it('', async () => {
+        expect(await read('.gitignore'))
           .to.eq([
           '.idea/',
           'node_modules/',
@@ -52,27 +93,21 @@ describe('init', () => {
     });
 
     describe('skip', () => {
-      before('change cwd', () => {
-        tmpdir = tmpDir();
-        process.chdir(tmpdir);
-      });
+      before('change cwd', mkTmpDir);
 
-      before('run', () => alo(baseArgs.concat('--skip-gitignore')));
+      before('run', () => run('--skip-gitignore'));
 
       it('', async () => {
-        expect(await fs.pathExists(join(tmpdir, '.gitignore'))).to.be.false;
+        expect(await exists('.gitignore')).to.be.false;
       });
     });
   });
 
-  describe('license', () => {
+  describe('LICENSE', () => {
     describe('Don\'t skip', () => {
       let expected: string;
 
-      before('change cwd', () => {
-        tmpdir = tmpDir();
-        process.chdir(tmpdir);
-      });
+      before('change cwd', mkTmpDir);
 
       before('init expected', () => {
         expected = `MIT License
@@ -99,24 +134,21 @@ SOFTWARE.
 `;
       });
 
-      before('run', () => alo(baseArgs));
+      before('run', runBase);
 
       it('', async () => {
-        expect(await fs.readFile(join(tmpdir, 'LICENSE'), 'utf8'))
+        expect(await read('LICENSE'))
           .to.eq(expected);
       });
     });
 
     describe('skip', () => {
-      before('change cwd', () => {
-        tmpdir = tmpDir();
-        process.chdir(tmpdir);
-      });
+      before('change cwd', mkTmpDir);
 
-      before('run', () => alo(baseArgs.concat('--skip-license')));
+      before('run', () => run('--skip-license'));
 
       it('', async () => {
-        expect(await fs.pathExists(join(tmpdir, 'LICENSE'))).to.be.false;
+        expect(await exists('LICENSE')).to.be.false;
       });
     });
   });

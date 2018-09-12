@@ -14,8 +14,23 @@ describe('LineReadWriter', () => {
       .join('\n');
   });
 
+  it('ensureRegex', () => {
+    const l = LineReadWriter.createFromContents('')
+      .ensure('foo', 'bar')
+      .ensureRegex(/^foo/, 'foo-')
+      .ensureRegex(/^qux/, 'qux-')
+      ['lines'];
+
+    expect(l).to.deep.eq(['foo', 'bar', 'qux-']);
+  });
+
   before('init lines', () => {
     lines = contents.split(/\n/g).map(l => l.trim());
+  });
+
+  it('save should throw if no file is provided', () => {
+    expect(() => LineReadWriter.createFromContents('').save())
+      .to.throw('File not provided');
   });
 
   it('from contents', () => {

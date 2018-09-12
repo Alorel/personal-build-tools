@@ -1,25 +1,12 @@
-import {values} from 'lodash';
 import {Argv, CommandModule} from 'yargs';
-import {addEmail, addName, addUserWebsite, HasEmail, HasName, HasUserWebsite} from '../commons/identity';
+import {addEmail, addName, addUserWebsite} from '../commons/identity';
 import {addConfig} from '../fns/addConfig';
 import {cmdName} from '../fns/cmdName';
-import {LicenseTpl} from '../interfaces/LicenseTpl';
-import {Fixture} from '../lib/Fixture';
+import {License, LICENSE_VALUES} from '../inc/License';
+import {InitConf} from '../interfaces/InitConf';
+import {initGitignore} from '../lib/init/initGitignore';
+import {initLicense} from '../lib/init/initLicense';
 import {PromptableConfig} from '../lib/PromptableConfig';
-
-enum License {
-  MIT = 'MIT'
-}
-
-function isLicense(v: any): v is License {
-  return v === License.MIT;
-}
-
-interface Conf extends HasName, HasUserWebsite, HasEmail {
-  license: License;
-
-  skipLicense: boolean;
-}
 
 const command = cmdName(__filename);
 
@@ -28,13 +15,18 @@ const cmd: CommandModule = {
     addConfig(argv, 'init');
     addEmail(argv);
     argv.option('license', {
-      choices: values(License),
+      choices: LICENSE_VALUES,
       default: License.MIT,
       describe: 'License to use',
       string: true
     });
     addName(argv);
 
+    argv.option('skip-gitignore', {
+      boolean: true,
+      default: false,
+      describe: 'Don\'t generate gitignore'
+    });
     argv.option('skip-license', {
       boolean: true,
       default: false,
@@ -47,25 +39,10 @@ const cmd: CommandModule = {
   },
   command,
   describe: 'Project initialisation operations',
-  handler(conf: Conf) {
-    if (!isLicense(conf.license)) {
-      throw new Error('Invalid license');
-    }
+  handler(conf: InitConf) {
     const c = new PromptableConfig(conf);
-
-    if (!conf.skipLicense) {
-      new Fixture('init/license')
-        .template<LicenseTpl>(
-          `${c.getPromptSelect('license', 'What license do you want to use? ', values(License))}.txt`,
-          {
-            email: c.getPromptEmail('email', 'What\'s your email? '),
-            name: c.getPrompt('name', 'What\'s your name? '),
-            url: c.getPrompt('userWebsite', 'What\'s your url? '),
-            year: new Date().getFullYear()
-          },
-          'LICENSE'
-        );
-    }
+    initLicense(c);
+    initGitignore(c);
   }
 };
 

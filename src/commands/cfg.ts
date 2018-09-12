@@ -5,6 +5,7 @@ import {addCommandDir} from '../fns/addCommandDir';
 import {cmdName} from '../fns/cmdName';
 
 const cmd: CommandModule = {
+  aliases: 'config',
   builder(argv) {
     return addCommandDir(join(__dirname, 'cfg'), argv, 1);
   },

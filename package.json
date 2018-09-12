@@ -25,24 +25,30 @@
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "npm run typecheck -- --watch",
     "build:watch": "npm run build -- --watch",
-    "tslint": "tslint -s ./node_modules/custom-tslint-formatters/formatters -t grouped -p tsconfig.test.json",
+    "tslint": "npm run alo -- tslint -p tsconfig.test.json",
     "tslint:fix": "npm run tslint -- --fix",
     "pretest": "rimraf coverage",
     "test": "cross-env RUNNING_PERSONAL_BUILD_TOOLS_TESTS=1 nyc mocha --opts ./mocha.opts",
     "test:watch": "npm run test -- --watch"
   },
   "dependencies": {
+    "cross-spawn": "~6.0.5",
+    "custom-tslint-formatters": "2.4.0",
     "delete-empty": "^2.0.0",
     "fs-extra": "^7.0.0",
     "glob": "^7.1.0",
     "json5": "^2.0.0",
     "lodash": "^4.17.0",
     "readline-sync": "^1.4.9",
+    "reflect-metadata": "^0.1.12",
+    "tslib": "^1.9.3",
+    "tslint": "5.11.0",
+    "typescript-lazy-get-decorator": "^1.2.1",
     "yamljs": "^0.3.0",
     "yargs": "^12.0.0"
   },
   "devDependencies": {
-    "@alorel-personal/conventional-changelog-alorel": "2.0.3",
+    "@alorel-personal/conventional-changelog-alorel": "2.0.4",
     "@alorel-personal/semantic-release": "1.3.1",
     "@alorel-personal/tslint-rules": "2.0.0",
     "@semantic-release/changelog": "~3.0.0",
@@ -68,8 +74,6 @@
     "chai": "~4.1.2",
     "coveralls": "~3.0.2",
     "cross-env": "~5.2.0",
-    "cross-spawn": "~6.0.5",
-    "custom-tslint-formatters": "~2.4.0",
     "mocha": "~5.2.0",
     "nyc": "~13.0.0",
     "rimraf": "~2.6.2",
@@ -77,10 +81,7 @@
     "source-map-support": "~0.5.9",
     "tmp": "~0.0.33",
     "ts-node": "~7.0.1",
-    "tslib": "~1.9.3",
-    "tslint": "~5.11.0",
     "typescript": "~3.0.1",
-    "typescript-lazy-get-decorator": "~1.2.1",
     "uuid": "~3.3.2"
   }
 }

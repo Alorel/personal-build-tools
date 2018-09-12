@@ -49,9 +49,13 @@ function loadConfig(key: string): (path: string) => any {
   };
 }
 
-export function addConfig<T extends Argv = Argv>(argv: T, key: string): T {
-  return <T>argv.config('config', 'Path to config file (optional)', loadConfig(key))
-    .default('config', defaultCfgName)
-    .alias('c', 'config')
-    .group('config', Group.GLOBAL_OPTIONS);
+export function addConfig<T extends Argv = Argv>(argv: T,
+                                                 key: string,
+                                                 optionName = 'config',
+                                                 optionAlias = 'c',
+                                                 description = 'Path to config file (optional)'): T {
+  return <T>argv.config(optionName, description, loadConfig(key))
+    .default(optionName, defaultCfgName)
+    .alias(optionAlias, optionName)
+    .group(optionName, Group.GLOBAL_OPTIONS);
 }

@@ -11,4 +11,5 @@ copy-files:
   - LICENSE
   - CHANGELOG.md
   - README.md
+  - src/fixtures
   to: *distDirs

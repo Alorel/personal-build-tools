@@ -8,3 +8,5 @@
 /yarn-error.log
 /*.tgz
 /git_gpg_keys.asc
+/tmp.ts
+/tmp.js

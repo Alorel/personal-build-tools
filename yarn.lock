@@ -113,8 +113,8 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.2.tgz#54c5a964462be3d4d78af631363c18d6fa91ac26"
 
 "@octokit/rest@^15.2.0":
-  version "15.11.1"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-15.11.1.tgz#ef4e7462ec8f94e535a82220f7b5212111fc2647"
+  version "15.11.2"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-15.11.2.tgz#61bbfb6fa572eff0643cbe62ef695adac194ca8a"
   dependencies:
     before-after-hook "^1.1.0"
     btoa-lite "^1.0.0"
@@ -1283,8 +1283,8 @@ end-of-stream@^1.0.0, end-of-stream@^1.1.0:
     once "^1.4.0"
 
 env-ci@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/env-ci/-/env-ci-2.4.0.tgz#1ceacee17a6860fffa04436cea586d15534b4c4d"
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/env-ci/-/env-ci-2.5.0.tgz#5cf19dd2941067198db16d21d0b8f90ac942a8b4"
   dependencies:
     execa "^1.0.0"
     java-properties "^0.2.9"
@@ -2071,7 +2071,7 @@ is-number@^3.0.0:
 
 is-obj@^1.0.0:
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/is-obj/-/is-obj-1.0.1.tgz#3e4729ac1f5fde025cd7d83a896dab9f4f67db0f"
+  resolved "http://registry.npmjs.org/is-obj/-/is-obj-1.0.1.tgz#3e4729ac1f5fde025cd7d83a896dab9f4f67db0f"
 
 is-path-inside@^1.0.0:
   version "1.0.1"
@@ -2486,8 +2486,8 @@ lodash.without@~4.4.0:
   resolved "https://registry.yarnpkg.com/lodash.without/-/lodash.without-4.4.0.tgz#3cd4574a00b67bae373a94b748772640507b7aac"
 
 lodash@^4.0.0, lodash@^4.17.0, lodash@^4.17.10, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1:
-  version "4.17.10"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
+  version "4.17.11"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
 log-driver@^1.2.7:
   version "1.2.7"
@@ -4416,7 +4416,7 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript-lazy-get-decorator@~1.2.1:
+typescript-lazy-get-decorator@^1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/typescript-lazy-get-decorator/-/typescript-lazy-get-decorator-1.2.2.tgz#f7ffe9f9225b830f851f2701376409cfd640100e"
 

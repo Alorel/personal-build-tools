@@ -1,15 +1,15 @@
 import {expect} from 'chai';
 import {alo} from '../../src/alo';
-import {Fixture} from '../util/Fixture';
+import {TestFixture} from '../util/TestFixture';
 
 //tslint:disable:object-literal-sort-keys
 
 describe('sort-deps', () => {
-  let fixture: Fixture;
+  let fixture: TestFixture;
   let initialCwd: string;
 
   before('init fixture', () => {
-    fixture = new Fixture('sort-deps');
+    fixture = new TestFixture('sort-deps');
 
     return fixture.write();
   });

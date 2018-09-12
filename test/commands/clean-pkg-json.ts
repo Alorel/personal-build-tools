@@ -3,18 +3,18 @@ import {expect} from 'chai';
 import * as _ from 'lodash';
 import {join} from 'path';
 import {alo} from '../../src/alo';
-import {Fixture} from '../util/Fixture';
+import {TestFixture} from '../util/TestFixture';
 
 //tslint:disable:object-literal-sort-keys
 
 describe('clean-pkg-json', () => {
-  let fixture: Fixture;
+  let fixture: TestFixture;
   let srcFiles: string[];
   let outContent: any;
   const fpath = join('subdir', 'package.json');
 
   function initFixture(): Bluebird<void> {
-    fixture = new Fixture('clean-pkg-json');
+    fixture = new TestFixture('clean-pkg-json');
 
     return fixture.write();
   }

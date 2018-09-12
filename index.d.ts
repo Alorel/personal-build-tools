@@ -1,2 +1,9 @@
-export declare type CommandName = 'clean-dist' | 'clean-pkg-json' | 'copy-files';
-export declare function alo(args: CommandName | string[]): Promise<string>;
+export declare type CommandName = 'clean-dist'
+  | 'clean-pkg-json'
+  | 'copy-files'
+  | 'sort-deps'
+  | 'init'
+  | 'cfg'
+  | 'config';
+
+export declare function alo(cmd: CommandName | string[]): Promise<string>;

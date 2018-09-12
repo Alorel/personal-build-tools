@@ -1,3 +1,4 @@
+import {xSpawnSyncSafe} from '../../fns/xSpawn';
 import {InitConf} from '../../interfaces/InitConf';
 import {LineReadWriter} from '../LineReadWriter';
 import {PromptableConfig} from '../PromptableConfig';
@@ -16,5 +17,7 @@ export function initGitignore(c: PromptableConfig<InitConf>): void {
         'git_gpg_keys.asc'
       )
       .save();
+
+    xSpawnSyncSafe('git', ['add', '.gitignore']);
   }
 }

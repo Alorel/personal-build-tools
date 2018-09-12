@@ -1,3 +1,4 @@
+import {xSpawnSyncSafe} from '../../fns/xSpawn';
 import {isLicense, LICENSE_VALUES} from '../../inc/License';
 import {InitConf} from '../../interfaces/InitConf';
 import {LicenseTpl} from '../../interfaces/LicenseTpl';
@@ -21,5 +22,7 @@ export function initLicense(c: PromptableConfig<InitConf>): void {
         },
         'LICENSE'
       );
+
+    xSpawnSyncSafe('git', ['add', 'LICENSE']);
   }
 }

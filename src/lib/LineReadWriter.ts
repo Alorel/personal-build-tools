@@ -1,4 +1,5 @@
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
+import {dirname} from 'path';
 
 function trim(s: string): string {
   return s.trim();
@@ -38,11 +39,24 @@ export class LineReadWriter {
     return this;
   }
 
+  public ensureRegex(test: RegExp, line: string): this {
+    for (const line$ of this.lines) {
+      if (test.test(line$)) {
+        return this;
+      }
+    }
+
+    this.lines.push(line);
+
+    return this;
+  }
+
   public save(): this {
     if (!this.file) {
       throw new Error('File not provided');
     }
 
+    this.mkdirp();
     fs.writeFileSync(this.file, this.toString());
 
     return this;
@@ -50,5 +64,15 @@ export class LineReadWriter {
 
   public toString(): string {
     return this.lines.join('\n') + '\n';
+  }
+
+  private mkdirp(): void {
+    if (this.file) {
+      try {
+        fs.mkdirpSync(dirname(this.file));
+      } catch {
+        // noop
+      }
+    }
   }
 }

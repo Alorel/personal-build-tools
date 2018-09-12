@@ -1,12 +1,22 @@
 import {expect} from 'chai';
 import * as fs from 'fs-extra';
+import {castArray} from 'lodash';
 import {join} from 'path';
 import {alo} from '../../src/alo';
 import {tmpDir} from '../util/tmp-test';
 
+interface TestSpec {
+  expect: any;
+
+  file: string;
+
+  skipFlags: string | string[];
+}
+
 describe('init', () => {
   let origCwd: string;
   let tmpdir: string;
+  let expectedLicense: string;
   const baseArgs = [
     'init',
     '--name',
@@ -40,6 +50,34 @@ describe('init', () => {
     return fs.pathExists(join(tmpdir, file));
   }
 
+  const testSpecs: TestSpec[] = [
+    {
+      expect: '* @Alorel\n',
+      file: '.github/CODEOWNERS',
+      skipFlags: '--skip-code-owners'
+    },
+    {
+      expect: [
+        '.idea/',
+        'node_modules/',
+        'dist/',
+        'coverage/',
+        '.nyc_output/',
+        'yarn-error.log',
+        '*.tgz',
+        'git_gpg_keys.asc',
+        ''
+      ].join('\n'),
+      file: '.gitignore',
+      skipFlags: '--skip-gitignore'
+    },
+    {
+      expect: () => expectedLicense,
+      file: 'LICENSE',
+      skipFlags: '--skip-license'
+    }
+  ];
+
   before('snapshot cwd', () => {
     origCwd = process.cwd();
   });
@@ -50,67 +88,8 @@ describe('init', () => {
     }
   });
 
-  describe('CODEOWNERS', () => {
-    describe('Don\'t skip', () => {
-      before('cwd', mkTmpDir);
-      before('run', runBase);
-
-      it('', async () => {
-        expect(await read('.github/CODEOWNERS'))
-          .to.eq(['* @Alorel', ''].join('\n'));
-      });
-    });
-
-    describe('skip', () => {
-      before('cwd', mkTmpDir);
-      before('run', () => run('--skip-code-owners'));
-
-      it('', async () => {
-        expect(await exists('.github/CODEOWNERS')).to.be.false;
-      });
-    });
-  });
-
-  describe('.gitignore', () => {
-    describe('Don\'t skip', () => {
-      before('change cwd', mkTmpDir);
-
-      before('run', runBase);
-
-      it('', async () => {
-        expect(await read('.gitignore'))
-          .to.eq([
-          '.idea/',
-          'node_modules/',
-          'dist/',
-          'coverage/',
-          '.nyc_output/',
-          'yarn-error.log',
-          '*.tgz',
-          'git_gpg_keys.asc'
-        ].join('\n') + '\n');
-      });
-    });
-
-    describe('skip', () => {
-      before('change cwd', mkTmpDir);
-
-      before('run', () => run('--skip-gitignore'));
-
-      it('', async () => {
-        expect(await exists('.gitignore')).to.be.false;
-      });
-    });
-  });
-
-  describe('LICENSE', () => {
-    describe('Don\'t skip', () => {
-      let expected: string;
-
-      before('change cwd', mkTmpDir);
-
-      before('init expected', () => {
-        expected = `MIT License
+  before('init expected LICENSE', () => {
+    expectedLicense = `MIT License
 
 Copyright (c) ${new Date().getFullYear()} foo <foo@bar.com> (https://foo.com)
 
@@ -132,24 +111,28 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 `;
-      });
-
-      before('run', runBase);
-
-      it('', async () => {
-        expect(await read('LICENSE'))
-          .to.eq(expected);
-      });
-    });
-
-    describe('skip', () => {
-      before('change cwd', mkTmpDir);
-
-      before('run', () => run('--skip-license'));
-
-      it('', async () => {
-        expect(await exists('LICENSE')).to.be.false;
-      });
-    });
   });
+
+  for (const s of testSpecs) {
+    describe(s.file, () => {
+      describe('Don\'t skip', () => {
+        before('Set cwd', mkTmpDir);
+        before('Run', runBase);
+
+        it('Contents should match expected', async () => {
+          const expected = typeof s.expect === 'function' ? s.expect() : s.expect;
+          expect(await read(s.file)).to.eq(expected);
+        });
+      });
+
+      describe('Skip', () => {
+        before('Set cwd', mkTmpDir);
+        before('Run', () => run(...castArray(s.skipFlags)));
+
+        it('File should not exist', async () => {
+          expect(await exists(s.file)).to.be.false;
+        });
+      });
+    });
+  }
 });

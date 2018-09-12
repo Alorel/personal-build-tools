@@ -20,7 +20,7 @@
   "private": false,
   "scripts": {
     "alo": "ts-node src/index.ts",
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf dist && alo copy-files",
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "npm run typecheck -- --watch",

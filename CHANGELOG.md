@@ -1,3 +1,26 @@
+# [3.3.0](https://github.com/Alorel/personal-build-tools/compare/3.2.1...3.3.0) (2018-09-12)
+
+
+### Bug Fixes
+
+* **index.d.ts:** Fix typings ([59f940f](https://github.com/Alorel/personal-build-tools/commit/59f940f))
+* **LineReadWriter:** mkdirp the path before writing ([aa93a10](https://github.com/Alorel/personal-build-tools/commit/aa93a10))
+* **package:** tslib is now a production dependency ([ffc2607](https://github.com/Alorel/personal-build-tools/commit/ffc2607))
+
+
+### Features
+
+* **init:** Generate .github/CODEOWNERS ([3b446b2](https://github.com/Alorel/personal-build-tools/commit/3b446b2))
+* **init:** Generate .gitignore ([dc95d37](https://github.com/Alorel/personal-build-tools/commit/dc95d37))
+* **init:** Modified files are now automatically `git add`ed ([3506326](https://github.com/Alorel/personal-build-tools/commit/3506326))
+* Add formatted tslint support ([345b8a6](https://github.com/Alorel/personal-build-tools/commit/345b8a6))
+* init command added with license support ([d64b8ae](https://github.com/Alorel/personal-build-tools/commit/d64b8ae))
+
+
+### Maintenance
+
+* **GitHub:** Generate CODEOWNERS ([bcbef6c](https://github.com/Alorel/personal-build-tools/commit/bcbef6c))
+
 ## [3.2.1](https://github.com/Alorel/personal-build-tools/compare/3.2.0...3.2.1) (2018-09-12)
 
 

@@ -5,29 +5,67 @@ import {alo} from '../../src/alo';
 import {tmpDir} from '../util/tmp-test';
 
 describe('init', () => {
+  let origCwd: string;
+  let tmpdir: string;
+  const baseArgs = [
+    'init',
+    '--name',
+    'foo',
+    '--email',
+    'foo@bar.com',
+    '--user-website',
+    'https://foo.com'
+  ];
+
+  before('snapshot cwd', () => {
+    origCwd = process.cwd();
+  });
+
+  after('restore cwd', () => {
+    if (origCwd) {
+      process.chdir(origCwd);
+    }
+  });
+
+  describe('gitignore', () => {
+    describe('Don\'t skip', () => {
+      before('change cwd', () => {
+        tmpdir = tmpDir();
+        process.chdir(tmpdir);
+      });
+
+      before('run', () => alo(baseArgs));
+
+      it('', async () => {
+        expect(await fs.readFile(join(tmpdir, '.gitignore'), 'utf8'))
+          .to.eq([
+          '.idea/',
+          'node_modules/',
+          'dist/',
+          'coverage/',
+          '.nyc_output/',
+          'yarn-error.log',
+          '*.tgz',
+          'git_gpg_keys.asc'
+        ].join('\n') + '\n');
+      });
+    });
+
+    describe('skip', () => {
+      before('change cwd', () => {
+        tmpdir = tmpDir();
+        process.chdir(tmpdir);
+      });
+
+      before('run', () => alo(baseArgs.concat('--skip-gitignore')));
+
+      it('', async () => {
+        expect(await fs.pathExists(join(tmpdir, '.gitignore'))).to.be.false;
+      });
+    });
+  });
+
   describe('license', () => {
-    let origCwd: string;
-    let tmpdir: string;
-    const baseArgs = [
-      'init',
-      '--name',
-      'foo',
-      '--email',
-      'foo@bar.com',
-      '--user-website',
-      'https://foo.com'
-    ];
-
-    before('snapshot cwd', () => {
-      origCwd = process.cwd();
-    });
-
-    after('restore cwd', () => {
-      if (origCwd) {
-        process.chdir(origCwd);
-      }
-    });
-
     describe('Don\'t skip', () => {
       let expected: string;
 

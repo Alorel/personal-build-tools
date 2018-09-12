@@ -3,14 +3,14 @@ import {expect} from 'chai';
 import {noop} from 'lodash';
 import {Test} from 'mocha';
 import {alo} from '../../src/alo';
-import {Fixture} from '../util/Fixture';
+import {TestFixture} from '../util/TestFixture';
 
 describe('clean-dist', () => {
-  let fixture: Fixture;
+  let fixture: TestFixture;
   let srcFiles: string[];
 
   function initFixture(): Bluebird<void> {
-    fixture = new Fixture('clean-dist');
+    fixture = new TestFixture('clean-dist');
 
     return fixture.write();
   }

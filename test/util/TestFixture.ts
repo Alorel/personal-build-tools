@@ -9,7 +9,7 @@ import {tmpDir} from './tmp-test';
 const FIXTURE_DIR = path.join(__dirname, '../fixtures');
 const _outDir: unique symbol = Symbol('outDir');
 
-export class Fixture {
+export class TestFixture {
   private [_outDir]: string;
 
   public constructor(private readonly subdir: string, outDir?: string) {

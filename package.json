@@ -32,18 +32,18 @@
     "test:watch": "npm run test -- --watch"
   },
   "dependencies": {
-    "cross-spawn": "^6.0.5",
+    "cross-spawn": "^6.0.0",
     "custom-tslint-formatters": "2.4.0",
     "delete-empty": "^2.0.0",
     "fs-extra": "^7.0.0",
-    "glob": "^7.1.0",
+    "glob": "^7.0.0",
     "json5": "^2.0.0",
     "lodash": "^4.17.0",
-    "readline-sync": "^1.4.9",
+    "readline-sync": "^1.4.0",
     "reflect-metadata": "^0.1.12",
-    "tslib": "^1.9.3",
+    "tslib": "^1.9.0",
     "tslint": "5.11.0",
-    "typescript-lazy-get-decorator": "^1.2.1",
+    "typescript-lazy-get-decorator": "^1.2.0",
     "yamljs": "^0.3.0",
     "yargs": "^12.0.0"
   },

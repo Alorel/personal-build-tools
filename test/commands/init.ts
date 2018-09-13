@@ -29,6 +29,7 @@ describe('init', () => {
     'https://foo.com',
     '--gh-user',
     'Alorel',
+    '--skip-license',
     '--gh-repo',
     'personal-build-tools'
   ];
@@ -100,7 +101,12 @@ describe('init', () => {
         let expected: string;
 
         before('Set cwd', mkTmpDir);
-        before('Run', () => run('--license', license));
+        before('Run', () => {
+          const args = baseArgs.filter(a => a !== '--skip-license')
+            .concat('--license', license);
+
+          return alo(args);
+        });
         before('set expected', () => {
           const compiled = template(fxt.read(`${license}.txt`).toString().trim());
           expected = compiled({
@@ -120,7 +126,7 @@ describe('init', () => {
 
     describe('Skip', () => {
       before('Set cwd', mkTmpDir);
-      before('Run', () => run('--skip-license'));
+      before('Run', runBase);
 
       it('LICENSE should not exist', async () => {
         expect(await exists('LICENSE')).to.be.false;

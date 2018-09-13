@@ -3,6 +3,7 @@ import * as rl$ from 'readline-sync';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {IS_CI} from '../const/IS_CI';
 import {xSpawnSync} from '../fns/xSpawn';
+import {LICENSE_VALUES} from '../inc/License';
 import {Colour} from './Colour';
 
 let rl: typeof rl$;
@@ -129,6 +130,11 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   }
 
   @Memo
+  public promptedLicense(prop = 'license'): string {
+    return this.getPromptSelect(prop, 'What license do you with to use? ', LICENSE_VALUES);
+  }
+
+  @Memo
   public promptedName(prop = 'name'): string {
     return this.getPrompt(prop, 'What\'s your name? ');
   }
@@ -146,16 +152,16 @@ export class PromptableConfig<T extends { [k: string]: any }> {
     return this.promptCommon(k, () => rl.questionEMail(question), forbidEmpty, strict);
   }
 
-  // private getPromptSelect<K extends keyof T>(k: K, question: string, opts: string[], strict = true): T[K] {
-  //   if (this.has(k, strict)) {
-  //     return this.data[k];
-  //   } else {
-  //     const idx = rl.keyInSelect(opts, question, {cancel: false});
-  //     this.data[k] = opts[idx];
-  //
-  //     return this.data[k];
-  //   }
-  // }
+  private getPromptSelect<K extends keyof T>(k: K, question: string, opts: string[], strict = true): T[K] {
+    if (this.has(k, strict)) {
+      return this.data[k];
+    } else {
+      const idx = rl.keyInSelect(opts, question, {cancel: false});
+      this.data[k] = opts[idx];
+
+      return this.data[k];
+    }
+  }
 
   private promptCommon<K extends keyof T>(k: K, askFn: () => string, forbidEmpty: boolean, strict: boolean): T[K] {
     if (this.has(k, strict)) {

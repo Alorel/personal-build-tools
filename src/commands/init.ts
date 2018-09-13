@@ -6,7 +6,7 @@ import {initCodeOwners} from '../fns/init/initCodeOwners';
 import {initGhTemplates} from '../fns/init/initGhTemplates';
 import {initGitignore} from '../fns/init/initGitignore';
 import {initLicense} from '../fns/init/initLicense';
-import {isLicense, License, LICENSE_VALUES} from '../inc/License';
+import {LICENSE_VALUES} from '../inc/License';
 import {isPkgManager, PACKAGE_MANAGERS, PackageManager} from '../inc/PackageManager';
 import {InitConf} from '../interfaces/InitConf';
 import {PromptableConfig} from '../lib/PromptableConfig';
@@ -22,7 +22,6 @@ const cmd: CommandModule = {
 
     argv.option('license', {
       choices: LICENSE_VALUES,
-      default: License.MIT,
       describe: 'License to use',
       string: true
     });
@@ -64,9 +63,6 @@ const cmd: CommandModule = {
   command,
   describe: 'Project initialisation operations',
   handler(conf: InitConf) {
-    if (!isLicense(conf.license)) {
-      throw new Error(`Invalid license: ${conf.license}`);
-    }
     if (!isPkgManager(conf.pkgMgr)) {
       throw new Error(`Invalid package manager: ${conf.pkgMgr}`);
     }

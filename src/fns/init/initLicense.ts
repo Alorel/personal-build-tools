@@ -12,7 +12,7 @@ export function initLicense(c: PromptableConfig<InitConf>): void {
       year: new Date().getFullYear()
     };
 
-    switch (c.get('license')) {
+    switch (c.promptedLicense()) {
       case License.MIT:
         (<MITLicenceTpl>tpl).email = c.promptedEmail();
         (<MITLicenceTpl>tpl).url = c.promptedUserWebsite();
@@ -22,7 +22,7 @@ export function initLicense(c: PromptableConfig<InitConf>): void {
     }
 
     new Fixture('init/license')
-      .template<typeof tpl>(`${c.get('license')}.txt`, tpl, 'LICENSE');
+      .template<typeof tpl>(`${c.promptedLicense()}.txt`, tpl, 'LICENSE');
 
     xSpawnSyncSafe('git', ['add', 'LICENSE']);
   }

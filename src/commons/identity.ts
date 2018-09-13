@@ -16,6 +16,10 @@ export interface HasGhUser {
   ghUser: string;
 }
 
+export interface HasGhRepo {
+  ghRepo: string;
+}
+
 export function addName(argv: Argv): Argv {
   return argv.option('name', {
     describe: 'Your name',
@@ -34,6 +38,14 @@ export function addGhUser(argv: Argv): Argv {
   return argv.option('gh-user', {
     alias: 'ghu',
     describe: 'Your GitHub username',
+    type: 'string'
+  });
+}
+
+export function addGhRepo(argv: Argv): Argv {
+  return argv.option('gh-repo', {
+    alias: 'ghr',
+    describe: 'Your GitHub repository',
     type: 'string'
   });
 }

@@ -5,7 +5,7 @@ export enum License {
 }
 
 export function isLicense(v: any): v is License {
-  return v === License.MIT;
+  return LICENSE_VALUES.includes(v);
 }
 
 export const LICENSE_VALUES: string[] = <string[]>Object.freeze(values(License));

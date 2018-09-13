@@ -1,7 +1,8 @@
-import {xSpawnSyncSafe} from '../../fns/xSpawn';
+import {PackageManager} from '../../inc/PackageManager';
 import {InitConf} from '../../interfaces/InitConf';
-import {LineReadWriter} from '../LineReadWriter';
-import {PromptableConfig} from '../PromptableConfig';
+import {LineReadWriter} from '../../lib/LineReadWriter';
+import {PromptableConfig} from '../../lib/PromptableConfig';
+import {xSpawnSyncSafe} from '../xSpawn';
 
 export function initGitignore(c: PromptableConfig<InitConf>): void {
   if (!c.get('skipGitignore')) {
@@ -14,7 +15,8 @@ export function initGitignore(c: PromptableConfig<InitConf>): void {
         '.nyc_output/',
         'yarn-error.log',
         '*.tgz',
-        'git_gpg_keys.asc'
+        'git_gpg_keys.asc',
+        c.get('pkgMgr') === PackageManager.YARN ? 'package-lock.json' : 'yarn.lock'
       )
       .save();
 

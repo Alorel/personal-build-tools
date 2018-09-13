@@ -1,21 +1,33 @@
 branch: master
 tagFormat: '${version}'
 
-pkgRoot: './dist'
+verifyConditions:
+- path: &npm '@semantic-release/npm'
+  pkgRoot: '.'
+- &gh '@semantic-release/github'
 
 prepare:
 - '@semantic-release/changelog'
 - '@alorel-personal/semantic-release'
-- path: '@semantic-release/exec'
+- *npm
+- path: &xc '@semantic-release/exec'
   cmd: node dist/alo copy-files
-- '@semantic-release/npm'
+- path: *xc
+  cmd: node dist/alo clean-dist
+- path: *xc
+  cmd: node dist/alo clean-pkg-json
 - path: '@semantic-release/git'
-  assets:
-    - CHANGELOG.md
-    - package.json
-    - yarn.lock
-    - README.md
   message: 'chore(release): ${nextRelease.version}'
+  assets:
+  - CHANGELOG.md
+  - package.json
+  - yarn.lock
+  - README.md
+
+publish:
+- path: *npm
+  pkgRoot: './dist'
+- *gh
 
 generateNotes:
   config: '@alorel-personal/conventional-changelog-alorel'

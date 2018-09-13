@@ -27,12 +27,12 @@ class Initialiser {
 
   @LazyGetter()
   private get ghRepo(): string {
-    return this.c.getPrompt('ghRepo', PromptableConfig.GH_REPO);
+    return this.c.promptedGhRepo();
   }
 
   @LazyGetter()
   private get ghUser(): string {
-    return this.c.getPrompt('ghUser', PromptableConfig.GH_USER);
+    return this.c.promptedGhUser();
   }
 
   @LazyGetter()

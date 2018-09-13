@@ -10,9 +10,9 @@ export function initLicense(c: PromptableConfig<InitConf>): void {
       .template<LicenseTpl>(
         `${c.get('license')}.txt`,
         {
-          email: c.getPromptEmail('email', PromptableConfig.EMAIL),
-          name: c.getPrompt('name', PromptableConfig.NAME),
-          url: c.getPrompt('userWebsite', PromptableConfig.URL),
+          email: c.promptedEmail(),
+          name: c.promptedName(),
+          url: c.promptedUserWebsite(),
           year: new Date().getFullYear()
         },
         'LICENSE'

@@ -5,7 +5,7 @@ import {xSpawnSyncSafe} from '../xSpawn';
 
 export function initCodeOwners(c: PromptableConfig<InitConf>): void {
   if (!c.get('skipCodeOwners')) {
-    const user = c.getPrompt('ghUser', PromptableConfig.GH_USER);
+    const user = c.promptedGhUser();
 
     LineReadWriter.createFromFile('.github/CODEOWNERS')
       .ensureRegex(new RegExp(`^\\*\\s+@${user}`), `* @${user}`)

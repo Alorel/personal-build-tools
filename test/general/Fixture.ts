@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import * as fs from 'fs';
 import {join} from 'path';
-import {LicenseTpl} from '../../src/interfaces/LicenseTpl';
+import {MITLicenceTpl} from '../../src/interfaces/LicenseTpl';
 import {Fixture} from '../../src/lib/Fixture';
 import {tmpFile} from '../util/tmp-test';
 
@@ -43,7 +43,7 @@ describe('Fixture', () => {
   });
 
   describe('template', () => {
-    let tpl: LicenseTpl;
+    let tpl: MITLicenceTpl;
     let expected: string;
 
     before('init tpl', () => {
@@ -85,11 +85,11 @@ SOFTWARE.
     });
 
     it('should return string if "to" is not provided', () => {
-      expect(fix.template<LicenseTpl>('MIT.txt', tpl)).to.eq(expected);
+      expect(fix.template<MITLicenceTpl>('MIT.txt', tpl)).to.eq(expected);
     });
 
     it('Should write to dest', () => {
-      expect(fix.template<LicenseTpl>('MIT.txt', tpl, tmpLoc)).to.be.undefined;
+      expect(fix.template<MITLicenceTpl>('MIT.txt', tpl, tmpLoc)).to.be.undefined;
       expect(fs.readFileSync(tmpLoc, 'utf8')).to.eq(expected);
     });
   });

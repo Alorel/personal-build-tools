@@ -27,12 +27,12 @@ class Initialiser {
 
   @LazyGetter()
   private get ghRepo(): string {
-    return this.c.getPrompt('ghRepo', PromptableConfig.GH_REPO);
+    return this.c.promptedGhRepo();
   }
 
   @LazyGetter()
   private get ghUser(): string {
-    return this.c.getPrompt('ghUser', PromptableConfig.GH_USER);
+    return this.c.promptedGhUser();
   }
 
   @LazyGetter()
@@ -54,10 +54,10 @@ class Initialiser {
     this.template<ContributingTpl>(
       'CONTRIBUTING.md',
       {
-        extraLines: this.c.get('pkgMgr') === PackageManager.YARN ? yarnMsg : '',
+        extraLines: this.c.promptedPkgMgr() === PackageManager.YARN ? yarnMsg : '',
         ghRepo: this.ghRepo,
         ghUser: this.ghUser,
-        pkgMgr: this.c.get('pkgMgr')
+        pkgMgr: this.c.promptedPkgMgr()
       },
       '.github/CONTRIBUTING.md'
     );

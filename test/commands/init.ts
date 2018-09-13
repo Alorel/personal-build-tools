@@ -1,9 +1,11 @@
 import {expect} from 'chai';
 import * as fs from 'fs-extra';
-import {castArray, forEach, noop} from 'lodash';
+import {castArray, forEach, noop, template} from 'lodash';
 import {Test} from 'mocha';
 import {join} from 'path';
 import {alo} from '../../src/alo';
+import {LICENSE_VALUES} from '../../src/inc/License';
+import {Fixture} from '../../src/lib/Fixture';
 import {tmpDir} from '../util/tmp-test';
 
 interface TestSpec {
@@ -17,7 +19,6 @@ interface TestSpec {
 describe('init', () => {
   let origCwd: string;
   let tmpdir: string;
-  let expectedLicense: string;
   const baseArgs = [
     'init',
     '--name',
@@ -26,8 +27,11 @@ describe('init', () => {
     'foo@bar.com',
     '--user-website',
     'https://foo.com',
+    '--pkg-mgr',
+    'yarn',
     '--gh-user',
     'Alorel',
+    '--skip-license',
     '--gh-repo',
     'personal-build-tools'
   ];
@@ -74,11 +78,6 @@ describe('init', () => {
       ].join('\n'),
       file: '.gitignore',
       skipFlags: '--skip-gitignore'
-    },
-    {
-      expect: () => expectedLicense,
-      file: 'LICENSE',
-      skipFlags: '--skip-license'
     }
   ];
 
@@ -92,29 +91,49 @@ describe('init', () => {
     }
   });
 
-  before('init expected LICENSE', () => {
-    expectedLicense = `MIT License
+  describe('Licenses', () => {
+    let fxt: Fixture;
 
-Copyright (c) ${new Date().getFullYear()} foo <foo@bar.com> (https://foo.com)
+    before('init fixture', () => {
+      fxt = new Fixture('init/license');
+    });
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+    for (const license of LICENSE_VALUES) {
+      describe(license, () => {
+        let expected: string;
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+        before('Set cwd', mkTmpDir);
+        before('Run', () => {
+          const args = baseArgs.filter(a => a !== '--skip-license')
+            .concat('--license', license);
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-`;
+          return alo(args);
+        });
+        before('set expected', () => {
+          const compiled = template(fxt.read(`${license}.txt`).toString().trim());
+          expected = compiled({
+            email: 'foo@bar.com',
+            ghRepo: 'personal-build-tools',
+            name: 'foo',
+            url: 'https://foo.com',
+            year: new Date().getFullYear()
+          });
+        });
+
+        it('', async () => {
+          expect((await read('LICENSE')).trim()).to.eq(expected);
+        });
+      });
+    }
+
+    describe('Skip', () => {
+      before('Set cwd', mkTmpDir);
+      before('Run', runBase);
+
+      it('LICENSE should not exist', async () => {
+        expect(await exists('LICENSE')).to.be.false;
+      });
+    });
   });
 
   for (const s of testSpecs) {
@@ -133,7 +152,7 @@ SOFTWARE.
         before('Set cwd', mkTmpDir);
         before('Run', () => run(...castArray(s.skipFlags)));
 
-        it('File should not exist', async () => {
+        it(`${s.file} should not exist`, async () => {
           expect(await exists(s.file)).to.be.false;
         });
       });

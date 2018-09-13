@@ -1,12 +1,11 @@
 import {cloneDeep, memoize} from 'lodash';
 import * as rl$ from 'readline-sync';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
+import {IS_CI} from '../const/IS_CI';
 import {xSpawnSync} from '../fns/xSpawn';
 import {Colour} from './Colour';
 
 let rl: typeof rl$;
-
-const IS_CI = !!(process.env.CI || process.env.RUNNING_PERSONAL_BUILD_TOOLS_TESTS);
 
 if (IS_CI) {
   rl = cloneDeep(rl$);

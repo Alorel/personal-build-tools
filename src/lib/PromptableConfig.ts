@@ -104,11 +104,11 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       if (rl.keyInYNStrict(`Is your GitHub repo ${Colour.cyan(this.ghRepoFromMetadata)}? `)) {
         return this.ghRepoFromMetadata;
       } else {
-        return rl.question(`${msg} then? `);
+        return this.getPrompt(prop, `${msg} then? `);
       }
     }
 
-    return rl.question(`${msg}? `);
+    return this.getPrompt(prop, `${msg}? `);
   }
 
   @Memo
@@ -121,11 +121,11 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       if (rl.keyInYNStrict(`Is your GitHub username ${Colour.cyan(this.ghUserFromMetadata)}? `)) {
         return this.ghUserFromMetadata;
       } else {
-        return rl.question(`${msg} then? `);
+        return this.getPrompt(prop, `${msg} then? `);
       }
     }
 
-    return rl.question(`${msg}? `);
+    return this.getPrompt(prop, `${msg}? `);
   }
 
   @Memo

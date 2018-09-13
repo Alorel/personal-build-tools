@@ -4,6 +4,7 @@ import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {IS_CI} from '../const/IS_CI';
 import {xSpawnSync} from '../fns/xSpawn';
 import {License, LICENSE_VALUES} from '../inc/License';
+import {PACKAGE_MANAGERS, PackageManager} from '../inc/PackageManager';
 import {Colour} from './Colour';
 
 let rl: typeof rl$;
@@ -137,6 +138,11 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   @Memo
   public promptedName(prop = 'name'): string {
     return this.getPrompt(prop, 'What\'s your name? ');
+  }
+
+  @Memo
+  public promptedPkgMgr(prop = 'pkgMgr'): PackageManager {
+    return this.getPromptSelect(prop, 'What package manager do you want to use? ', PACKAGE_MANAGERS);
   }
 
   @Memo

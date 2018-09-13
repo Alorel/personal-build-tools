@@ -54,10 +54,10 @@ class Initialiser {
     this.template<ContributingTpl>(
       'CONTRIBUTING.md',
       {
-        extraLines: this.c.get('pkgMgr') === PackageManager.YARN ? yarnMsg : '',
+        extraLines: this.c.promptedPkgMgr() === PackageManager.YARN ? yarnMsg : '',
         ghRepo: this.ghRepo,
         ghUser: this.ghUser,
-        pkgMgr: this.c.get('pkgMgr')
+        pkgMgr: this.c.promptedPkgMgr()
       },
       '.github/CONTRIBUTING.md'
     );

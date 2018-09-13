@@ -27,6 +27,8 @@ describe('init', () => {
     'foo@bar.com',
     '--user-website',
     'https://foo.com',
+    '--pkg-mgr',
+    'yarn',
     '--gh-user',
     'Alorel',
     '--skip-license',

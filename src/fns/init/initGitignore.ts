@@ -16,7 +16,7 @@ export function initGitignore(c: PromptableConfig<InitConf>): void {
         'yarn-error.log',
         '*.tgz',
         'git_gpg_keys.asc',
-        c.get('pkgMgr') === PackageManager.YARN ? 'package-lock.json' : 'yarn.lock'
+        c.promptedPkgMgr() === PackageManager.YARN ? 'package-lock.json' : 'yarn.lock'
       )
       .save();
 

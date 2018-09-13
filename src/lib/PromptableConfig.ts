@@ -1,6 +1,35 @@
-import * as rl from 'readline-sync';
+import {cloneDeep} from 'lodash';
+import * as rl$ from 'readline-sync';
+
+let rl: typeof rl$;
+
+if (process.env.CI || process.env.RUNNING_PERSONAL_BUILD_TOOLS_TESTS) {
+  rl = cloneDeep(rl$);
+
+  function throwError() {
+    throw new Error('Unable to prompt in test environment; Please set full configuration.');
+  }
+
+  for (const k of Object.keys(rl)) {
+    if (typeof rl[k] === 'function') {
+      rl[k] = throwError;
+    }
+  }
+} else {
+  rl = rl$;
+}
 
 export class PromptableConfig<T extends { [k: string]: any }> {
+  public static readonly EMAIL = 'What\'s your email? ';
+
+  public static readonly GH_REPO = 'What\'s your GitHub repo? ';
+
+  public static readonly GH_USER = 'What\'s your GitHub username? ';
+
+  public static readonly NAME = 'What\'s your name? ';
+
+  public static readonly URL = 'What\'s your url? ';
+
   public constructor(private readonly data: T) {
   }
 

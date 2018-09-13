@@ -1,0 +1,5 @@
+${issueTemplateBase}
+
+-----
+
+Issue goes here.

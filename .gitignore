@@ -11,3 +11,4 @@ coverage/
 yarn-error.log
 *.tgz
 git_gpg_keys.asc
+package-lock.json

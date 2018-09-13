@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra';
 import {template} from 'lodash';
-import {join} from 'path';
+import {dirname, join} from 'path';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
 
 const FIXTURE_DIR = join(__dirname, '..', 'fixtures');
@@ -29,10 +29,15 @@ export class Fixture {
   public template<T extends Obj>(from: string, tpl: T, to: string): void;
   public template<T extends Obj>(from: string, tpl: T): string;
   public template<T extends Obj>(from: string, tpl: T, to?: string): string | void {
-    const compiled = template(this.read(from).toString());
-    const formatted = compiled(tpl);
+    const compiled = template(this.read(from).toString().trim());
+    const formatted = compiled(tpl) + '\n';
 
     if (to) {
+      try {
+        fs.mkdirpSync(dirname(to));
+      } catch {
+        //noop
+      }
       fs.writeFileSync(to, formatted);
     } else {
       return formatted;

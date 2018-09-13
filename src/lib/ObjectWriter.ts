@@ -21,6 +21,7 @@ export class ObjectWriter<T extends Obj = Obj> extends AbstractReadWriter {
 
   @LazyGetter()
   private get parseFn(): (v: string) => T {
+    //tslint:disable-next-line:no-unbound-method
     return JSON.parse;
   }
 

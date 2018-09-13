@@ -3,7 +3,7 @@ import * as rl$ from 'readline-sync';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {IS_CI} from '../const/IS_CI';
 import {xSpawnSync} from '../fns/xSpawn';
-import {LICENSE_VALUES} from '../inc/License';
+import {License, LICENSE_VALUES} from '../inc/License';
 import {Colour} from './Colour';
 
 let rl: typeof rl$;
@@ -130,7 +130,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   }
 
   @Memo
-  public promptedLicense(prop = 'license'): string {
+  public promptedLicense(prop = 'license'): License {
     return this.getPromptSelect(prop, 'What license do you with to use? ', LICENSE_VALUES);
   }
 

@@ -1,7 +1,7 @@
 import {InitConf} from '../../interfaces/InitConf';
+import {Git} from '../../lib/Git';
 import {LineReadWriter} from '../../lib/LineReadWriter';
 import {PromptableConfig} from '../../lib/PromptableConfig';
-import {xSpawnSyncSafe} from '../xSpawn';
 
 export function initCodeOwners(c: PromptableConfig<InitConf>): void {
   if (!c.get('skipCodeOwners')) {
@@ -11,6 +11,6 @@ export function initCodeOwners(c: PromptableConfig<InitConf>): void {
       .ensureRegex(new RegExp(`^\\*\\s+@${user}`), `* @${user}`)
       .save();
 
-    xSpawnSyncSafe('git', ['add', '.github/CODEOWNERS']);
+    Git.add('.github/CODEOWNERS');
   }
 }

@@ -30,7 +30,7 @@ describe('LineReadWriter', () => {
 
   it('save should throw if no file is provided', () => {
     expect(() => LineReadWriter.createFromContents('').save())
-      .to.throw('File not provided');
+      .to.throw('Unable to get dirname: file not set');
   });
 
   it('from contents', () => {

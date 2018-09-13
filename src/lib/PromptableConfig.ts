@@ -2,10 +2,10 @@ import {cloneDeep, memoize} from 'lodash';
 import * as rl$ from 'readline-sync';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {IS_CI} from '../const/IS_CI';
-import {xSpawnSync} from '../fns/xSpawn';
 import {License, LICENSE_VALUES} from '../inc/License';
 import {PACKAGE_MANAGERS, PackageManager} from '../inc/PackageManager';
 import {Colour} from './Colour';
+import {Git} from './Git';
 
 let rl: typeof rl$;
 
@@ -66,9 +66,8 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   @LazyGetter(true)
   private get ghMetadata(): GhMetadata | null {
     try {
-      const result = xSpawnSync('git', ['config', '--get', 'remote.origin.url']);
-      if (result.status === 0) {
-        const match = /([a-z0-9-_.]+)\/([a-z0-9-_.]+)\.git/i.exec(result.stdout);
+      if (Git.originUrl) {
+        const match = /([a-z0-9-_.]+)\/([a-z0-9-_.]+)\.git/i.exec(Git.originUrl);
         if (match) {
           return {
             repo: match[2], //tslint:disable-line:no-magic-numbers

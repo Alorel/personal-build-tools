@@ -6,8 +6,8 @@ import {InitConf} from '../../interfaces/InitConf';
 import {IssueTemplateBase} from '../../interfaces/IssueTemplateBase';
 import {PullRequestTpl} from '../../interfaces/PullRequestTpl';
 import {Fixture} from '../../lib/Fixture';
+import {Git} from '../../lib/Git';
 import {PromptableConfig} from '../../lib/PromptableConfig';
-import {xSpawnSyncSafe} from '../xSpawn';
 
 class Initialiser {
   private gitFiles: string[] = [];
@@ -43,8 +43,8 @@ class Initialiser {
   private gadd(...files: string[]) {
     if (files.length) {
       this.gitFiles.push(...files);
-    } else if (this.gitFiles.length) {
-      xSpawnSyncSafe('git', ['add'].concat(this.gitFiles));
+    } else {
+      Git.add(...this.gitFiles);
     }
   }
 

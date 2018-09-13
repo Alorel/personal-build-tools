@@ -1,8 +1,8 @@
 import {PackageManager} from '../../inc/PackageManager';
 import {InitConf} from '../../interfaces/InitConf';
+import {Git} from '../../lib/Git';
 import {LineReadWriter} from '../../lib/LineReadWriter';
 import {PromptableConfig} from '../../lib/PromptableConfig';
-import {xSpawnSyncSafe} from '../xSpawn';
 
 export function initGitignore(c: PromptableConfig<InitConf>): void {
   if (!c.get('skipGitignore')) {
@@ -20,6 +20,6 @@ export function initGitignore(c: PromptableConfig<InitConf>): void {
       )
       .save();
 
-    xSpawnSyncSafe('git', ['add', '.gitignore']);
+    Git.add('.gitignore');
   }
 }

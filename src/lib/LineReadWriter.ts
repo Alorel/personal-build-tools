@@ -1,5 +1,6 @@
 import * as fs from 'fs-extra';
 import {dirname} from 'path';
+import {LazyGetter} from 'typescript-lazy-get-decorator';
 
 function trim(s: string): string {
   return s.trim();
@@ -10,6 +11,15 @@ export class LineReadWriter {
 
   private constructor(contents?: string, private readonly file?: string) {
     this.lines = contents && (contents = contents.trim()) ? contents.split(/\n/g).map(trim) : [];
+  }
+
+  @LazyGetter()
+  private get dirname(): string {
+    if (this.file) {
+      return dirname(this.file);
+    } else {
+      throw new Error('Unable to get dirname: file not set');
+    }
   }
 
   public static createFromContents(contents: string): LineReadWriter {
@@ -69,7 +79,7 @@ export class LineReadWriter {
   private mkdirp(): void {
     if (this.file) {
       try {
-        fs.mkdirpSync(dirname(this.file));
+        fs.mkdirpSync(this.dirname);
       } catch {
         // noop
       }

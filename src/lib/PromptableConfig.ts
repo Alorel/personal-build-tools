@@ -97,6 +97,11 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   }
 
   @Memo
+  public promptedEncryptionPassword(prop = 'password'): string {
+    return this.promptHidden(prop, 'Encryption password: ');
+  }
+
+  @Memo
   public promptedGhRepo(prop = 'ghRepo'): string {
     let msg = 'What is your GitHub repo';
 
@@ -193,5 +198,14 @@ export class PromptableConfig<T extends { [k: string]: any }> {
 
       return this.data[k];
     }
+  }
+
+  private promptHidden<K extends keyof T>(k: K, question: string, forbidEmpty = true, strict = true): string {
+    return this.promptCommon(
+      k,
+      () => rl.question(question, {hideEchoBack: true}),
+      forbidEmpty,
+      strict
+    );
   }
 }

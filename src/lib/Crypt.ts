@@ -33,6 +33,10 @@ export class Crypt {
     return decipher.update(text, 'binary', 'utf8') + decipher.final('utf8');
   }
 
+  public static decryptVar(v: Encrypted, password: string): string {
+    return Crypt.decrypt(v.__encrypted, password);
+  }
+
   public static encrypt(text: string, password: string): string {
     const iv = crypto.randomBytes(Conf.IV_RANDOM_BYTES);
     const salt = crypto.randomBytes(Conf.SALT_RANDOM_BYTES);

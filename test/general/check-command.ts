@@ -2,6 +2,7 @@ import * as cp from 'child_process';
 import * as xSpawn from 'cross-spawn';
 import {merge} from 'lodash';
 import {v4 as uuid} from 'uuid';
+import {getBin} from '../util/getBin';
 
 describe('check-command', () => {
   function spawn(cmd: string, args: string[] = [], opts: cp.SpawnOptions = {}): cp.ChildProcess {
@@ -23,7 +24,7 @@ describe('check-command', () => {
 
   it('Valid command should exit with 0', (cb: any) => {
     let err = false;
-    spawn('ts-node', ['src/alo.ts', 'clean-dist', '--dist-dirs', uuid()])
+    spawn(getBin('ts-node', 'ts-node'), ['src/alo.ts', 'clean-dist', '--dist-dirs', uuid()])
       .once('error', e => {
         err = true;
         cb(e);
@@ -41,7 +42,7 @@ describe('check-command', () => {
 
   it('Invalid command should exit with non-zero', (cb: any) => {
     let err = false;
-    spawn('ts-node', ['src/alo.ts', uuid()])
+    spawn(getBin('ts-node', 'ts-node'), ['src/alo.ts', uuid()])
       .once('error', () => {
         err = true;
         cb();

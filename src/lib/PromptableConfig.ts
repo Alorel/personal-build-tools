@@ -1,3 +1,4 @@
+import * as fs from 'fs-extra';
 import {cloneDeep, memoize} from 'lodash';
 import * as rl$ from 'readline-sync';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
@@ -45,7 +46,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
     }
   }
 
-  @LazyGetter()
+  @LazyGetter(true)
   public get ghRepoFromMetadata(): string | null {
     if (this.ghMetadata) {
       return this.ghMetadata.repo;
@@ -54,7 +55,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
     return null;
   }
 
-  @LazyGetter()
+  @LazyGetter(true)
   public get ghUserFromMetadata(): string | null {
     if (this.ghMetadata) {
       return this.ghMetadata.user;
@@ -141,7 +142,14 @@ export class PromptableConfig<T extends { [k: string]: any }> {
 
   @Memo
   public promptedPkgMgr(prop = 'pkgMgr'): PackageManager {
-    return this.getPromptSelect(prop, 'What package manager do you want to use? ', PACKAGE_MANAGERS);
+    const files = fs.readdirSync(process.cwd(), 'utf8');
+    if (files.includes('yarn.lock')) {
+      return PackageManager.YARN;
+    } else if (files.includes('package-lock.json')) {
+      return PackageManager.NPM;
+    } else {
+      return this.getPromptSelect(prop, 'What package manager do you want to use? ', PACKAGE_MANAGERS);
+    }
   }
 
   @Memo

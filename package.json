@@ -42,7 +42,6 @@
     "lodash": "^4.17.0",
     "readline-sync": "^1.4.0",
     "reflect-metadata": "^0.1.12",
-    "tmp": "^0.0.33",
     "tslib": "^1.9.0",
     "tslint": "5.11.0",
     "typescript-lazy-get-decorator": "^1.2.0",
@@ -81,6 +80,7 @@
     "rimraf": "~2.6.2",
     "semantic-release": "~15.9.9",
     "source-map-support": "~0.5.9",
+    "tmp": "~0.0.33",
     "ts-node": "~7.0.1",
     "typescript": "~3.0.1",
     "uuid": "~3.3.2"

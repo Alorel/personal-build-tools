@@ -17,8 +17,9 @@ interface InitModule {
   handle(c: PromptableConfig<InitConf>): void;
 }
 
-const modulesDir = dirname(require.resolve('../lib/init/license'));
+const modulesDir = dirname(require.resolve('../lib/init/00_code-owners'));
 const initModules: InitModule[] = fs.readdirSync(modulesDir, 'utf8')
+  .sort()
   .map(p => require(join(modulesDir, p)));
 
 const cmd: CommandModule = {

@@ -1,8 +1,11 @@
 import {expect} from 'chai';
+import {SpawnOptions} from 'child_process';
+import * as xSpawn from 'cross-spawn';
 import {v4 as uuid} from 'uuid';
 import {alo} from '../../src/alo';
 import {ConfigWriter} from '../../src/lib/ConfigWriter';
 import {Crypt} from '../../src/lib/Crypt';
+import {getBin} from '../util/getBin';
 
 describe('cfg', () => {
   function clear() {
@@ -30,22 +33,43 @@ describe('cfg', () => {
 
     after('clear', clear);
 
-    describe.skip('prompt pwd', () => {
+    describe('prompt pwd', () => {
+      let code: number;
+      let stderr: string;
       before('clear', clear);
       after('clear', clear);
       before('generate uuids', mkUuids);
 
-      it('should prompt for password (fail in CI)', async () => {
-        let passed = false;
-        try {
-          await alo(['cfg', 'set', '--encrypt', k, v, scope]);
-          passed = true;
-        } catch (e) {
-          expect(e.message).to.match(/unable to prompt in test environment/i);
-        }
-        if (passed) {
-          throw new Error('Command didn\'t throw');
-        }
+      before('run', (cb: any) => {
+        const bin = getBin('ts-node', 'ts-node');
+        const args = ['src/alo.ts', 'cfg', 'set', '--encrypt', k, v, scope];
+        let stderr$ = Buffer.alloc(0);
+        const opts: SpawnOptions = {
+          env: Object.assign({}, process.env, {
+            TS_NODE_TRANSPILE_ONLY: '1',
+            RUNNING_PERSONAL_BUILD_TOOLS_TESTS_FORCE: '1'
+          }),
+          stdio: 'pipe'
+        };
+
+        const proc = xSpawn(bin, args, opts);
+        proc.stderr.on('data', (data: Buffer) => {
+          stderr$ = Buffer.concat([stderr$, data]);
+        });
+
+        proc.once('exit', (code$: number) => {
+          code = code$;
+          stderr = stderr$.toString();
+          cb();
+        });
+      });
+
+      it('Should exit with non-zero code', () => {
+        expect(code).to.not.eq(0);
+      });
+
+      it('stderr should complain about password prompting', () => {
+        expect(stderr).to.match(/unable to prompt in test environment/i);
       });
     });
 

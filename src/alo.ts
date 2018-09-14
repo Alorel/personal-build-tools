@@ -24,6 +24,6 @@ export function alo(args: string | string[]): Promise<string> {
   });
 }
 
-if (!process.env.RUNNING_PERSONAL_BUILD_TOOLS_TESTS) {
+if (!process.env.RUNNING_PERSONAL_BUILD_TOOLS_TESTS || process.env.RUNNING_PERSONAL_BUILD_TOOLS_TESTS_FORCE) {
   argv.global('config').parse();
 }

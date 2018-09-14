@@ -1,13 +1,29 @@
 import * as fs from 'fs-extra';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
+import {Options} from 'yargs';
+import {addPkgMgrToOptions} from '../../commons/addPkgMgr';
+import {addGhRepo, addGhUser} from '../../commons/identity';
 import {PackageManager} from '../../inc/PackageManager';
 import {ContributingTpl} from '../../interfaces/ContributingTpl';
 import {InitConf} from '../../interfaces/InitConf';
 import {IssueTemplateBase} from '../../interfaces/IssueTemplateBase';
+import {Obj} from '../../interfaces/OptionsObject';
 import {PullRequestTpl} from '../../interfaces/PullRequestTpl';
-import {Fixture} from '../../lib/Fixture';
-import {Git} from '../../lib/Git';
-import {PromptableConfig} from '../../lib/PromptableConfig';
+import {Fixture} from '../Fixture';
+import {Git} from '../Git';
+import {PromptableConfig} from '../PromptableConfig';
+
+export const options: Obj<Options> = {
+  'skip-gh-issue-tpl': {
+    default: false,
+    describe: 'Skip issue & contribution template generation',
+    type: 'boolean'
+  }
+};
+
+addGhRepo(options);
+addGhUser(options);
+addPkgMgrToOptions(options);
 
 class Initialiser {
   private gitFiles: string[] = [];
@@ -98,7 +114,7 @@ class Initialiser {
   }
 }
 
-export function initGhTemplates(c: PromptableConfig<InitConf>): void {
+export function handle(c: PromptableConfig<InitConf>): void {
   if (!c.get('skipGhIssueTpl')) {
     new Initialiser(c);
   }

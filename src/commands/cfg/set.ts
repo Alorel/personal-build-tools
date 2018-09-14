@@ -1,7 +1,7 @@
 import * as JSON5 from 'json5';
 import {CommandModule} from 'yargs';
 import {addCfgKey, addCfgScope, CfgRmConf} from '../../commons/cfg';
-import {applyGlobalGroup} from '../../fns/applyGlobalGroup';
+import {applyGlobalGroup} from '../../fns/add-cmd/applyGlobalGroup';
 import {cmdName} from '../../fns/cmdName';
 import {ConfigWriter} from '../../lib/ConfigWriter';
 

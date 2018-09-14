@@ -2,7 +2,7 @@ import * as deleteEmpty from 'delete-empty';
 import * as fs from 'fs';
 import {basename, dirname, join} from 'path';
 import {CommandModule} from 'yargs';
-import {addConfig} from '../fns/addConfig';
+import {addConfig} from '../fns/add-cmd/addConfig';
 import {cmdName} from '../fns/cmdName';
 import {getFiles} from '../fns/getFiles';
 

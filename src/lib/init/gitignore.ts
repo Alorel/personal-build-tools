@@ -1,10 +1,23 @@
+import {Options} from 'yargs';
+import {addPkgMgrToOptions} from '../../commons/addPkgMgr';
 import {PackageManager} from '../../inc/PackageManager';
 import {InitConf} from '../../interfaces/InitConf';
-import {Git} from '../../lib/Git';
-import {LineReadWriter} from '../../lib/LineReadWriter';
-import {PromptableConfig} from '../../lib/PromptableConfig';
+import {Obj} from '../../interfaces/OptionsObject';
+import {Git} from '../Git';
+import {LineReadWriter} from '../LineReadWriter';
+import {PromptableConfig} from '../PromptableConfig';
 
-export function initGitignore(c: PromptableConfig<InitConf>): void {
+export const options: Obj<Options> = {
+  'skip-gitignore': {
+    boolean: true,
+    default: false,
+    describe: 'Don\'t generate gitignore'
+  }
+};
+
+addPkgMgrToOptions(options);
+
+export function handle(c: PromptableConfig<InitConf>): void {
   if (!c.get('skipGitignore')) {
     LineReadWriter.createFromFile('.gitignore')
       .ensure(

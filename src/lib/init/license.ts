@@ -1,12 +1,33 @@
-import {License} from '../../inc/License';
+import {Options} from 'yargs';
+import {addEmail, addGhRepo, addName, addUserWebsite} from '../../commons/identity';
+import {License, LICENSE_VALUES} from '../../inc/License';
 import {InitConf} from '../../interfaces/InitConf';
 import {ApacheLicenseTpl, GPL3LicenseTpl, MITLicenceTpl} from '../../interfaces/LicenseTpl';
-import {Fixture} from '../../lib/Fixture';
-import {Git} from '../../lib/Git';
-import {ObjectWriter, ObjectWriterFormat} from '../../lib/ObjectWriter';
-import {PromptableConfig} from '../../lib/PromptableConfig';
+import {Obj} from '../../interfaces/OptionsObject';
+import {Fixture} from '../Fixture';
+import {Git} from '../Git';
+import {ObjectWriter, ObjectWriterFormat} from '../ObjectWriter';
+import {PromptableConfig} from '../PromptableConfig';
 
-export function initLicense(c: PromptableConfig<InitConf>): void {
+export const options: Obj<Options> = {
+  license: {
+    choices: LICENSE_VALUES,
+    describe: 'License to use',
+    type: 'string'
+  },
+  'skip-license': {
+    default: false,
+    describe: 'Skip creating a license',
+    type: 'boolean'
+  }
+};
+
+addName(options);
+addGhRepo(options);
+addEmail(options);
+addUserWebsite(options);
+
+export function handle(c: PromptableConfig<InitConf>): void {
   if (!c.get('skipLicense')) {
     const tpl: ApacheLicenseTpl | GPL3LicenseTpl | MITLicenceTpl = {
       name: c.promptedName(),

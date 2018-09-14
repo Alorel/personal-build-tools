@@ -5,8 +5,8 @@ import {homedir} from 'os';
 import {join} from 'path';
 import * as YAML from 'yamljs';
 import {Argv} from 'yargs';
-import {defaultCfgName} from '../const/defaultCfgName';
-import {Group} from '../inc/Group';
+import {defaultCfgName} from '../../const/defaultCfgName';
+import {Group} from '../../inc/Group';
 
 function readCfg(p: string): any {
   if (/\.js(on)?$/.test(p)) {

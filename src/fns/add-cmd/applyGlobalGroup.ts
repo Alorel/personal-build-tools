@@ -1,5 +1,5 @@
 import {Argv} from 'yargs';
-import {Group} from '../inc/Group';
+import {Group} from '../../inc/Group';
 
 const globals = ['version', 'help'];
 

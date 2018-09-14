@@ -1,6 +1,6 @@
 import * as readline from 'readline-sync';
 import {CommandModule} from 'yargs';
-import {applyGlobalGroup} from '../../fns/applyGlobalGroup';
+import {applyGlobalGroup} from '../../fns/add-cmd/applyGlobalGroup';
 import {cmdName} from '../../fns/cmdName';
 import {ConfigWriter} from '../../lib/ConfigWriter';
 

@@ -1,72 +1,45 @@
-import {Argv, CommandModule} from 'yargs';
-import {addEmail, addGhRepo, addGhUser, addName, addUserWebsite} from '../commons/identity';
-import {addConfig} from '../fns/addConfig';
+import * as fs from 'fs-extra';
+import {isEmpty} from 'lodash';
+import {dirname, join} from 'path';
+import {Argv, CommandModule, Options} from 'yargs';
+import {addConfig} from '../fns/add-cmd/addConfig';
 import {cmdName} from '../fns/cmdName';
-import {initCodeOwners} from '../fns/init/initCodeOwners';
-import {initGhTemplates} from '../fns/init/initGhTemplates';
-import {initGitignore} from '../fns/init/initGitignore';
-import {initLicense} from '../fns/init/initLicense';
-import {LICENSE_VALUES} from '../inc/License';
-import {PACKAGE_MANAGERS} from '../inc/PackageManager';
+import {sortObjectByKey} from '../fns/sortObjectByKey';
 import {InitConf} from '../interfaces/InitConf';
+import {Obj} from '../interfaces/OptionsObject';
 import {PromptableConfig} from '../lib/PromptableConfig';
 
 const command = cmdName(__filename);
 
+interface InitModule {
+  options?: Obj<Options>[];
+
+  handle(c: PromptableConfig<InitConf>): void;
+}
+
+const modulesDir = dirname(require.resolve('../lib/init/license'));
+const initModules: InitModule[] = fs.readdirSync(modulesDir, 'utf8')
+  .map(p => require(join(modulesDir, p)));
+
 const cmd: CommandModule = {
   builder(argv: Argv) {
     addConfig(argv, 'init');
-    addEmail(argv);
-    addGhUser(argv);
-    addGhRepo(argv);
+    const opts: Obj<Options> = {};
+    for (const mod of initModules) {
+      if (!isEmpty(mod.options)) {
+        Object.assign(opts, mod.options);
+      }
+    }
 
-    argv.option('license', {
-      choices: LICENSE_VALUES,
-      describe: 'License to use',
-      string: true
-    });
-
-    addName(argv);
-
-    argv
-      .option('pkg-mgr', {
-        alias: 'pkg',
-        choices: PACKAGE_MANAGERS,
-        describe: 'Package manager in use'
-      })
-      .option('skip-code-owners', {
-        default: false,
-        describe: 'Skip .github/CODEOWNERS file generation',
-        type: 'boolean'
-      })
-      .option('skip-gh-issue-tpl', {
-        default: false,
-        describe: 'Skip issue & contribution template generation',
-        type: 'boolean'
-      })
-      .option('skip-gitignore', {
-        boolean: true,
-        default: false,
-        describe: 'Don\'t generate gitignore'
-      })
-      .option('skip-license', {
-        boolean: true,
-        default: false,
-        describe: 'Skip creating a license'
-      });
-
-    addUserWebsite(argv);
-
-    return argv;
+    return argv.options(sortObjectByKey(opts));
   },
   command,
   describe: 'Project initialisation operations',
   handler(conf: InitConf) {
     const c = new PromptableConfig(conf);
-    initLicense(c);
-    initGitignore(c);
-    initCodeOwners(c);
-    initGhTemplates(c);
+    for (const mod of initModules) {
+      mod.handle(c);
+    }
   }
 };
 

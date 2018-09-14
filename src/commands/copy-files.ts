@@ -3,7 +3,7 @@ import {IOptions, sync as glob} from 'glob';
 import * as _ from 'lodash';
 import {basename, dirname, join} from 'path';
 import {CommandModule} from 'yargs';
-import {addConfig} from '../fns/addConfig';
+import {addConfig} from '../fns/add-cmd/addConfig';
 import {cmdName} from '../fns/cmdName';
 import {flattenGlob} from '../fns/flattenGlob';
 

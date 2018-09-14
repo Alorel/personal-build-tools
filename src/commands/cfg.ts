@@ -1,7 +1,7 @@
 import {noop} from 'lodash';
 import {join} from 'path';
 import {CommandModule} from 'yargs';
-import {addCommandDir} from '../fns/addCommandDir';
+import {addCommandDir} from '../fns/add-cmd/addCommandDir';
 import {cmdName} from '../fns/cmdName';
 
 const cmd: CommandModule = {

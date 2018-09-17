@@ -106,7 +106,7 @@ describe('cfg', () => {
       before('clear', clear);
       before('init uuids', async () => {
         k = uuid();
-        data = await fs.readFileSync(__filename, 'utf8');
+        data = await fs.readFile(__filename, 'utf8');
       });
       before('run', () => alo(['cfg', 'set', '--from-file', k, __filename]));
 

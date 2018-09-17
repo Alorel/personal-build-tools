@@ -20,7 +20,7 @@
     "strictPropertyInitialization": false,
     "removeComments": false,
     "moduleResolution": "node",
-    "sourceMap": true,
+    "sourceMap": false,
     "outDir": "dist"
   },
   "include": [

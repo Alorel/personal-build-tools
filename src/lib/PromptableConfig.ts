@@ -3,8 +3,10 @@ import {cloneDeep, memoize} from 'lodash';
 import * as rl$ from 'readline-sync';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {IS_CI} from '../const/IS_CI';
-import {License, LICENSE_VALUES} from '../inc/License';
+import {readJson} from '../fns/readJson';
+import {isLicense, License, LICENSE_VALUES} from '../inc/License';
 import {PACKAGE_MANAGERS, PackageManager} from '../inc/PackageManager';
+import {PackageJson} from '../interfaces/PackageJson';
 import {Colour} from './Colour';
 import {Git} from './Git';
 
@@ -137,6 +139,15 @@ export class PromptableConfig<T extends { [k: string]: any }> {
 
   @Memo
   public promptedLicense(prop = 'license'): License {
+    let pjson: null | PackageJson;
+    if (this.has(prop)) {
+      return this.get(prop);
+    } else if ((pjson = readJson()) && isLicense(pjson.license)) {
+      this.data[prop] = pjson.license;
+
+      return pjson.license;
+    }
+
     return this.getPromptSelect(prop, 'What license do you with to use? ', LICENSE_VALUES);
   }
 

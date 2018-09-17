@@ -7,3 +7,7 @@ export enum License {
 }
 
 export const LICENSE_VALUES: string[] = <string[]>Object.freeze(values(License));
+
+export function isLicense(v: any): v is License {
+  return !!v && LICENSE_VALUES.indexOf(v) !== -1;
+}

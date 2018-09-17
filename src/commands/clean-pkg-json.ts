@@ -174,7 +174,7 @@ const cmd: CommandModule = {
       }
 
       //tslint:disable-next-line:no-magic-numbers
-      fs.writeFileSync(file, JSON.stringify(contents, null, 2));
+      fs.writeFileSync(file, JSON.stringify(contents, null, 2).trim() + '\n');
     }
   }
 };

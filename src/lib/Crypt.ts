@@ -30,7 +30,13 @@ export class Crypt {
     const decipher = crypto.createDecipheriv(Conf.CIPHER, key, iv);
     decipher.setAuthTag(tag);
 
-    return decipher.update(text, 'binary', 'utf8') + decipher.final('utf8');
+    const out = decipher.update(text, 'binary', 'utf8') + decipher.final('utf8');
+
+    if (!out) {
+      throw new Error('Unable to decrypt');
+    }
+
+    return out;
   }
 
   public static decryptVar(v: Encrypted, password: string): string {

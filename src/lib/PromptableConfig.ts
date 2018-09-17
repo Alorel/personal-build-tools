@@ -203,7 +203,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   private promptHidden<K extends keyof T>(k: K, question: string, forbidEmpty = true, strict = true): string {
     return this.promptCommon(
       k,
-      () => rl.question(question, {hideEchoBack: true}),
+      () => rl.question(question, {hideEchoBack: true, cancel: true}),
       forbidEmpty,
       strict
     );

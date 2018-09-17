@@ -1,5 +1,6 @@
 import * as fs from 'fs-extra';
 import {cloneDeep, memoize} from 'lodash';
+import {dirname} from 'path';
 import * as rl$ from 'readline-sync';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {IS_CI} from '../const/IS_CI';
@@ -104,6 +105,8 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       return this.get<any>(prop);
     } else if (!IS_CI && this.ghRepoFromMetadata) {
       if (rl.keyInYNStrict(`Is your GitHub repo ${Colour.cyan(this.ghRepoFromMetadata)}? `)) {
+        this.data[prop] = this.ghRepoFromMetadata;
+
         return this.ghRepoFromMetadata;
       } else {
         return this.getPrompt(prop, `${msg} then? `);
@@ -121,6 +124,8 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       return this.get<any>(prop);
     } else if (!IS_CI && this.ghUserFromMetadata) {
       if (rl.keyInYNStrict(`Is your GitHub username ${Colour.cyan(this.ghUserFromMetadata)}? `)) {
+        this.data[prop] = this.ghUserFromMetadata;
+
         return this.ghUserFromMetadata;
       } else {
         return this.getPrompt(prop, `${msg} then? `);
@@ -149,6 +154,26 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       return PackageManager.NPM;
     } else {
       return this.getPromptSelect(prop, 'What package manager do you want to use? ', PACKAGE_MANAGERS);
+    }
+  }
+
+  @Memo
+  public promptedProjectName(prop = 'projectName'): string {
+    const ask = (opt: string) => rl.keyInYNStrict(`Is your project name ${Colour.cyan(opt)}? `);
+    let dir: string;
+
+    if (this.has(prop)) {
+      return this.get(prop);
+    } else if (this.ghRepoFromMetadata && ask(this.ghRepoFromMetadata)) {
+      this.data[prop] = this.ghRepoFromMetadata;
+
+      return this.ghRepoFromMetadata;
+    } else if (ask((dir = dirname(__dirname)))) {
+      this.data[prop] = dir;
+
+      return dir;
+    } else {
+      return this.getPrompt(prop, 'What is your project name then? ');
     }
   }
 

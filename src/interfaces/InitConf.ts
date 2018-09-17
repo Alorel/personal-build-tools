@@ -7,6 +7,10 @@ export interface InitConf extends HasName, HasUserWebsite, HasEmail, HasGhUser, 
 
   pkgMgr: PackageManager;
 
+  projectDesc: string;
+
+  projectName: string;
+
   skipCodeOwners: boolean;
 
   skipGhIssueTpl: boolean;

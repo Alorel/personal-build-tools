@@ -1,6 +1,7 @@
 import {expect} from 'chai';
 import {SpawnOptions} from 'child_process';
 import * as xSpawn from 'cross-spawn';
+import * as fs from 'fs-extra';
 import {v4 as uuid} from 'uuid';
 import {alo} from '../../src/alo';
 import {ConfigWriter} from '../../src/lib/ConfigWriter';
@@ -101,27 +102,44 @@ describe('cfg', () => {
     let s: string;
     let data: any;
 
-    before('clear', clear);
-    before('init uuids', () => {
-      k = uuid();
-      v = uuid();
-      vs = JSON.stringify({[uuid()]: uuid()});
-      s = uuid();
+    describe('from file', () => {
+      before('clear', clear);
+      before('init uuids', async () => {
+        k = uuid();
+        data = await fs.readFileSync(__filename, 'utf8');
+      });
+      before('run', () => alo(['cfg', 'set', '--from-file', k, __filename]));
+
+      it('Contents should match', () => {
+        const global: any = new ConfigWriter()['data'].global;
+        expect(global[k]).to.eq(data);
+      });
     });
 
-    before('set JSON', () => alo(['cfg', 'set', k, vs, s]));
-    before('set string', () => alo(['cfg', 'set', k, v]));
-    before('get data', () => {
-      data = new ConfigWriter()['data'];
+    describe('from arg', () => {
+      before('clear', clear);
+      before('init uuids', () => {
+        k = uuid();
+        v = uuid();
+        vs = JSON.stringify({[uuid()]: uuid()});
+        s = uuid();
+      });
+
+      before('set JSON', () => alo(['cfg', 'set', k, vs, s]));
+      before('set string', () => alo(['cfg', 'set', k, v]));
+      before('get data', () => {
+        data = new ConfigWriter()['data'];
+      });
+
+      it('check JSON', () => {
+        expect(data[s][k]).to.deep.eq(JSON.parse(vs));
+      });
+
+      it('check string', () => {
+        expect(data.global[k]).to.eq(v);
+      });
     });
 
-    it('check JSON', () => {
-      expect(data[s][k]).to.deep.eq(JSON.parse(vs));
-    });
-
-    it('check string', () => {
-      expect(data.global[k]).to.eq(v);
-    });
   });
 
   describe('rm', () => {

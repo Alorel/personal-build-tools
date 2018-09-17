@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import * as JSON5 from 'json5';
 import {CommandModule} from 'yargs';
 import {addCfgKey, addCfgScope, addEncrypt, addPwd, CfgRmConf} from '../../commons/cfg';
@@ -10,9 +11,19 @@ import {PromptableConfig} from '../../lib/PromptableConfig';
 interface CfgSetConf extends CfgRmConf {
   encrypt: boolean;
 
+  fromFile: boolean;
+
   password: string;
 
   value: any;
+}
+
+function tryJson5Parse(v: any): any {
+  try {
+    return JSON5.parse(v);
+  } catch {
+    return v;
+  }
 }
 
 const cmd: CommandModule = {
@@ -20,24 +31,30 @@ const cmd: CommandModule = {
     addCfgKey(argv);
     applyGlobalGroup(argv);
     addEncrypt(argv);
+
+    argv.option('from-file', {
+      default: false,
+      describe: 'Get the value from a file instead of the positional argument. '
+        + 'The positional value argument then acts as a filepath.',
+      type: 'boolean'
+    });
+
     addPwd(argv);
 
     argv.positional('value', {
-      coerce(v: any): any {
-        try {
-          return JSON5.parse(v);
-        } catch {
-          return v;
-        }
-      },
-      describe: 'Config value. Can optionally be a JSON5-parseable item.'
+      coerce: tryJson5Parse,
+      describe: 'Config value. Can be a JSON5-parseable item. Optional only if the --stdin option is present.'
     });
 
     return addCfgScope(argv);
   },
-  command: `${cmdName(__filename)} <key> <value> [scope]`,
+  command: `${cmdName(__filename)} <key> [value] [scope]`,
   describe: 'Set a config option shared by all projects',
   handler(c$: CfgSetConf) {
+    if (c$.fromFile) {
+      c$.value = tryJson5Parse(fs.readFileSync(c$.value, 'utf8'));
+    }
+
     let val: any;
 
     if (c$.encrypt) {

@@ -72,7 +72,6 @@ describe('init', () => {
         '.nyc_output/',
         'yarn-error.log',
         '*.tgz',
-        'git_gpg_keys.asc',
         'package-lock.json',
         ''
       ].join('\n'),

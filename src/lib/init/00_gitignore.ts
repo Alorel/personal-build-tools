@@ -28,7 +28,6 @@ export function handle(c: PromptableConfig<InitConf>): void {
         '.nyc_output/',
         'yarn-error.log',
         '*.tgz',
-        'git_gpg_keys.asc',
         c.promptedPkgMgr() === PackageManager.YARN ? 'package-lock.json' : 'yarn.lock'
       )
       .save();

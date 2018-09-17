@@ -52,7 +52,7 @@ const cmd: CommandModule = {
         }
       }
 
-      fs.writeFileSync(file, JSON.stringify(contents, null, c.indent));
+      fs.writeFileSync(file, JSON.stringify(contents, null, c.indent) + '\n');
     }
   }
 };

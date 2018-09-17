@@ -4,8 +4,10 @@ import {dirname} from 'path';
 import * as rl$ from 'readline-sync';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {IS_CI} from '../const/IS_CI';
-import {License, LICENSE_VALUES} from '../inc/License';
+import {readJson} from '../fns/readJson';
+import {isLicense, License, LICENSE_VALUES} from '../inc/License';
 import {PACKAGE_MANAGERS, PackageManager} from '../inc/PackageManager';
+import {PackageJson} from '../interfaces/PackageJson';
 import {Colour} from './Colour';
 import {Git} from './Git';
 
@@ -98,6 +100,11 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   }
 
   @Memo
+  public promptedEncryptionPassword(prop = 'password'): string {
+    return this.promptHidden(prop, 'Encryption password: ');
+  }
+
+  @Memo
   public promptedGhRepo(prop = 'ghRepo'): string {
     let msg = 'What is your GitHub repo';
 
@@ -137,6 +144,15 @@ export class PromptableConfig<T extends { [k: string]: any }> {
 
   @Memo
   public promptedLicense(prop = 'license'): License {
+    let pjson: null | PackageJson;
+    if (this.has(prop)) {
+      return this.get(prop);
+    } else if ((pjson = readJson()) && isLicense(pjson.license)) {
+      this.data[prop] = pjson.license;
+
+      return pjson.license;
+    }
+
     return this.getPromptSelect(prop, 'What license do you with to use? ', LICENSE_VALUES);
   }
 
@@ -218,5 +234,14 @@ export class PromptableConfig<T extends { [k: string]: any }> {
 
       return this.data[k];
     }
+  }
+
+  private promptHidden<K extends keyof T>(k: K, question: string, forbidEmpty = true, strict = true): string {
+    return this.promptCommon(
+      k,
+      () => rl.question(question, {hideEchoBack: true, cancel: true}),
+      forbidEmpty,
+      strict
+    );
   }
 }

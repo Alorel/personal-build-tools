@@ -1,13 +1,15 @@
-import {HasEmail, HasGhRepo, HasGhUser, HasName, HasUserWebsite} from '../commons/identity';
+import {HasEmail, HasGhRepo, HasGhToken, HasGhUser, HasName, HasUserWebsite} from '../commons/identity';
 import {License} from '../inc/License';
 import {PackageManager} from '../inc/PackageManager';
 
-export interface InitConf extends HasName, HasUserWebsite, HasEmail, HasGhUser, HasGhRepo {
+export interface InitConf extends HasName, HasUserWebsite, HasEmail, HasGhToken, HasGhUser, HasGhRepo {
   license: License;
 
   pkgMgr: PackageManager;
 
   projectDesc: string;
+
+  projectKeywords: string;
 
   projectName: string;
 

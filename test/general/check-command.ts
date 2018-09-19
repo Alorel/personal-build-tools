@@ -2,7 +2,7 @@ import * as cp from 'child_process';
 import * as xSpawn from 'cross-spawn';
 import {merge} from 'lodash';
 import {v4 as uuid} from 'uuid';
-import {getBin} from '../util/getBin';
+import {getBin} from '../../src/fns/getBin';
 
 describe('check-command', () => {
   function spawn(cmd: string, args: string[] = [], opts: cp.SpawnOptions = {}): cp.ChildProcess {

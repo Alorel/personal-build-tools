@@ -5,7 +5,7 @@ import * as yargs from 'yargs';
 import {CACHE_DIR} from '../../../const/CACHE_DIR';
 import {ConfigWriter} from '../../ConfigWriter';
 import {request} from '../../request';
-import {RepoDetails} from './gh-repo';
+import {RepoDetails} from './RepoDetails';
 
 interface RepoSource {
   owner: string;

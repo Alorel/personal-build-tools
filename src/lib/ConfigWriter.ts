@@ -77,7 +77,7 @@ export class ConfigWriter {
     return this;
   }
 
-  public set(key: string, value: any, scope: string = Conf.DEFAULT_SCOPE): this {
+  public set<T = any>(key: string, value: T, scope: string = Conf.DEFAULT_SCOPE): this {
     set(this[_data], [scope, key], value);
 
     return this;

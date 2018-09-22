@@ -2,14 +2,7 @@ import {memoize} from 'lodash';
 import {join} from 'path';
 import {ext} from '../../../const/ext';
 import {execLocal} from '../../../fns/execLocal';
-
-export interface RepoDetails {
-  description?: string;
-
-  id?: string;
-
-  tags?: string[];
-}
+import {RepoDetails} from './RepoDetails';
 
 function getGhRepoData$(token: string, owner: string, repo: string): RepoDetails {
   const args = [

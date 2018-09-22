@@ -42,6 +42,11 @@ export function handle(c: PromptableConfig<InitConf>): void {
   w.set('main', 'index.js', false);
   w.set('types', 'index.d.ts', false);
   w.set('typings', 'index.d.ts', false);
+  w.set('scripts.pretest', 'rimraf coverage', false);
+  w.set('scripts.test', 'nyc mocha --opts ./mocha.opts', false);
+  w.set('scripts.tslint', 'alo tslint -p tsconfig.test.json', false);
+  w.set(['scripts', 'tslint:fix'], 'npm run tslint -- --fix', false);
+  w.set('scripts.prebuild', 'rimraf dist', false);
 
   if (isEmpty(w.get('keywords'))) {
     w.set('keywords', c.promptedProjectKeywords());

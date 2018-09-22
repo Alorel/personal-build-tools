@@ -24,6 +24,7 @@ export function handle(): void {
     '@semantic-release/npm',
     'mocha',
     'concurrently',
+    'source-map-support',
     '@types/mocha',
     'chai',
     '@types/chai',
@@ -56,6 +57,8 @@ export function handle(): void {
   if (w.has('devDependencies')) {
     w.set('devDependencies', sortObjectByKey(w.get('devDependencies')));
   }
+
+  w.save();
 
   Git.add('package.json');
 }

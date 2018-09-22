@@ -197,7 +197,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       return this.data[prop];
     }
 
-    return this.getPrompt(prop, 'What\'s your project description?');
+    return this.getPrompt(prop, 'What\'s your project description? ');
   }
 
   @Memo

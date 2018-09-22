@@ -86,7 +86,8 @@ Bluebird
   )
   .then(out => {
     writer.save();
-    console.log(out);
+    //tslint:disable-next-line:no-magic-numbers
+    process.stdout.write(JSON.stringify(out, null, 2));
   })
   .catch((e: Error) => {
     process.stderr.write(e.stack || e.message || e.toString());

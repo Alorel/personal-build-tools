@@ -14,7 +14,9 @@ export function execLocal(path: string,
 
   const defaultOpts: SpawnSyncOptionsWithStringEncoding = {
     encoding: 'utf8',
-    env: process.env
+    env: Object.assign({}, process.env, {
+      TS_NODE_TRANSPILE_ONLY: '1'
+    })
   };
   const options: SpawnSyncOptionsWithStringEncoding = merge(defaultOpts, opts || {});
 

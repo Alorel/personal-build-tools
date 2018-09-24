@@ -1,3 +1,4 @@
+import {uniq} from 'lodash';
 import {sortObjectByKey} from '../../fns/sortObjectByKey';
 import {InitConf} from '../../interfaces/InitConf';
 import {Git} from '../Git';
@@ -12,12 +13,12 @@ export function handle(c: PromptableConfig<InitConf>): void {
     return (d: string) => !w.has([key, d]);
   }
 
-  const devExact: string[] = [
+  const devExact: string[] = uniq([
     '@alorel-personal/build-tools',
     '@alorel-personal/conventional-changelog-alorel',
     '@alorel-personal/semantic-release',
     '@alorel-personal/tslint-rules'
-  ].filter(mkFilter('devDependencies'));
+  ]).filter(mkFilter('devDependencies'));
 
   let devTilde: string[] = [
     '@semantic-release/changelog',
@@ -33,7 +34,6 @@ export function handle(c: PromptableConfig<InitConf>): void {
     '@types/chai',
     'semantic-release',
     'coveralls',
-    'typescript',
     'nyc',
     'rimraf',
     'tslib',
@@ -45,7 +45,7 @@ export function handle(c: PromptableConfig<InitConf>): void {
     devTilde.push('webpack', 'webpack-cli', 'ts-loader');
   }
 
-  devTilde = devTilde.filter(mkFilter('devDependencies'));
+  devTilde = uniq(devTilde).filter(mkFilter('devDependencies'));
 
   const pkgsToQuery = devExact.concat(devTilde).sort();
 

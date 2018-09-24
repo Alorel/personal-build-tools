@@ -35,6 +35,7 @@ export function handle(c: PromptableConfig<InitConf>): void {
   function setScripts() {
     w.set('scripts.pretest', 'rimraf coverage', false);
     w.set('scripts.test', 'nyc mocha --opts ./mocha.opts', false);
+    w.set(['scripts', 'test:watch'], 'npm run test -- --watch', false);
     w.set('scripts.tslint', 'alo tslint -p tsconfig.test.json', false);
     w.set(['scripts', 'tslint:fix'], 'npm run tslint -- --fix', false);
     w.set('scripts.prebuild', 'rimraf dist', false);

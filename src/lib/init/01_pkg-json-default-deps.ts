@@ -22,6 +22,7 @@ export function handle(): void {
     '@semantic-release/exec',
     '@semantic-release/git',
     '@semantic-release/npm',
+    '@types/node',
     'mocha',
     'concurrently',
     'source-map-support',
@@ -33,6 +34,7 @@ export function handle(): void {
     'typescript',
     'nyc',
     'rimraf',
+    'tslib',
     'ts-node',
     'typescript'
   ].filter(mkFilter('devDependencies'));
@@ -53,6 +55,7 @@ export function handle(): void {
       }
     }
   }
+  w.set('peerDependencies.tslib', '^1.6.0', false);
 
   if (w.has('devDependencies')) {
     w.set('devDependencies', sortObjectByKey(w.get('devDependencies')));

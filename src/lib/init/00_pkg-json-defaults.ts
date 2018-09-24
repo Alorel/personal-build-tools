@@ -4,6 +4,7 @@ import {addGhRepo, addGhToken, addGhUser} from '../../commons/identity';
 import {InitConf} from '../../interfaces/InitConf';
 import {Obj} from '../../interfaces/OptionsObject';
 import {Git} from '../Git';
+import {Log} from '../Log';
 import {ObjectWriter, ObjectWriterFormat} from '../ObjectWriter';
 import {PromptableConfig} from '../PromptableConfig';
 
@@ -31,12 +32,17 @@ export function handle(c: PromptableConfig<InitConf>): void {
 
   if (!w.has('name')) {
     w.set('name', c.promptedProjectName());
+    Log.success('Set project name');
   }
 
-  w.set('version', '0.0.1', false);
+  if (!w.has('version')) {
+    w.set('version', '0.0.1');
+    Log.success('Set project version');
+  }
 
   if (!w.has('description')) {
     w.set('description', c.promptedProjectDescription());
+    Log.success('Set project description');
   }
 
   w.set('main', 'index.js', false);
@@ -50,10 +56,12 @@ export function handle(c: PromptableConfig<InitConf>): void {
 
   if (isEmpty(w.get('keywords'))) {
     w.set('keywords', c.promptedProjectKeywords());
+    Log.success('Set project keywords');
   }
 
-  if (Git.originUrl) {
-    w.set('repository', Git.originUrl, false);
+  if (!w.has('repository') && Git.originUrl) {
+    w.set('repository', Git.originUrl);
+    Log.success('Set repository URL');
   }
 
   w.save();

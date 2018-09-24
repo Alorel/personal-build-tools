@@ -1,5 +1,6 @@
 import * as fs from 'fs-extra';
 import {Git} from '../Git';
+import {Log} from '../Log';
 
 export function handle(): void {
   if (!fs.pathExistsSync('mocha.opts')) {
@@ -19,6 +20,7 @@ export function handle(): void {
     ].join('\n') + '\n';
     fs.writeFileSync('mocha.opts', contents);
     Git.add('mocha.opts');
+    Log.success('Created mocha.opts');
   }
 
   if (!fs.pathExistsSync('test')) {
@@ -34,5 +36,15 @@ export function handle(): void {
     ].join('\n') + '\n';
     fs.writeFileSync('test/stub.ts', contents);
     Git.add('test/stub.ts');
+    Log.success('Created test/stub.ts');
+  }
+
+  if (!fs.pathExistsSync('src/index.ts')) {
+    if (!fs.pathExistsSync('src')) {
+      fs.mkdirpSync('src');
+    }
+    fs.writeFileSync('src/index.ts', '// stub\n');
+    Git.add('src/index.ts');
+    Log.success('Created src/index.ts');
   }
 }

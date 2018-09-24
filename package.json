@@ -41,12 +41,14 @@
     "json-to-graphql-query": "^1.7.0",
     "json5": "^2.0.0",
     "lodash": "^4.17.0",
+    "log-symbols": "^2.2.0",
     "readline-sync": "^1.4.0",
     "reflect-metadata": "^0.1.12",
     "request": "^2.88.0",
     "request-promise": "^4.2.0",
     "tslib": "^1.9.0",
     "tslint": "5.11.0",
+    "typescript": "^3.0.0",
     "typescript-lazy-get-decorator": "^1.2.0",
     "yamljs": "^0.3.0",
     "yargs": "^12.0.0"
@@ -67,6 +69,7 @@
     "@types/glob": "~7.1.0",
     "@types/json5": "~0.0.30",
     "@types/lodash": "~4.14.116",
+    "@types/log-symbols": "~2.0.0",
     "@types/mocha": "~5.2.5",
     "@types/node": "~10.10.0",
     "@types/readline-sync": "~1.4.3",
@@ -87,7 +90,6 @@
     "source-map-support": "~0.5.9",
     "tmp": "~0.0.33",
     "ts-node": "~7.0.1",
-    "typescript": "~3.0.1",
     "uuid": "~3.3.2"
   }
 }

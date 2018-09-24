@@ -2,6 +2,7 @@ import {memoize} from 'lodash';
 import {join} from 'path';
 import {ext} from '../../../const/ext';
 import {execLocal} from '../../../fns/execLocal';
+import {Log} from '../../Log';
 import {PkgVersionCache} from './PkgVersionCache';
 
 export type GetPkgVersionsOutput<T extends string> = {
@@ -12,6 +13,7 @@ function getPkgVersions$<T extends string>(...packages: T[]): GetPkgVersionsOutp
   if (!packages.length) {
     return {};
   }
+  Log.info('Querying package versions for the following packages:\n\t' + packages.join('\n\t'));
   const args: string[] = ['--pkgs'].concat(packages);
   const ret = execLocal(join(__dirname, `get.${ext}`), args);
 

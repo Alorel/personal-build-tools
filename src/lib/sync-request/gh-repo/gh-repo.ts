@@ -2,6 +2,7 @@ import {memoize} from 'lodash';
 import {join} from 'path';
 import {ext} from '../../../const/ext';
 import {execLocal} from '../../../fns/execLocal';
+import {Log} from '../../Log';
 import {RepoDetails} from './RepoDetails';
 
 function getGhRepoData$(token: string, owner: string, repo: string): RepoDetails {
@@ -13,6 +14,7 @@ function getGhRepoData$(token: string, owner: string, repo: string): RepoDetails
     '--repo',
     repo
   ];
+  Log.info(`Querying GitHub repo data for ${owner}/${repo}`);
   const ret = execLocal(join(__dirname, `get.${ext}`), args);
 
   if (ret.status === 0) {

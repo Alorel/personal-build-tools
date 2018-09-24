@@ -39,29 +39,33 @@ export function handle(): void {
     'typescript'
   ].filter(mkFilter('devDependencies'));
 
-  const pkgVersions = getPkgVersions(...devExact.concat(devTilde));
+  const pkgsToQuery = devExact.concat(devTilde);
 
-  if (devExact.length) {
-    for (const pkg of devExact) {
-      if (pkgVersions[pkg]) {
-        w.set(['devDependencies', pkg], pkgVersions[pkg]);
+  if (pkgsToQuery.length) {
+    const pkgVersions = getPkgVersions(...pkgsToQuery);
+
+    if (devExact.length) {
+      for (const pkg of devExact) {
+        if (pkgVersions[pkg]) {
+          w.set(['devDependencies', pkg], pkgVersions[pkg]);
+        }
       }
     }
-  }
-  if (devTilde.length) {
-    for (const pkg of devTilde) {
-      if (pkgVersions[pkg]) {
-        w.set(['devDependencies', pkg], `~${pkgVersions[pkg]}`);
+    if (devTilde.length) {
+      for (const pkg of devTilde) {
+        if (pkgVersions[pkg]) {
+          w.set(['devDependencies', pkg], `~${pkgVersions[pkg]}`);
+        }
       }
     }
+    w.set('peerDependencies.tslib', '^1.6.0', false);
+
+    if (w.has('devDependencies')) {
+      w.set('devDependencies', sortObjectByKey(w.get('devDependencies')));
+    }
+
+    w.save();
+
+    Git.add('package.json');
   }
-  w.set('peerDependencies.tslib', '^1.6.0', false);
-
-  if (w.has('devDependencies')) {
-    w.set('devDependencies', sortObjectByKey(w.get('devDependencies')));
-  }
-
-  w.save();
-
-  Git.add('package.json');
 }

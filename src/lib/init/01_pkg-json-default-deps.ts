@@ -1,9 +1,11 @@
 import {sortObjectByKey} from '../../fns/sortObjectByKey';
+import {InitConf} from '../../interfaces/InitConf';
 import {Git} from '../Git';
 import {ObjectWriter, ObjectWriterFormat} from '../ObjectWriter';
+import {PromptableConfig} from '../PromptableConfig';
 import {getPkgVersions} from '../sync-request/pkg-version/pkg-version';
 
-export function handle(): void {
+export function handle(c: PromptableConfig<InitConf>): void {
   const w = new ObjectWriter('package.json', ObjectWriterFormat.JSON);
 
   function mkFilter(key: string) {
@@ -17,7 +19,7 @@ export function handle(): void {
     '@alorel-personal/tslint-rules'
   ].filter(mkFilter('devDependencies'));
 
-  const devTilde: string[] = [
+  let devTilde: string[] = [
     '@semantic-release/changelog',
     '@semantic-release/exec',
     '@semantic-release/git',
@@ -37,9 +39,15 @@ export function handle(): void {
     'tslib',
     'ts-node',
     'typescript'
-  ].filter(mkFilter('devDependencies'));
+  ];
 
-  const pkgsToQuery = devExact.concat(devTilde);
+  if (c.get('umd')) {
+    devTilde.push('webpack', 'webpack-cli', 'ts-loader');
+  }
+
+  devTilde = devTilde.filter(mkFilter('devDependencies'));
+
+  const pkgsToQuery = devExact.concat(devTilde).sort();
 
   if (pkgsToQuery.length) {
     const pkgVersions = getPkgVersions(...pkgsToQuery);

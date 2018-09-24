@@ -42,7 +42,7 @@ export function handle(c: PromptableConfig<InitConf>): void {
   ];
 
   if (c.get('umd')) {
-    devTilde.push('webpack', 'webpack-cli', 'ts-loader');
+    devTilde.push('webpack', 'webpack-cli', 'ts-loader', 'lodash');
   }
 
   devTilde = uniq(devTilde).filter(mkFilter('devDependencies'));

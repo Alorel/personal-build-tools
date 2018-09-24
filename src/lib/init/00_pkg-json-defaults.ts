@@ -70,6 +70,11 @@ export function handle(c: PromptableConfig<InitConf>): void {
     w.set('esm2015', 'esm2015/index.js', false);
     w.set('fesm2015', 'esm2015/index.js', false);
 
+    if (c.get('umd')) {
+      w.set('browser', 'umd/bundle.js', false);
+      w.set('jsdelivr', 'umd/bundle.min.js', false);
+    }
+
     w.set('types', 'index.d.ts', false);
     w.set('typings', 'index.d.ts', false);
   }

@@ -18,6 +18,8 @@ after_success: cat ./coverage/lcov.info | coveralls
 
 cache:
   yarn: true
+  directories:
+  - /home/travis/.cache/alobuild
 
 stages:
 - Test
@@ -32,8 +34,8 @@ jobs:
     - npm i -g yarn
     - *prepKey
     before_script:
-      - yarn run build
-      - node dist/alo copy-files
+    - yarn run build
+    - node dist/alo copy-files
     script: semantic-release
     after_success: []
     after_script: []

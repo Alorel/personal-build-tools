@@ -16,7 +16,9 @@ interface TestSpec {
   skipFlags: string | string[];
 }
 
-describe('init', () => {
+describe('init', function () {
+  this.timeout(60 * 1000);
+
   let origCwd: string;
   let tmpdir: string;
   const baseArgs = [

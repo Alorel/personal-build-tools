@@ -43,6 +43,9 @@ export function handle(c: PromptableConfig<InitConf>): void {
     w.set(['scripts', 'build:esm5'], 'tsc --module es2015 --outDir dist/esm5', false);
     w.set(['scripts', 'build:esm2015'], 'tsc --module es2015 --outDir dist/esm2015 --target es6', false);
 
+    w.set('scripts.typecheck', 'tsc --noEmit', false);
+    w.set(['scripts', 'typecheck:watch'], 'npm run typecheck -- --watch', false);
+
     const buildScripts = ['build:es5', 'build:esm5', 'build:esm2015'];
 
     if (c.get('umd')) {

@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import * as fs from 'fs-extra';
-import {castArray, forEach, noop, template} from 'lodash';
+import {castArray, forEach, isObjectLike, noop, template, uniq} from 'lodash';
 import {Test} from 'mocha';
 import {join} from 'path';
 import {alo} from '../../src/alo';
@@ -8,12 +8,14 @@ import {LICENSE_VALUES} from '../../src/inc/License';
 import {Fixture} from '../../src/lib/Fixture';
 import {tmpDir} from '../util/tmp-test';
 
+//tslint:disable:no-magic-numbers
+
 interface TestSpec {
   expect: any;
 
   file: string;
 
-  skipFlags: string | string[];
+  skipFlags?: string | string[];
 }
 
 describe('init', function () {
@@ -86,6 +88,105 @@ describe('init', function () {
       ].join('\n'),
       file: '.gitignore',
       skipFlags: '--skip-gitignore'
+    },
+    {
+      expect: JSON.stringify(
+        {
+          extends: './node_modules/@alorel-personal/tslint-rules/tslint.json'
+        },
+        null,
+        2
+      ) + '\n',
+      file: 'tslint.json'
+    },
+    {
+      expect: JSON.stringify(
+        {
+          compilerOptions: {
+            module: 'commonjs',
+            target: 'es5',
+            experimentalDecorators: true,
+            emitDecoratorMetadata: true,
+            noUnusedLocals: true,
+            noUnusedParameters: true,
+            newLine: 'lf',
+            noFallthroughCasesInSwitch: true,
+            suppressImplicitAnyIndexErrors: true,
+            importHelpers: true,
+            allowUnreachableCode: false,
+            allowUnusedLabels: false,
+            strict: true,
+            stripInternal: true,
+            declaration: false,
+            noImplicitAny: true,
+            strictNullChecks: true,
+            strictPropertyInitialization: false,
+            removeComments: false,
+            moduleResolution: 'node',
+            sourceMap: true,
+            outDir: 'dist'
+          },
+          include: [
+            'src'
+          ],
+          exclude: [
+            'node_modules'
+          ]
+        },
+        null,
+        2
+      ) + '\n',
+      file: 'tsconfig.json'
+    },
+    {
+      expect: JSON.stringify(
+        {
+          extends: './tsconfig.json',
+          compilerOptions: {
+            target: 'es6'
+          },
+          include: [
+            'src',
+            'test'
+          ]
+        },
+        null,
+        2
+      ) + '\n',
+      file: 'tsconfig.test.json'
+    },
+    {
+      expect: [
+        '--check-leaks',
+        '--exit',
+        '--full-trace',
+        '-r ts-node/register',
+        '-r source-map-support/register',
+        '-t 10000',
+        '--trace-deprecation',
+        '--trace-warnings',
+        '--throw-deprecation',
+        '--recursive',
+        '--watch-extensions ts',
+        'test/**/*.ts'
+      ].join('\n') + '\n',
+      file: 'mocha.opts'
+    },
+    {
+      expect: [
+        'import {expect} from \'chai\';',
+        '',
+        'describe(\'Stub test suite\', function () {',
+        '  it(\'Stub test\', () => {',
+        '    console.log(\'I pass!\');',
+        '  });',
+        '});'
+      ].join('\n') + '\n',
+      file: 'test/stub.ts'
+    },
+    {
+      expect: '// stub\n',
+      file: 'src/index.ts'
     }
   ];
 
@@ -96,6 +197,78 @@ describe('init', function () {
   after('restore cwd', () => {
     if (origCwd) {
       process.chdir(origCwd);
+    }
+  });
+
+  describe('dependencies', () => {
+    let devDeps: string[];
+    let peerDeps: string[];
+    let deps: any;
+
+    const webpackDeps = ['webpack', 'webpack-cli', 'ts-loader', 'lodash'];
+    const baseDevDeps = uniq([
+      '@alorel-personal/build-tools',
+      '@alorel-personal/conventional-changelog-alorel',
+      '@alorel-personal/semantic-release',
+      '@alorel-personal/tslint-rules',
+      '@semantic-release/changelog',
+      '@semantic-release/exec',
+      '@semantic-release/git',
+      '@semantic-release/npm',
+      '@types/node',
+      'mocha',
+      'concurrently',
+      'source-map-support',
+      '@types/mocha',
+      'chai',
+      '@types/chai',
+      'semantic-release',
+      'coveralls',
+      'nyc',
+      'rimraf',
+      'tslib',
+      'ts-node',
+      'typescript'
+    ]).sort();
+
+    for (const isUmd of [true, false]) {
+      describe(`With${isUmd ? 'out' : ''} webpack`, () => {
+        before('Set cwd', mkTmpDir);
+        before('Run', isUmd ? () => run('--umd', 'foo') : runBase);
+        before('read', async () => {
+          const contents = JSON.parse(await read('package.json'));
+          devDeps = Object.keys(contents.devDependencies).sort();
+          peerDeps = Object.keys(contents.peerDependencies).sort();
+          deps = contents.dependencies;
+        });
+
+        it('tslib should be the only peer dependency', () => {
+          expect(peerDeps).to.deep.eq(['tslib']);
+        });
+
+        it('there should be no dependencies', () => {
+          expect(deps).to.be.undefined;
+        });
+
+        it(`Dev deps ${isUmd ? 'should' : 'shouldn\'t'} have webpack deps`, () => {
+          const expected = isUmd ? uniq(baseDevDeps.concat(webpackDeps)).sort() : baseDevDeps;
+          expect(devDeps).to.deep.eq(expected);
+        });
+
+        if (isUmd) {
+          it('should have a tsconfig.umd.json', async () => {
+            expect(JSON.parse(await read('tsconfig.umd.json')))
+              .to.deep.eq({
+              extends: './tsconfig.json',
+              compilerOptions: {
+                module: 'es2015',
+                target: 'es5',
+                sourceMap: false
+              }
+            });
+          });
+        }
+      });
     }
   });
 
@@ -144,6 +317,66 @@ describe('init', function () {
     });
   });
 
+  describe('webpack', () => {
+    describe('Default (skip)', () => {
+      before('Set cwd', mkTmpDir);
+      before('Run', runBase);
+
+      it('webpack.config.js should not exist', async () => {
+        expect(await exists('webpack.config.js')).to.be.false;
+      });
+    });
+
+    describe('Don\'t skip', () => {
+      let contents: string;
+      let expectedContents: string;
+      before('Set cwd', mkTmpDir);
+      before('run', () => run('--umd', 'Foo'));
+      before('read', async () => {
+        contents = await read('webpack.config.js');
+      });
+      before('set expected contents', () => {
+        expectedContents = `const {join} = require('path');
+const merge = require('lodash/merge');
+const cloneDeep = require('lodash/cloneDeep');
+
+const base = {
+  target: 'web',
+  entry: join(__dirname, 'src', 'index.ts'),
+  devtool: 'none',
+  output: {
+    path: join(__dirname, 'dist', 'umd'),
+    libraryTarget: 'umd',
+    library: 'Foo'
+  },
+  module: {
+    rules: [
+      {
+        test: /\\.ts$/,
+        use: [{
+          loader: 'ts-loader',
+          options: {
+            configFile: join(__dirname, 'tsconfig.umd.json')
+          }
+        }]
+      }
+    ]
+  }
+};
+
+module.exports = [
+  merge(cloneDeep(base), {mode: 'development', output: {filename: 'bundle.js'}}),
+  merge(cloneDeep(base), {mode: 'production', output: {filename: 'bundle.min.js'}})
+];
+`;
+      });
+
+      it('webpack.config.js should exist', () => {
+        expect(contents).to.eq(expectedContents);
+      });
+    });
+  });
+
   for (const s of testSpecs) {
     describe(s.file, () => {
       describe('Don\'t skip', () => {
@@ -156,16 +389,111 @@ describe('init', function () {
         });
       });
 
-      describe('Skip', () => {
-        before('Set cwd', mkTmpDir);
-        before('Run', () => run(...castArray(s.skipFlags)));
+      if (s.skipFlags) {
+        describe('Skip', () => {
+          before('Set cwd', mkTmpDir);
+          before('Run', () => run(...castArray(s.skipFlags)));
 
-        it(`${s.file} should not exist`, async () => {
-          expect(await exists(s.file)).to.be.false;
+          it(`${s.file} should not exist`, async () => {
+            expect(await exists(s.file)).to.be.false;
+          });
         });
-      });
+      }
     });
   }
+
+  describe('pkg json defaults', () => {
+    const testUMDName = 'PJsonDefaultsTest';
+
+    const topExpect = {
+      name: 'test-project-name',
+      module: 'esm5/index.js',
+      esm5: 'esm5/index.js',
+      fesm5: 'esm5/index.js',
+      esm2015: 'esm2015/index.js',
+      fesm2015: 'esm2015/index.js',
+      types: 'index.d.ts',
+      typings: 'index.d.ts',
+      version: '0.0.1',
+      description: 'test-desc',
+      keywords: ['test-keyword1', 'test-keyword2']
+    };
+
+    const scriptsExpect = {
+      pretest: 'rimraf coverage',
+      test: 'nyc mocha --opts ./mocha.opts',
+      'test:watch': 'npm run test -- --watch',
+      tslint: 'alo tslint -p tsconfig.test.json',
+      'tslint:fix': 'npm run tslint -- --fix',
+      prebuild: 'rimraf dist',
+      'build:es5': 'tsc --declaration',
+      'build:esm5': 'tsc --module es2015 --outDir dist/esm5',
+      'build:esm2015': 'tsc --module es2015 --outDir dist/esm2015 --target es6',
+      typecheck: 'tsc --noEmit',
+      'typecheck:watch': 'npm run typecheck -- --watch'
+    };
+
+    for (const isUmd of [false, true]) {
+      describe(`${isUmd ? 'with' : 'without'} UMD`, () => {
+        let pjson: { [k: string]: any };
+        before('Set cwd', mkTmpDir);
+        before('Run', isUmd ? () => run('--umd', testUMDName) : runBase);
+        before('read', async () => {
+          pjson = JSON.parse(await read('package.json'));
+        });
+
+        forEach(topExpect, (expected, key) => {
+          it(key, () => {
+            let xp: any = expect(pjson[key]).to;
+            if (isObjectLike(expected)) {
+              xp = xp.deep;
+            }
+            xp.eq(expected);
+          });
+        });
+
+        describe('scripts', () => {
+          let build = '"npm run build:es5" "npm run build:esm5" "npm run build:esm2015"';
+          forEach(scriptsExpect, (expected, key) => {
+            it(key, () => {
+              expect(pjson.scripts[key]).to.eq(expected);
+            });
+          });
+
+          if (isUmd) {
+            build = `"npm run build:umd" ${build}`;
+            it('build:umd', () => {
+              expect(pjson.scripts['build:umd']).to.eq('webpack');
+            });
+          } else {
+            it('build:umd should not exist', () => {
+              expect(pjson.scripts['build:umd']).to.be.undefined;
+            });
+          }
+
+          it('build', () => {
+            expect(pjson.scripts.build).to.eq(`concurrently ${build}`);
+          });
+        });
+
+        if (isUmd) {
+          it('browser should be umd/bundle.js', () => {
+            expect(pjson.browser).to.eq('umd/bundle.js');
+          });
+          it('browser should be umd/bundle.min.js', () => {
+            expect(pjson.jsdelivr).to.eq('umd/bundle.min.js');
+          });
+        } else {
+          it('browser should not be set', () => {
+            expect(pjson.browser).to.be.undefined;
+          });
+          it('jsdelivr should not be set', () => {
+            expect(pjson.jsdelivr).to.be.undefined;
+          });
+        }
+      });
+    }
+  });
 
   describe('GitHub issue templates', () => {
     describe('Don\'t skip', function () {

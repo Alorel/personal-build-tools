@@ -1,5 +1,6 @@
 import {Options} from 'yargs';
 import {Obj} from '../interfaces/OptionsObject';
+import {Colour} from '../lib/Colour';
 
 export interface HasName {
   name: string;
@@ -15,6 +16,10 @@ export interface HasUserWebsite {
 
 export interface HasGhUser {
   ghUser: string;
+}
+
+export interface HasGhToken {
+  ghToken: string;
 }
 
 export interface HasGhRepo {
@@ -47,6 +52,13 @@ export function addGhRepo(opts: Obj<Options>): void {
   opts['gh-repo'] = {
     alias: 'ghr',
     describe: 'Your GitHub repository',
+    type: 'string'
+  };
+}
+
+export function addGhToken(opts: Obj<Options>): void {
+  opts['gh-token'] = {
+    describe: `Your ${Colour.bold('global')} GitHub token used only by this CLI tool.`,
     type: 'string'
   };
 }

@@ -5,6 +5,7 @@ import {InitConf} from '../../interfaces/InitConf';
 import {Obj} from '../../interfaces/OptionsObject';
 import {Git} from '../Git';
 import {LineReadWriter} from '../LineReadWriter';
+import {Log} from '../Log';
 import {PromptableConfig} from '../PromptableConfig';
 
 export const options: Obj<Options> = {
@@ -19,6 +20,7 @@ addPkgMgrToOptions(options);
 
 export function handle(c: PromptableConfig<InitConf>): void {
   if (!c.get('skipGitignore')) {
+    Log.info('Generating .gitignore');
     LineReadWriter.createFromFile('.gitignore')
       .ensure(
         '.idea/',
@@ -33,5 +35,8 @@ export function handle(c: PromptableConfig<InitConf>): void {
       .save();
 
     Git.add('.gitignore');
+    Log.success('Generated .gitignore');
+  } else {
+    Log.info('Skipped .gitignore generation');
   }
 }

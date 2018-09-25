@@ -5,7 +5,7 @@ import {cmdName} from '../../fns/cmdName';
 import {ConfigWriter} from '../../lib/ConfigWriter';
 
 function prompt(): boolean {
-  return readline.keyInYNStrict('Are you sure you want to remove shared config?');
+  return readline.keyInYNStrict('Are you sure you want to remove shared config? ');
 }
 
 const cmd: CommandModule = {

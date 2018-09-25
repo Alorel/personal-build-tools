@@ -6,6 +6,7 @@ import {ApacheLicenseTpl, GPL3LicenseTpl, MITLicenceTpl} from '../../interfaces/
 import {Obj} from '../../interfaces/OptionsObject';
 import {Fixture} from '../Fixture';
 import {Git} from '../Git';
+import {Log} from '../Log';
 import {ObjectWriter, ObjectWriterFormat} from '../ObjectWriter';
 import {PromptableConfig} from '../PromptableConfig';
 
@@ -29,6 +30,7 @@ addUserWebsite(options);
 
 export function handle(c: PromptableConfig<InitConf>): void {
   if (!c.get('skipLicense')) {
+    Log.info('Setting license');
     const tpl: ApacheLicenseTpl | GPL3LicenseTpl | MITLicenceTpl = {
       name: c.promptedName(),
       year: new Date().getFullYear()
@@ -51,5 +53,8 @@ export function handle(c: PromptableConfig<InitConf>): void {
       .save();
 
     Git.add('LICENSE', 'package.json');
+    Log.success('License set');
+  } else {
+    Log.info('Skipping license');
   }
 }

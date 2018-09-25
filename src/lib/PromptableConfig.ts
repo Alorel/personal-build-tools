@@ -1,5 +1,6 @@
 import * as fs from 'fs-extra';
-import {cloneDeep, memoize} from 'lodash';
+import {cloneDeep, isEmpty, memoize} from 'lodash';
+import {dirname} from 'path';
 import * as rl$ from 'readline-sync';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {IS_CI} from '../const/IS_CI';
@@ -9,6 +10,9 @@ import {PACKAGE_MANAGERS, PackageManager} from '../inc/PackageManager';
 import {PackageJson} from '../interfaces/PackageJson';
 import {Colour} from './Colour';
 import {Git} from './Git';
+import {getGhRepoData} from './sync-request/gh-repo/gh-repo';
+
+//tslint:disable:max-file-line-count
 
 let rl: typeof rl$;
 
@@ -111,6 +115,8 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       return this.get<any>(prop);
     } else if (!IS_CI && this.ghRepoFromMetadata) {
       if (rl.keyInYNStrict(`Is your GitHub repo ${Colour.cyan(this.ghRepoFromMetadata)}? `)) {
+        this.data[prop] = this.ghRepoFromMetadata;
+
         return this.ghRepoFromMetadata;
       } else {
         return this.getPrompt(prop, `${msg} then? `);
@@ -121,6 +127,11 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   }
 
   @Memo
+  public promptedGhToken(prop = 'ghToken'): string {
+    return this.promptHidden(prop, 'What\'s your global GitHub token used only by this CLI tool? ');
+  }
+
+  @Memo
   public promptedGhUser(prop = 'ghUser'): string {
     let msg = 'What is your GitHub username';
 
@@ -128,6 +139,8 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       return this.get<any>(prop);
     } else if (!IS_CI && this.ghUserFromMetadata) {
       if (rl.keyInYNStrict(`Is your GitHub username ${Colour.cyan(this.ghUserFromMetadata)}? `)) {
+        this.data[prop] = this.ghUserFromMetadata;
+
         return this.ghUserFromMetadata;
       } else {
         return this.getPrompt(prop, `${msg} then? `);
@@ -169,12 +182,83 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   }
 
   @Memo
+  public promptedProjectDescription(prop = 'projectDesc'): string {
+    if (this.has(prop)) {
+      return this.get(prop);
+    }
+    const tok = this.promptedGhToken();
+    const repo = this.promptedGhRepo();
+    const user = this.promptedGhUser();
+    const ghProjRemote = getGhRepoData(tok, user, repo);
+
+    if (ghProjRemote && ghProjRemote.description) {
+      this.data[prop] = ghProjRemote.description;
+
+      return this.data[prop];
+    }
+
+    return this.getPrompt(prop, 'What\'s your project description? ');
+  }
+
+  @Memo
+  public promptedProjectKeywords(prop = 'projectKeywords'): string {
+    return this.getPromptArray(prop, 'What are your project keywords?');
+  }
+
+  @Memo
+  public promptedProjectName(prop = 'projectName'): string {
+    const ask = (opt: string) => rl.keyInYNStrict(`Is your project name ${Colour.cyan(opt)}? `);
+    let dir: string;
+
+    if (this.has(prop)) {
+      return this.get(prop);
+    } else if (this.ghRepoFromMetadata && ask(this.ghRepoFromMetadata)) {
+      this.data[prop] = this.ghRepoFromMetadata;
+
+      return this.ghRepoFromMetadata;
+    } else if (ask((dir = dirname(__dirname)))) {
+      this.data[prop] = dir;
+
+      return dir;
+    } else {
+      return this.getPrompt(prop, 'What is your project name then? ');
+    }
+  }
+
+  @Memo
   public promptedUserWebsite(prop = 'userWebsite'): string {
     return this.getPromptEmail(prop, 'What\'s your name? ');
   }
 
   private getPrompt<K extends keyof T>(k: K, question: string, forbidEmpty = true, strict = true): T[K] {
     return this.promptCommon(k, () => rl.question(question), forbidEmpty, strict);
+  }
+
+  private getPromptArray<K extends keyof T>(k: K, question: string, forbidEmpty = true): T[K] {
+    if (!isEmpty(this.get(k))) {
+      return this.get(k);
+    }
+    const out: string[] = [];
+
+    const run = () => {
+      console.log(question);
+      console.log('Enter an empty line when done');
+      let response: string;
+      do {
+        response = rl.question('').trim();
+        if (response) {
+          out.push(response);
+        }
+      } while (response);
+
+      if (forbidEmpty && !out.length) {
+        run();
+      }
+    };
+    run();
+    this.data[k] = out;
+
+    return out;
   }
 
   private getPromptEmail<K extends keyof T>(k: K, question: string, forbidEmpty = true, strict = true): T[K] {

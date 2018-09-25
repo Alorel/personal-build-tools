@@ -11,6 +11,7 @@ import {Obj} from '../../interfaces/OptionsObject';
 import {PullRequestTpl} from '../../interfaces/PullRequestTpl';
 import {Fixture} from '../Fixture';
 import {Git} from '../Git';
+import {Log} from '../Log';
 import {PromptableConfig} from '../PromptableConfig';
 
 export const options: Obj<Options> = {
@@ -116,6 +117,10 @@ class Initialiser {
 
 export function handle(c: PromptableConfig<InitConf>): void {
   if (!c.get('skipGhIssueTpl')) {
+    Log.info('Generating issue templates');
     new Initialiser(c);
+    Log.success('Generated issue templates');
+  } else {
+    Log.info('Skipping issue templates');
   }
 }

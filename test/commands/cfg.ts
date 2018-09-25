@@ -4,9 +4,9 @@ import * as xSpawn from 'cross-spawn';
 import * as fs from 'fs-extra';
 import {v4 as uuid} from 'uuid';
 import {alo} from '../../src/alo';
+import {getBin} from '../../src/fns/getBin';
 import {ConfigWriter} from '../../src/lib/ConfigWriter';
 import {Crypt} from '../../src/lib/Crypt';
-import {getBin} from '../util/getBin';
 
 describe('cfg', () => {
   function clear() {

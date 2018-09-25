@@ -11,13 +11,18 @@ before_install:
 
 install: yarn install --check-files --ignore-engines
 
-script: yarn run tslint && yarn run build --noEmit && yarn test --forbid-only --forbid-pending
+script:
+  - yarn run tslint
+  - yarn run build --noEmit
+  - if [[ $GH_TOKEN ]]; then yarn test --forbid-only --forbid-pending; else yarn test --forbid-only; fi;
 
 after_script: if [[ $GH_TOKEN ]]; then greenkeeper-lockfile-upload; fi;
 after_success: cat ./coverage/lcov.info | coveralls
 
 cache:
   yarn: true
+  directories:
+  - /home/travis/.cache/alobuild
 
 stages:
 - Test
@@ -32,8 +37,8 @@ jobs:
     - npm i -g yarn
     - *prepKey
     before_script:
-      - yarn run build
-      - node dist/alo copy-files
+    - yarn run build
+    - node dist/alo copy-files
     script: semantic-release
     after_success: []
     after_script: []

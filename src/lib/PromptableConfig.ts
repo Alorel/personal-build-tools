@@ -14,6 +14,10 @@ import {getGhRepoData} from './sync-request/gh-repo/gh-repo';
 
 //tslint:disable:max-file-line-count
 
+const enum Conf {
+  GH_TOK_URL = 'https://github.com/settings/tokens/new'
+}
+
 let rl: typeof rl$;
 
 if (IS_CI) {
@@ -133,7 +137,10 @@ export class PromptableConfig<T extends { [k: string]: any }> {
 
   @Memo
   public promptedGhToken(prop = 'ghToken'): string {
-    return this.getPromptHidden(prop, 'What\'s your global GitHub token used only by this CLI tool? ');
+    return this.getPromptHidden(prop, [
+      'What\'s your global GitHub token used only by this CLI tool?',
+      `You can create one here: ${Conf.GH_TOK_URL} `
+    ].join(' '));
   }
 
   @Memo
@@ -252,7 +259,10 @@ export class PromptableConfig<T extends { [k: string]: any }> {
 
   @Memo
   public promptedReleaseGhToken(prop = 'releaseGhToken'): string {
-    return this.getPromptHidden(prop, 'What\'s your release GitHub token? ');
+    return this.getPromptHidden(prop, [
+      'What\'s your release GitHub token?',
+      `You can create one here: ${Conf.GH_TOK_URL} `
+    ].join(' '));
   }
 
   @Memo

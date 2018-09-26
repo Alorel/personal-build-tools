@@ -44,7 +44,8 @@ describe('init', function () {
     'test-project-name',
     '--skip-license',
     '--gh-repo',
-    'personal-build-tools'
+    'personal-build-tools',
+    '--skip-travis-release'
   ];
 
   function runBase(): Promise<any> {

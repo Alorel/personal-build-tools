@@ -18,4 +18,15 @@ export class Git {
 
     return false;
   }
+
+  public static cfg(key: string, val: string, global?: boolean): boolean {
+    const args: string[] = ['config'];
+    if (global) {
+      args.push('--global');
+    }
+    args.push(key, val);
+    const r = xSpawnSyncSafe('git', args);
+
+    return r.ok && r.result.status === 0;
+  }
 }

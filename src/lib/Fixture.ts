@@ -11,7 +11,7 @@ interface Obj {
 }
 
 export class Fixture {
-  public constructor(private feature: string) {
+  public constructor(private readonly feature: string) {
   }
 
   @LazyGetter()

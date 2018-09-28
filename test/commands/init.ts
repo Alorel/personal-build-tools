@@ -93,6 +93,25 @@ describe('init', function () {
       skipFlags: '--skip-gitignore'
     },
     {
+      expect: `global:
+  dist-dirs: &distDirs dist
+
+clean-pkg-json:
+  sort-scripts: true
+
+copy-files:
+  from:
+  - package.json
+  - index.d.ts
+  - LICENSE
+  - CHANGELOG.md
+  - README.md
+  - src/fixtures
+  to: *distDirs
+`,
+      file: '.alobuild.yml'
+    },
+    {
       expect: `branch: master
 tagFormat: '\${version}'
 

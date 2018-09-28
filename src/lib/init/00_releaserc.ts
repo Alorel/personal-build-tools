@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import {Git} from '../Git';
 import {Log} from '../Log';
 
-export function handler(): void {
+export function handle(): void {
   const hasReleaseRc: boolean = (() => {
     const rds = fs.readdirSync(process.cwd(), 'utf8');
 

@@ -1,10 +1,12 @@
 import * as fs from 'fs-extra';
 import {get, has, noop, PropertyPath, set} from 'lodash';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
+import * as YAML from 'yamljs';
 import {AbstractReadWriter} from './AbstractReadWriter';
 
 export const enum ObjectWriterFormat {
-  JSON
+  JSON,
+  YAML
 }
 
 interface Obj {
@@ -14,21 +16,33 @@ interface Obj {
 export class ObjectWriter<T extends Obj = Obj> extends AbstractReadWriter {
   private contents: T;
 
-  public constructor(path: string, _format: ObjectWriterFormat) {
+  public constructor(path: string, private readonly format: ObjectWriterFormat) {
     super(path);
     this.read();
   }
 
   @LazyGetter()
   private get parseFn(): (v: string) => T {
-    //tslint:disable-next-line:no-unbound-method
-    return JSON.parse;
+    //tslint:disable:no-unbound-method
+    switch (this.format) {
+      case ObjectWriterFormat.YAML:
+        return YAML.parse;
+      default:
+        return JSON.parse;
+    }
+    //tslint:enable:no-unbound-method
   }
 
   @LazyGetter()
   private get stringifyFn(): (v: T) => string {
-    //tslint:disable-next-line:no-magic-numbers
-    return (v: T) => JSON.stringify(v, null, 2);
+    //tslint:disable:no-unbound-method no-magic-numbers
+    switch (this.format) {
+      case ObjectWriterFormat.YAML:
+        return YAML.stringify;
+      default:
+        return (v: T) => JSON.stringify(v, null, 2);
+    }
+    //tslint:enable:no-unbound-method no-magic-numbers
   }
 
   public get(p: PropertyPath): any {

@@ -1,8 +1,11 @@
+import * as fs from 'fs-extra';
 import {Base64} from 'js-base64';
 import {forEach} from 'lodash';
 import {addGhRepo, addGhUser} from '../../commons/identity';
 import {addTravisRelease, TravisEndpoint} from '../../commons/travisRelease';
+import {Chmod} from '../../const/Chmod';
 import {InitConf} from '../../interfaces/InitConf';
+import {Fixture} from '../Fixture';
 import {Log} from '../Log';
 import {PromptableConfig} from '../PromptableConfig';
 import {BaseArgs, envVarExists, setEnvVar, setStdSettings} from '../sync-request/travis/travis';
@@ -50,6 +53,12 @@ export function handle(c: PromptableConfig<InitConf>): void {
       }));
     }
   });
+
+  const prepFile = '.alobuild-prep-release.sh';
+  if (!fs.existsSync(prepFile)) {
+    const fx = new Fixture('init');
+    fx.copy(prepFile, prepFile, Chmod.C_755);
+  }
 
   Log.success('Set up Travis release');
 }

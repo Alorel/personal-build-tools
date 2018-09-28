@@ -2,6 +2,7 @@
 /package-lock.json
 /tmp.ts
 /tmp.js
+/tmp.sh
 .idea/
 node_modules/
 dist/

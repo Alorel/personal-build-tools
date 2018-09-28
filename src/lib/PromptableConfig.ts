@@ -330,7 +330,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   }
 
   private getPromptSelect<K extends keyof T>(k: K, question: string, opts: string[], strict = true): T[K] {
-    if (this.has(k, strict)) {
+    if (this.has(<any>k, strict)) {
       return this.data[k];
     } else {
       const idx = rl.keyInSelect(opts, question, {cancel: false});
@@ -341,7 +341,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   }
 
   private promptCommon<K extends keyof T>(k: K, askFn: () => string, forbidEmpty: boolean, strict: boolean): T[K] {
-    if (this.has(k, strict)) {
+    if (this.has(<any>k, strict)) {
       return this.data[k];
     } else if (forbidEmpty) {
       let v: string;

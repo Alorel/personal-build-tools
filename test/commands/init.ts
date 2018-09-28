@@ -93,6 +93,45 @@ describe('init', function () {
       skipFlags: '--skip-gitignore'
     },
     {
+      expect: `branch: master
+tagFormat: '\${version}'
+
+verifyConditions:
+- path: &npm '@semantic-release/npm'
+  pkgRoot: '.'
+- &gh '@semantic-release/github'
+
+prepare:
+- '@semantic-release/changelog'
+- '@alorel-personal/semantic-release'
+- *npm
+- path: &exec '@semantic-release/exec'
+  cmd: yarn run doctoc
+- path: *exec
+  cmd: alo copy-files
+- path: *exec
+  cmd: alo clean-dist
+- path: *exec
+  cmd: alo clean-pkg-json
+- path: '@semantic-release/git'
+  message: 'chore(release): \${nextRelease.version}'
+  assets:
+  - CHANGELOG.md
+  - README.md
+  - package.json
+  - yarn.lock
+
+publish:
+- path: *npm
+  pkgRoot: './dist'
+- *gh
+
+generateNotes:
+  config: '@alorel-personal/conventional-changelog-alorel'
+`,
+      file: '.releaserc.yml'
+    },
+    {
       expect: JSON.stringify(
         {
           extends: './node_modules/@alorel-personal/tslint-rules/tslint.json'

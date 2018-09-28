@@ -26,7 +26,7 @@ export class ObjectWriter<T extends Obj = Obj> extends AbstractReadWriter {
     //tslint:disable:no-unbound-method
     switch (this.format) {
       case ObjectWriterFormat.YAML:
-        return YAML.parse;
+        return YAML.parse.bind(YAML);
       default:
         return JSON.parse;
     }
@@ -38,7 +38,7 @@ export class ObjectWriter<T extends Obj = Obj> extends AbstractReadWriter {
     //tslint:disable:no-unbound-method no-magic-numbers
     switch (this.format) {
       case ObjectWriterFormat.YAML:
-        return YAML.stringify;
+        return YAML.stringify.bind(YAML);
       default:
         return (v: T) => JSON.stringify(v, null, 2);
     }

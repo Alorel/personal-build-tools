@@ -10,6 +10,10 @@ import {Log} from '../Log';
 import {PromptableConfig} from '../PromptableConfig';
 import {BaseArgs, envVarExists, setEnvVar, setStdSettings} from '../sync-request/travis/travis';
 
+export const enum TravisReleaseInitConf {
+  PREP_FILE = '.alobuild-prep-release.sh'
+}
+
 export const options = addTravisRelease();
 addGhRepo(options);
 addGhUser(options);
@@ -54,10 +58,9 @@ export function handle(c: PromptableConfig<InitConf>): void {
     }
   });
 
-  const prepFile = '.alobuild-prep-release.sh';
-  if (!fs.existsSync(prepFile)) {
+  if (!fs.existsSync(TravisReleaseInitConf.PREP_FILE)) {
     const fx = new Fixture('init');
-    fx.copy(prepFile, prepFile, Chmod.C_755);
+    fx.copy(TravisReleaseInitConf.PREP_FILE, TravisReleaseInitConf.PREP_FILE, Chmod.C_755);
   }
 
   Log.success('Set up Travis release');

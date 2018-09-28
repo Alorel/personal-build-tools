@@ -14,6 +14,9 @@ applyGlobalGroup(argv);
 export function alo(args: string | string[]): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     argv.parse(args, {}, (err, _argv, output) => {
+      if (args[0] === 'init') {
+        console.log(args);
+      }
       if (err) {
         process.stderr.write(output);
         reject(err);

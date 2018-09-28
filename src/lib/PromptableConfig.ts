@@ -42,16 +42,16 @@ interface GhMetadata {
   user: string;
 }
 
-const memoisedFns: string[] = [];
+const memoisedFnNames: string[] = [];
 
 function Memo(_target: any, prop: PropertyKey): void {
-  memoisedFns.push(<string>prop);
+  memoisedFnNames.push(<string>prop);
 }
 
 export class PromptableConfig<T extends { [k: string]: any }> {
 
   public constructor(private readonly data: T) {
-    for (const fn of memoisedFns) {
+    for (const fn of memoisedFnNames) {
       this[fn] = memoize(this[fn]);
     }
   }

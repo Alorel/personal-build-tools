@@ -20,7 +20,6 @@
   "private": false,
   "scripts": {
     "alo": "ts-node src/index.ts",
-    "tmp-distbuild": "npm run build && node dist/alo copy-files && node dist/alo clean-dist && node dist/alo clean-pkg-json && cd dist && yarn pack && mv *.tgz ../packed.tgz",
     "prebuild": "rimraf dist",
     "build": "tsc",
     "typecheck": "tsc --noEmit",

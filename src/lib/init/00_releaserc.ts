@@ -1,6 +1,11 @@
 import * as fs from 'fs';
+import {Fixture} from '../Fixture';
 import {Git} from '../Git';
 import {Log} from '../Log';
+
+const enum Conf {
+  FILE = '.releaserc.yml'
+}
 
 export function handle(): void {
   const hasReleaseRc: boolean = (() => {
@@ -21,44 +26,8 @@ export function handle(): void {
     return;
   }
 
-  fs.writeFileSync('.releaserc.yml', `branch: master
-tagFormat: '\${version}'
-
-verifyConditions:
-- path: &npm '@semantic-release/npm'
-  pkgRoot: '.'
-- &gh '@semantic-release/github'
-
-prepare:
-- '@semantic-release/changelog'
-- '@alorel-personal/semantic-release'
-- *npm
-- path: &exec '@semantic-release/exec'
-  cmd: yarn run doctoc
-- path: *exec
-  cmd: alo copy-files
-- path: *exec
-  cmd: alo clean-dist
-- path: *exec
-  cmd: alo clean-pkg-json
-- path: '@semantic-release/git'
-  message: 'chore(release): \${nextRelease.version}'
-  assets:
-  - CHANGELOG.md
-  - README.md
-  - package.json
-  - yarn.lock
-
-publish:
-- path: *npm
-  pkgRoot: './dist'
-- *gh
-
-generateNotes:
-  config: '@alorel-personal/conventional-changelog-alorel'
-`);
-
-  Git.add('.releaserc.yml');
+  new Fixture('init').copy(Conf.FILE, Conf.FILE);
+  Git.add(Conf.FILE);
 
   Log.success('Generated .releaserc');
 }

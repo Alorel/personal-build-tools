@@ -27,7 +27,7 @@ addGhUser(options);
 addPkgMgrToOptions(options);
 
 class Initialiser {
-  private gitFiles: string[] = [];
+  private readonly gitFiles: string[] = [];
 
   public constructor(private readonly c: PromptableConfig<InitConf>) {
     this.initContributing();

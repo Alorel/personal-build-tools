@@ -2,6 +2,7 @@ import * as fs from 'fs-extra';
 import {template} from 'lodash';
 import {dirname, join} from 'path';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
+import {Chmod} from '../const/Chmod';
 
 const FIXTURE_DIR = join(__dirname, '..', 'fixtures');
 
@@ -18,8 +19,11 @@ export class Fixture {
     return join(FIXTURE_DIR, this.feature);
   }
 
-  public copy(from: string, to: string): void {
+  public copy(from: string, to: string, chmod?: Chmod): void {
     fs.copySync(join(this.srcDir, from), to);
+    if (chmod !== undefined) {
+      fs.chmodSync(to, chmod);
+    }
   }
 
   public read(from: string): Buffer {

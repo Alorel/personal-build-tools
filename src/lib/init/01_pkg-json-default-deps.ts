@@ -1,4 +1,5 @@
 import {uniq} from 'lodash';
+import {PKG_JSON} from '../../const/PKG_JSON';
 import {sortObjectByKey} from '../../fns/sortObjectByKey';
 import {InitConf} from '../../interfaces/InitConf';
 import {Git} from '../Git';
@@ -14,7 +15,6 @@ export function handle(c: PromptableConfig<InitConf>): void {
   }
 
   const devExact: string[] = uniq([
-    '@alorel-personal/build-tools',
     '@alorel-personal/conventional-changelog-alorel',
     '@alorel-personal/semantic-release',
     '@alorel-personal/tslint-rules'
@@ -48,6 +48,8 @@ export function handle(c: PromptableConfig<InitConf>): void {
   devTilde = uniq(devTilde).filter(mkFilter('devDependencies'));
 
   const pkgsToQuery = devExact.concat(devTilde).sort();
+
+  w.set(['devDependencies', PKG_JSON.name], PKG_JSON.version, false);
 
   if (pkgsToQuery.length) {
     const pkgVersions = getPkgVersions(...pkgsToQuery);

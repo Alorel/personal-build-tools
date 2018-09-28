@@ -2,6 +2,7 @@ import * as fs from 'fs-extra';
 import * as JSON5 from 'json5';
 import {addUmd} from '../../commons/buildType';
 import {InitConf} from '../../interfaces/InitConf';
+import {Git} from '../Git';
 import {Log} from '../Log';
 import {PromptableConfig} from '../PromptableConfig';
 
@@ -52,5 +53,6 @@ module.exports = [
   }
 
   fs.writeFileSync('webpack.config.js', contents());
+  Git.add('webpack.config.js');
   Log.success('Wrote webpack.config.js');
 }

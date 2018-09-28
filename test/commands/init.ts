@@ -1,9 +1,11 @@
 import {expect} from 'chai';
 import * as fs from 'fs-extra';
-import {castArray, forEach, isObjectLike, noop, template, uniq} from 'lodash';
+import {castArray, forEach, isObjectLike, merge, noop, template, uniq} from 'lodash';
 import {Test} from 'mocha';
 import {join} from 'path';
+import * as YAML from 'yamljs';
 import {alo} from '../../src/alo';
+import {TRAVIS_NODE_VERSIONS} from '../../src/const/TRAVIS_NODE_VERSIONS';
 import {LICENSE_VALUES} from '../../src/inc/License';
 import {Fixture} from '../../src/lib/Fixture';
 import {tmpDir} from '../util/tmp-test';
@@ -44,7 +46,8 @@ describe('init', function () {
     'test-project-name',
     '--skip-license',
     '--gh-repo',
-    'personal-build-tools'
+    'personal-build-tools',
+    '--skip-travis-release'
   ];
 
   function runBase(): Promise<any> {
@@ -88,6 +91,64 @@ describe('init', function () {
       ].join('\n'),
       file: '.gitignore',
       skipFlags: '--skip-gitignore'
+    },
+    {
+      expect: `global:
+  dist-dirs: &distDirs dist
+
+clean-pkg-json:
+  sort-scripts: true
+
+copy-files:
+  from:
+  - package.json
+  - index.d.ts
+  - LICENSE
+  - CHANGELOG.md
+  - README.md
+  - src/fixtures
+  to: *distDirs
+`,
+      file: '.alobuild.yml'
+    },
+    {
+      expect: `branch: master
+tagFormat: '\${version}'
+
+verifyConditions:
+- path: &npm '@semantic-release/npm'
+  pkgRoot: '.'
+- &gh '@semantic-release/github'
+
+prepare:
+- '@semantic-release/changelog'
+- '@alorel-personal/semantic-release'
+- *npm
+- path: &exec '@semantic-release/exec'
+  cmd: yarn run doctoc
+- path: *exec
+  cmd: alo copy-files
+- path: *exec
+  cmd: alo clean-dist
+- path: *exec
+  cmd: alo clean-pkg-json
+- path: '@semantic-release/git'
+  message: 'chore(release): \${nextRelease.version}'
+  assets:
+  - CHANGELOG.md
+  - README.md
+  - package.json
+  - yarn.lock
+
+publish:
+- path: *npm
+  pkgRoot: './dist'
+- *gh
+
+generateNotes:
+  config: '@alorel-personal/conventional-changelog-alorel'
+`,
+      file: '.releaserc.yml'
     },
     {
       expect: JSON.stringify(
@@ -232,7 +293,7 @@ describe('init', function () {
     ]).sort();
 
     for (const isUmd of [true, false]) {
-      describe(`With${isUmd ? 'out' : ''} webpack`, () => {
+      describe(`With${isUmd ? '' : 'out'} webpack`, () => {
         before('Set cwd', mkTmpDir);
         before('Run', isUmd ? () => run('--umd', 'foo') : runBase);
         before('read', async () => {
@@ -270,6 +331,185 @@ describe('init', function () {
         }
       });
     }
+  });
+
+  describe('.travis.yml', () => {
+    //tslint:disable:object-literal-sort-keys
+    let contents: { [k: string]: any };
+    const prepKey = 'if [[ $GH_TOKEN ]]; then alo ci-setup-release; fi;';
+
+    function withPkgMgrNpm(args: string[] = baseArgs): string[] {
+      const copy = args.slice(0);
+      const startIdx = copy.indexOf('--pkg-mgr') + 1;
+      copy.splice(startIdx, 1, 'npm');
+
+      return copy;
+    }
+
+    function npmBase(overrides: any = {}): any {
+      return merge(
+        {
+          language: 'node_js',
+          sudo: false,
+          node_js: TRAVIS_NODE_VERSIONS,
+          before_install: [
+            'npm i -g greenkeeper-lockfile',
+            prepKey,
+            'greenkeeper-lockfile-update'
+          ],
+          install: 'npm install',
+          script: [
+            'npm run tslint',
+            'npm run typecheck',
+            'npm test -- --forbid-only --forbid-pending'
+          ],
+          after_script: 'if [[ $GH_TOKEN ]]; then greenkeeper-lockfile-upload; fi;',
+          after_success: 'cat ./coverage/lcov.info | coveralls',
+          cache: {
+            directories: [
+              './node_modules'
+            ]
+          }
+        },
+        overrides
+      );
+    }
+
+    function yarnBase(overrides: any = {}): any {
+      return merge(
+        {
+          language: 'node_js',
+          sudo: false,
+          node_js: TRAVIS_NODE_VERSIONS,
+          before_install: [
+            'npm i -g yarn greenkeeper-lockfile',
+            prepKey,
+            'greenkeeper-lockfile-update'
+          ],
+          install: 'yarn install --check-files',
+          script: [
+            'yarn run tslint',
+            'yarn run typecheck',
+            'yarn test --forbid-only --forbid-pending'
+          ],
+          after_script: 'if [[ $GH_TOKEN ]]; then greenkeeper-lockfile-upload; fi;',
+          after_success: 'cat ./coverage/lcov.info | coveralls',
+          cache: {
+            yarn: true
+          }
+        },
+        overrides
+      );
+    }
+
+    describe('skip release', () => {
+      before('Set release skip env var', () => {
+        process.env.TEST_SKIP_TRAVIS_RELEASE = '1';
+      });
+      after('Rm release skip env var', () => {
+        delete process.env.TEST_SKIP_TRAVIS_RELEASE;
+      });
+
+      describe('yarn', () => {
+        before('Set cwd', mkTmpDir);
+        before('run', runBase);
+        before('read', async () => {
+          contents = YAML.parse(await fs.readFile('.travis.yml', 'utf8'));
+        });
+
+        it('Contents should match expected', () => {
+          expect(contents).to.deep.eq(yarnBase());
+        });
+      });
+
+      describe('npm', () => {
+        before('Set cwd', mkTmpDir);
+        before('run', () => alo(withPkgMgrNpm()));
+        before('read', async () => {
+          contents = YAML.parse(await fs.readFile('.travis.yml', 'utf8'));
+        });
+
+        it('Contents should match expected', () => {
+          expect(contents).to.deep.eq(npmBase());
+        });
+      });
+    });
+
+    describe('Don\'t skip release', () => {
+      describe('yarn', () => {
+        before('Set cwd', mkTmpDir);
+        before('run', runBase);
+        before('read', async () => {
+          contents = YAML.parse(await fs.readFile('.travis.yml', 'utf8'));
+        });
+
+        it('Contents should match expected', () => {
+          expect(contents).to.deep.eq(yarnBase({
+            stages: [
+              'Test',
+              {
+                name: 'Release',
+                if: 'branch = master AND type = push AND (NOT tag IS present)'
+              }
+            ],
+            jobs: {
+              include: [{
+                stage: 'Release',
+                node_js: 'stable',
+                before_install: [
+                  'npm i -g yarn',
+                  prepKey
+                ],
+                before_script: [
+                  'yarn run build',
+                  'alo copy-files'
+                ],
+                script: 'semantic-release',
+                after_success: [],
+                after_script: []
+              }]
+            }
+          }));
+        });
+      });
+      describe('npm', () => {
+        before('Set cwd', mkTmpDir);
+        before('run', () => alo(withPkgMgrNpm()));
+        before('read', async () => {
+          contents = YAML.parse(await fs.readFile('.travis.yml', 'utf8'));
+        });
+
+        it('Contents should match expected', () => {
+          expect(contents).to.deep.eq(npmBase({
+            stages: [
+              'Test',
+              {
+                name: 'Release',
+                if: 'branch = master AND type = push AND (NOT tag IS present)'
+              }
+            ],
+            jobs: {
+              include: [{
+                stage: 'Release',
+                node_js: 'stable',
+                before_install: [
+                  prepKey
+                ],
+                before_script: [
+                  'npm run build',
+                  'alo copy-files'
+                ],
+                script: 'semantic-release',
+                after_success: [],
+                after_script: []
+              }]
+            }
+          }));
+        });
+      });
+    });
+
+    //tslint:enable:object-literal-sort-keys
   });
 
   describe('Licenses', () => {

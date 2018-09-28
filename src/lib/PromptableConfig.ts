@@ -14,6 +14,10 @@ import {getGhRepoData} from './sync-request/gh-repo/gh-repo';
 
 //tslint:disable:max-file-line-count
 
+const enum Conf {
+  GH_TOK_URL = 'https://github.com/settings/tokens/new'
+}
+
 let rl: typeof rl$;
 
 if (IS_CI) {
@@ -38,16 +42,16 @@ interface GhMetadata {
   user: string;
 }
 
-const memoisedFns: string[] = [];
+const memoisedFnNames: string[] = [];
 
 function Memo(_target: any, prop: PropertyKey): void {
-  memoisedFns.push(<string>prop);
+  memoisedFnNames.push(<string>prop);
 }
 
 export class PromptableConfig<T extends { [k: string]: any }> {
 
   public constructor(private readonly data: T) {
-    for (const fn of memoisedFns) {
+    for (const fn of memoisedFnNames) {
       this[fn] = memoize(this[fn]);
     }
   }
@@ -104,7 +108,12 @@ export class PromptableConfig<T extends { [k: string]: any }> {
 
   @Memo
   public promptedEncryptionPassword(prop = 'password'): string {
-    return this.promptHidden(prop, 'Encryption password: ');
+    return this.getPromptHidden(prop, 'Encryption password: ');
+  }
+
+  @Memo
+  public promptedGhEmail(prop = 'ghEmail'): string {
+    return this.getPromptEmail(prop, 'What\'s GitHub your email? ');
   }
 
   @Memo
@@ -128,7 +137,10 @@ export class PromptableConfig<T extends { [k: string]: any }> {
 
   @Memo
   public promptedGhToken(prop = 'ghToken'): string {
-    return this.promptHidden(prop, 'What\'s your global GitHub token used only by this CLI tool? ');
+    return this.getPromptHidden(prop, [
+      'What\'s your global GitHub token used only by this CLI tool?',
+      `You can create one here: ${Conf.GH_TOK_URL} `
+    ].join(' '));
   }
 
   @Memo
@@ -148,6 +160,26 @@ export class PromptableConfig<T extends { [k: string]: any }> {
     }
 
     return this.getPrompt(prop, `${msg}? `);
+  }
+
+  @Memo
+  public promptedGpgKeyId(prop = 'gpgKeyId'): string {
+    return this.getPromptHidden(prop, 'What\'s GPG key ID? ');
+  }
+
+  @Memo
+  public promptedGpgKeyPwd(prop = 'gpgKeyPwd'): string {
+    return this.getPromptHidden(prop, 'What\'s GPG key password? ');
+  }
+
+  @Memo
+  public promptedGpgPrivkey(prop = 'gpgPrivkey'): string {
+    return this.getPromptHidden(prop, 'Paste your GPG private key contents: ');
+  }
+
+  @Memo
+  public promptedGpgPubkey(prop = 'gpgPubkey'): string {
+    return this.getPrompt(prop, 'Paste your GPG public key contents: ');
   }
 
   @Memo
@@ -226,6 +258,29 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   }
 
   @Memo
+  public promptedReleaseGhToken(prop = 'releaseGhToken'): string {
+    return this.getPromptHidden(prop, [
+      'What\'s your release GitHub token?',
+      `You can create one here: ${Conf.GH_TOK_URL} `
+    ].join(' '));
+  }
+
+  @Memo
+  public promptedReleaseNpmToken(prop = 'releaseNpmToken'): string {
+    return this.getPromptHidden(prop, 'What\'s your release NPM token? ');
+  }
+
+  @Memo
+  public promptedTravisTokenOrg(prop = 'travisTokenOrg'): string {
+    return this.getPromptHidden(prop, 'What\'s your travis-ci token? ');
+  }
+
+  @Memo
+  public promptedTravisTokenPro(prop = 'travisTokenPro'): string {
+    return this.getPromptHidden(prop, 'What\'s your travis-ci token? ');
+  }
+
+  @Memo
   public promptedUserWebsite(prop = 'userWebsite'): string {
     return this.getPromptEmail(prop, 'What\'s your name? ');
   }
@@ -265,8 +320,17 @@ export class PromptableConfig<T extends { [k: string]: any }> {
     return this.promptCommon(k, () => rl.questionEMail(question), forbidEmpty, strict);
   }
 
+  private getPromptHidden<K extends keyof T>(k: K, question: string, forbidEmpty = true, strict = true): string {
+    return this.promptCommon(
+      k,
+      () => rl.question(question, {hideEchoBack: true, cancel: true}),
+      forbidEmpty,
+      strict
+    );
+  }
+
   private getPromptSelect<K extends keyof T>(k: K, question: string, opts: string[], strict = true): T[K] {
-    if (this.has(k, strict)) {
+    if (this.has(<any>k, strict)) {
       return this.data[k];
     } else {
       const idx = rl.keyInSelect(opts, question, {cancel: false});
@@ -277,7 +341,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   }
 
   private promptCommon<K extends keyof T>(k: K, askFn: () => string, forbidEmpty: boolean, strict: boolean): T[K] {
-    if (this.has(k, strict)) {
+    if (this.has(<any>k, strict)) {
       return this.data[k];
     } else if (forbidEmpty) {
       let v: string;
@@ -293,14 +357,5 @@ export class PromptableConfig<T extends { [k: string]: any }> {
 
       return this.data[k];
     }
-  }
-
-  private promptHidden<K extends keyof T>(k: K, question: string, forbidEmpty = true, strict = true): string {
-    return this.promptCommon(
-      k,
-      () => rl.question(question, {hideEchoBack: true, cancel: true}),
-      forbidEmpty,
-      strict
-    );
   }
 }

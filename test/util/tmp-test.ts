@@ -1,6 +1,4 @@
-import * as tmp from 'tmp';
-
-tmp.setGracefulCleanup();
+import {tmp} from '../../src/lib/tmp';
 
 export function tmpDir(): string {
   return tmp.dirSync({unsafeCleanup: true}).name;

@@ -3,7 +3,7 @@
 --full-trace
 -r ts-node/register
 -r source-map-support/register
--t 10000
+-t 20000
 --trace-deprecation
 --trace-warnings
 --throw-deprecation

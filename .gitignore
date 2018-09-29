@@ -1,10 +1,10 @@
 /.tmp/
-/package-lock.json
 /tmp.ts
 /tmp.js
 /tmp.sh
 .idea/
 node_modules/
+package-lock.json
 !test/fixtures/reinstall/node_modules/
 !test/fixtures/reinstall/package-lock.json
 dist/
@@ -13,4 +13,3 @@ coverage/
 yarn-error.log
 *.tgz
 git_gpg_keys.asc
-package-lock.json

@@ -246,6 +246,35 @@ generateNotes:
       file: 'test/stub.ts'
     },
     {
+      expect: JSON.stringify(
+        //tslint:disable:object-literal-sort-keys no-magic-numbers
+        {
+          reporter: [
+            'text',
+            'text-summary',
+            'html',
+            'lcov'
+          ],
+          extension: [
+            '.ts'
+          ],
+          require: [
+            'ts-node/register'
+          ],
+          exclude: [
+            '**/test/**/*',
+            '**/webpack.config.js'
+          ],
+          sourceMap: true,
+          instrument: true
+        },
+        null,
+        2
+      ) + '\n',
+      //tslint:enable:object-literal-sort-keys no-magic-numbers
+      file: '.nycrc'
+    },
+    {
       expect: '// stub\n',
       file: 'src/index.ts'
     }

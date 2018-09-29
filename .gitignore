@@ -5,6 +5,8 @@
 /tmp.sh
 .idea/
 node_modules/
+!test/fixtures/reinstall/node_modules/
+!test/fixtures/reinstall/package-lock.json
 dist/
 coverage/
 .nyc_output/

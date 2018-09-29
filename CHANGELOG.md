@@ -1,3 +1,55 @@
+# [4.0.0](https://github.com/Alorel/personal-build-tools/compare/3.3.1...4.0.0) (2018-09-29)
+
+
+### Bug Fixes
+
+* **init:** Add .alobuild-prep-release.sh to git ([0d927a3](https://github.com/Alorel/personal-build-tools/commit/0d927a3))
+* **init:** Add nycrc to git ([c5da334](https://github.com/Alorel/personal-build-tools/commit/c5da334))
+* **PromptableConfig:** Correct license type is now returned ([aa0f81d](https://github.com/Alorel/personal-build-tools/commit/aa0f81d))
+* **PromptableConfig:** You should now be nagged until you input a GitHub repo/user ([363ed4f](https://github.com/Alorel/personal-build-tools/commit/363ed4f))
+* default cfg file name should now differentiate between test suite runs and general runs within a CI environment ([48bb279](https://github.com/Alorel/personal-build-tools/commit/48bb279))
+* PromptableConfig now respects the pkgMgr option ([6b8f698](https://github.com/Alorel/personal-build-tools/commit/6b8f698))
+
+
+### Features
+
+* **cfg:** Allow encrypting variables from CLI args and input files ([#16](https://github.com/Alorel/personal-build-tools/issues/16)) ([3a5cb9b](https://github.com/Alorel/personal-build-tools/commit/3a5cb9b))
+* **init:** GitHub issue template generation ([671187d](https://github.com/Alorel/personal-build-tools/commit/671187d))
+* **init:** License now gets set in package.json ([202a592](https://github.com/Alorel/personal-build-tools/commit/202a592))
+* **PromptableConfig:** Package manager can now be inferred ([c833ef4](https://github.com/Alorel/personal-build-tools/commit/c833ef4))
+* A fully configured travis-ci + semantic-release setup is now available ([2d63255](https://github.com/Alorel/personal-build-tools/commit/2d63255))
+* Add Apache-2.0, GPL-3.0 licenses ([3151e35](https://github.com/Alorel/personal-build-tools/commit/3151e35))
+* generate .nycrc ([ccfca1b](https://github.com/Alorel/personal-build-tools/commit/ccfca1b))
+* License can now be inferred from package.json ([57c5257](https://github.com/Alorel/personal-build-tools/commit/57c5257))
+* Prompt for GH user/repo from git metadata ([8b4e2f7](https://github.com/Alorel/personal-build-tools/commit/8b4e2f7))
+* Reinstall command ([fac6ba5](https://github.com/Alorel/personal-build-tools/commit/fac6ba5))
+* Set package.json defaults; init tslint, tsconfig, webpack, src, test ([bd68807](https://github.com/Alorel/personal-build-tools/commit/bd68807))
+
+
+### Maintenance
+
+* Generate GitHub templates ([4347a6d](https://github.com/Alorel/personal-build-tools/commit/4347a6d))
+* Remove old encoded gpg key file ([8ebe6f9](https://github.com/Alorel/personal-build-tools/commit/8ebe6f9))
+
+
+### Performance Improvements
+
+* **LineReadWriter:** dirname is now cached ([ea856b8](https://github.com/Alorel/personal-build-tools/commit/ea856b8))
+
+
+### Refactoring
+
+* **init:** Add script sorting ([229363c](https://github.com/Alorel/personal-build-tools/commit/229363c))
+* **init:** Default license no longer set. ([11412e4](https://github.com/Alorel/personal-build-tools/commit/11412e4))
+* **init:** Default package manager no longer set. ([6398804](https://github.com/Alorel/personal-build-tools/commit/6398804))
+* **init:** Split up init command options ([cb73f7c](https://github.com/Alorel/personal-build-tools/commit/cb73f7c))
+
+
+### BREAKING CHANGES
+
+* **init:** Default package manager no longer set and is now prompted; this would break CI environments if they depend on the command.
+* **init:** Default license no longer set and is now prompted; this would break CI environments if they depend on the command.
+
 ## [3.3.1](https://github.com/Alorel/personal-build-tools/compare/3.3.0...3.3.1) (2018-09-13)
 
 # [3.3.0](https://github.com/Alorel/personal-build-tools/compare/3.2.1...3.3.0) (2018-09-12)

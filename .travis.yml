@@ -6,7 +6,7 @@ node_js:
 
 before_install:
 - npm i -g yarn greenkeeper-lockfile
-- &prepKey if [[ $GH_TOKEN ]]; then ./prepare-gpg-key.sh; fi;
+- &prepKey if [[ $GH_TOKEN ]]; then ./.alobuild-prep-release.sh; fi;
 - greenkeeper-lockfile-update
 
 install: yarn install --check-files --ignore-engines

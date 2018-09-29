@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import {has, isEmpty, unset} from 'lodash';
 import {CommandModule} from 'yargs';
 import {depFields} from '../const/depFields';
-import {addConfig} from '../fns/addConfig';
+import {addConfig} from '../fns/add-cmd/addConfig';
 import {cmdName} from '../fns/cmdName';
 import {flatGlobDirs} from '../fns/getFiles';
 import {sortObjectByKey} from '../fns/sortObjectByKey';
@@ -174,7 +174,7 @@ const cmd: CommandModule = {
       }
 
       //tslint:disable-next-line:no-magic-numbers
-      fs.writeFileSync(file, JSON.stringify(contents, null, 2));
+      fs.writeFileSync(file, JSON.stringify(contents, null, 2).trim() + '\n');
     }
   }
 };

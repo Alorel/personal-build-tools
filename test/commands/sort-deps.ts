@@ -35,7 +35,7 @@ describe('sort-deps', () => {
       },
       null,
       3 //tslint:disable-line:no-magic-numbers
-    );
+    ) + '\n';
 
     expect(await fixture.readOut('fixture.json')).to.eq(expected);
   });

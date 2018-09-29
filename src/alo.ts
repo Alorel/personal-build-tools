@@ -1,7 +1,7 @@
 import {join} from 'path';
 import * as yargs from 'yargs';
-import {addCommandDir} from './fns/addCommandDir';
-import {applyGlobalGroup} from './fns/applyGlobalGroup';
+import {addCommandDir} from './fns/add-cmd/addCommandDir';
+import {applyGlobalGroup} from './fns/add-cmd/applyGlobalGroup';
 
 const argv = addCommandDir(join(__dirname, 'commands'), yargs)
   .scriptName('alo')
@@ -24,6 +24,6 @@ export function alo(args: string | string[]): Promise<string> {
   });
 }
 
-if (!process.env.RUNNING_PERSONAL_BUILD_TOOLS_TESTS) {
+if (!process.env.RUNNING_PERSONAL_BUILD_TOOLS_TESTS || process.env.RUNNING_PERSONAL_BUILD_TOOLS_TESTS_FORCE) {
   argv.global('config').parse();
 }

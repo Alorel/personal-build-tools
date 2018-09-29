@@ -1,11 +1,11 @@
 import * as readline from 'readline-sync';
 import {CommandModule} from 'yargs';
-import {applyGlobalGroup} from '../../fns/applyGlobalGroup';
+import {applyGlobalGroup} from '../../fns/add-cmd/applyGlobalGroup';
 import {cmdName} from '../../fns/cmdName';
 import {ConfigWriter} from '../../lib/ConfigWriter';
 
 function prompt(): boolean {
-  return readline.keyInYNStrict('Are you sure you want to remove shared config?');
+  return readline.keyInYNStrict('Are you sure you want to remove shared config? ');
 }
 
 const cmd: CommandModule = {

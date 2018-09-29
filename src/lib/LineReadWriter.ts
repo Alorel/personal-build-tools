@@ -1,14 +1,15 @@
 import * as fs from 'fs-extra';
-import {dirname} from 'path';
+import {AbstractReadWriter} from './AbstractReadWriter';
 
 function trim(s: string): string {
   return s.trim();
 }
 
-export class LineReadWriter {
+export class LineReadWriter extends AbstractReadWriter {
   private readonly lines: string[];
 
-  private constructor(contents?: string, private readonly file?: string) {
+  private constructor(contents?: string, file?: string) {
+    super(file);
     this.lines = contents && (contents = contents.trim()) ? contents.split(/\n/g).map(trim) : [];
   }
 
@@ -51,28 +52,7 @@ export class LineReadWriter {
     return this;
   }
 
-  public save(): this {
-    if (!this.file) {
-      throw new Error('File not provided');
-    }
-
-    this.mkdirp();
-    fs.writeFileSync(this.file, this.toString());
-
-    return this;
-  }
-
   public toString(): string {
     return this.lines.join('\n') + '\n';
-  }
-
-  private mkdirp(): void {
-    if (this.file) {
-      try {
-        fs.mkdirpSync(dirname(this.file));
-      } catch {
-        // noop
-      }
-    }
   }
 }

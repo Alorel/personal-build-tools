@@ -1,10 +1,12 @@
 /.tmp/
-/package-lock.json
-/git_gpg_keys.asc
 /tmp.ts
 /tmp.js
+/tmp.sh
 .idea/
 node_modules/
+package-lock.json
+!test/fixtures/reinstall/node_modules/
+!test/fixtures/reinstall/package-lock.json
 dist/
 coverage/
 .nyc_output/

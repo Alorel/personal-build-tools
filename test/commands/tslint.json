@@ -2,6 +2,7 @@
   "extends": "../../tslint.json",
   "rules": {
     "no-unused-expression": false,
+    "object-literal-sort-keys": false,
     "no-invalid-this": false,
     "no-void-expression": false,
     "max-file-line-count": false

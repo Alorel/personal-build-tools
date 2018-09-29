@@ -1,0 +1,12 @@
+{
+  "name": "reinstall-test-fixture",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@alorel-personal/empty-pkg": "^1.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

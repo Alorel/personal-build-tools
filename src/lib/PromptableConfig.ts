@@ -203,6 +203,10 @@ export class PromptableConfig<T extends { [k: string]: any }> {
 
   @Memo
   public promptedPkgMgr(prop = 'pkgMgr'): PackageManager {
+    if (this.has(prop)) {
+      return this.get(prop);
+    }
+
     const files = fs.readdirSync(process.cwd(), 'utf8');
     if (files.includes('yarn.lock')) {
       return PackageManager.YARN;

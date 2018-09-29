@@ -12,6 +12,8 @@ function getDef(): Options {
   };
 }
 
-export function addPkgMgrToOptions(opts: Obj<Options>): void {
+export function addPkgMgrToOptions<T extends Obj<Options>>(opts: T): T {
   opts[NAME] = getDef();
+
+  return opts;
 }

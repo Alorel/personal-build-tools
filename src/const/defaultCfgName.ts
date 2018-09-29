@@ -1,3 +1,3 @@
-import {IS_CI} from './IS_CI';
+import {IS_TEST_ENV} from './IS_CI';
 
-export const defaultCfgName = IS_CI ? '.alobuild.ci.yml' : '.alobuild.yml';
+export const defaultCfgName = IS_TEST_ENV ? '.alobuild.ci.yml' : '.alobuild.yml';

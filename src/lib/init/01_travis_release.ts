@@ -6,6 +6,7 @@ import {addTravisRelease, TravisEndpoint} from '../../commons/travisRelease';
 import {Chmod} from '../../const/Chmod';
 import {InitConf} from '../../interfaces/InitConf';
 import {Fixture} from '../Fixture';
+import {Git} from '../Git';
 import {Log} from '../Log';
 import {PromptableConfig} from '../PromptableConfig';
 import {BaseArgs, envVarExists, setEnvVar, setStdSettings} from '../sync-request/travis/travis';
@@ -61,6 +62,7 @@ export function handle(c: PromptableConfig<InitConf>): void {
   if (!fs.existsSync(TravisReleaseInitConf.PREP_FILE)) {
     const fx = new Fixture('init');
     fx.copy(TravisReleaseInitConf.PREP_FILE, TravisReleaseInitConf.PREP_FILE, Chmod.C_755);
+    Git.add(TravisReleaseInitConf.PREP_FILE);
   }
 
   Log.success('Set up Travis release');

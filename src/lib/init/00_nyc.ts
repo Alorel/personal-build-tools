@@ -1,4 +1,5 @@
 import * as fs from 'fs-extra';
+import {Git} from '../Git';
 import {Log} from '../Log';
 
 export function handle() {
@@ -32,6 +33,8 @@ export function handle() {
         2 //tslint:disable-line:no-magic-numbers
       ) + '\n'
     );
+    Git.add('.nycrc');
+    Log.success('Generated .nycrc');
   } else {
     Log.info('Skipping .nycrc');
   }

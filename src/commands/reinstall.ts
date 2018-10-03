@@ -4,6 +4,7 @@ import {addConfig} from '../fns/add-cmd/addConfig';
 import {cmdName} from '../fns/cmdName';
 import {xSpawnSync} from '../fns/xSpawn';
 import {PackageManager} from '../inc/PackageManager';
+import {Log} from '../lib/Log';
 import {PromptableConfig} from '../lib/PromptableConfig';
 
 interface Config {
@@ -51,8 +52,12 @@ const cmd: CommandModule = {
           rmrf('package-lock.json');
           rmrf('npm-shrinkwrap.json');
         }
+        Log.success('Removed lockfile');
+      } else {
+        Log.info('Keeping lockfile');
       }
 
+      Log.info('Removing node_modules');
       rmrf('node_modules');
       const sp = xSpawnSync(pkgMgr, ['install'], {
         stdio: process.env.RUNNING_PERSONAL_BUILD_TOOLS_TESTS ? 'ignore' : 'inherit'
@@ -61,6 +66,7 @@ const cmd: CommandModule = {
       if (sp.status !== 0) {
         throw new Error(`Exited with code ${sp.status}`);
       }
+      Log.success('node_modules removed');
     } finally {
       process.chdir(initialCwd);
     }

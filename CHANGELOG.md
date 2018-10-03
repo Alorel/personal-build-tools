@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/Alorel/personal-build-tools/compare/4.0.0...4.0.1) (2018-10-03)
+
+
+### Bug Fixes
+
+* **reinstall:** The reinstall command now has logging as per initial design ([42ad150](https://github.com/Alorel/personal-build-tools/commit/42ad150))
+
 # [4.0.0](https://github.com/Alorel/personal-build-tools/compare/3.3.1...4.0.0) (2018-09-29)
 
 

@@ -59,14 +59,21 @@ const cmd: CommandModule = {
 
       Log.info('Removing node_modules');
       rmrf('node_modules');
-      const sp = xSpawnSync(pkgMgr, ['install'], {
+      Log.success('Removed node_modules');
+
+      Log.info(`Running ${pkgMgr} install`);
+      const args: string[] = ['install'];
+      if (pkgMgr === PackageManager.YARN) {
+        args.push('--check-files');
+      }
+      const sp = xSpawnSync(pkgMgr, args, {
         stdio: process.env.RUNNING_PERSONAL_BUILD_TOOLS_TESTS ? 'ignore' : 'inherit'
       });
 
       if (sp.status !== 0) {
         throw new Error(`Exited with code ${sp.status}`);
       }
-      Log.success('node_modules removed');
+      Log.success(`${pkgMgr} install finished successfully.`);
     } finally {
       process.chdir(initialCwd);
     }

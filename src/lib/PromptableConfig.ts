@@ -56,6 +56,11 @@ export class PromptableConfig<T extends { [k: string]: any }> {
     }
   }
 
+  /** @internal */
+  public static get readline(): typeof rl {
+    return rl;
+  }
+
   @LazyGetter(true)
   public get ghRepoFromMetadata(): string | null {
     if (this.ghMetadata) {

@@ -1,3 +1,10 @@
+## [4.1.1](https://github.com/Alorel/personal-build-tools/compare/4.1.0...4.1.1) (2018-10-05)
+
+
+### Bug Fixes
+
+* Project dirname should now get resolved correctly ([97c09f8](https://github.com/Alorel/personal-build-tools/commit/97c09f8))
+
 # [4.1.0](https://github.com/Alorel/personal-build-tools/compare/4.0.2...4.1.0) (2018-10-05)
 
 

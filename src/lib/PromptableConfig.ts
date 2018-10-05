@@ -252,7 +252,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       this.data[prop] = this.ghRepoFromMetadata;
 
       return this.ghRepoFromMetadata;
-    } else if (ask((dir = dirname(__dirname)))) {
+    } else if (ask((dir = dirname(process.cwd())))) {
       this.data[prop] = dir;
 
       return dir;

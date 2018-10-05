@@ -1,9 +1,9 @@
 import * as fs from 'fs-extra';
 import {cloneDeep, isEmpty, memoize} from 'lodash';
-import {dirname} from 'path';
 import * as rl$ from 'readline-sync';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {IS_CI} from '../const/IS_CI';
+import {lastDirname} from '../fns/lastDirname';
 import {readJson} from '../fns/readJson';
 import {isLicense, License, LICENSE_VALUES} from '../inc/License';
 import {PACKAGE_MANAGERS, PackageManager} from '../inc/PackageManager';
@@ -257,7 +257,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       this.data[prop] = this.ghRepoFromMetadata;
 
       return this.ghRepoFromMetadata;
-    } else if (ask((dir = dirname(process.cwd())))) {
+    } else if (ask((dir = lastDirname()))) {
       this.data[prop] = dir;
 
       return dir;

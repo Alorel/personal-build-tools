@@ -1,3 +1,15 @@
+# [4.1.0](https://github.com/Alorel/personal-build-tools/compare/4.0.2...4.1.0) (2018-10-05)
+
+
+### Bug Fixes
+
+* The prompted project name now correctly uses the working directory name for its suggestions ([a3dd91f](https://github.com/Alorel/personal-build-tools/commit/a3dd91f))
+
+
+### Features
+
+* **init:** Added the ability to continue after an unsuccessful travis-ci environment setup ([4a7dccf](https://github.com/Alorel/personal-build-tools/commit/4a7dccf))
+
 ## [4.0.2](https://github.com/Alorel/personal-build-tools/compare/4.0.1...4.0.2) (2018-10-03)
 
 

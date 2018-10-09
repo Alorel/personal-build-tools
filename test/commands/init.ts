@@ -365,7 +365,7 @@ generateNotes:
   describe('.travis.yml', () => {
     //tslint:disable:object-literal-sort-keys
     let contents: { [k: string]: any };
-    const prepKey = 'if [[ $GH_TOKEN ]]; then alo ci-setup-release; fi;';
+    const prepKey = 'if [[ $GH_TOKEN ]]; then ./.alobuild-prep-release.sh; fi;';
 
     function withPkgMgrNpm(args: string[] = baseArgs): string[] {
       const copy = args.slice(0);

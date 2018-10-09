@@ -8,7 +8,7 @@ import {ObjectWriter, ObjectWriterFormat} from '../ObjectWriter';
 import {PromptableConfig} from '../PromptableConfig';
 
 const enum Conf {
-  PREP_KEY = 'if [[ $GH_TOKEN ]]; then alo ci-setup-release; fi;'
+  PREP_KEY = 'if [[ $GH_TOKEN ]]; then ./.alobuild-prep-release.sh; fi;'
 }
 
 export function handle(c: PromptableConfig<InitConf>) {

@@ -1,3 +1,11 @@
+## [4.1.2](https://github.com/Alorel/personal-build-tools/compare/4.1.1...4.1.2) (2018-10-09)
+
+
+### Bug Fixes
+
+* **init:** .travis.yml now gets the correct preparation scripts generated ([0d22e2b](https://github.com/Alorel/personal-build-tools/commit/0d22e2b))
+* ObjectWriter now writes proper YAML without inlining anything ([a98b859](https://github.com/Alorel/personal-build-tools/commit/a98b859))
+
 ## [4.1.1](https://github.com/Alorel/personal-build-tools/compare/4.1.0...4.1.1) (2018-10-05)
 
 

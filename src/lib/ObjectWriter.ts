@@ -38,9 +38,9 @@ export class ObjectWriter<T extends Obj = Obj> extends AbstractReadWriter {
     //tslint:disable:no-unbound-method no-magic-numbers
     switch (this.format) {
       case ObjectWriterFormat.YAML:
-        return YAML.stringify.bind(YAML);
+        return (v$: T) => YAML.stringify(v$, Number.MAX_VALUE, 2);
       default:
-        return (v: T) => JSON.stringify(v, null, 2);
+        return (v$: T) => JSON.stringify(v$, null, 2);
     }
     //tslint:enable:no-unbound-method no-magic-numbers
   }

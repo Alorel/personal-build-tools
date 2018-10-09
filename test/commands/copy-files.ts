@@ -115,7 +115,8 @@ describe('copy-files', () => {
             break;
           case '.yml':
           case '.yaml':
-            contents = YAML.stringify(cfg);
+            //tslint:disable-next-line:no-magic-numbers
+            contents = YAML.stringify(cfg, Number.MAX_VALUE, 2);
             break;
           default:
             throw new Error('Test error: invalid format');

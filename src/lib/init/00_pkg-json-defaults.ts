@@ -9,6 +9,12 @@ import {Log} from '../Log';
 import {ObjectWriter, ObjectWriterFormat} from '../ObjectWriter';
 import {PromptableConfig} from '../PromptableConfig';
 
+const enum Paths {
+  ESM5 = 'esm5/index.js',
+  ESM2015 = 'esm2015/index.js',
+  TYPES = 'index.d.ts'
+}
+
 export const options: Obj<Options> = {
   'project-desc': {
     describe: 'Project description',
@@ -64,19 +70,19 @@ export function handle(c: PromptableConfig<InitConf>): void {
   function setEntryFiles() {
     w.set('main', 'index.js', false);
 
-    w.set('module', 'esm5/index.js', false);
-    w.set('esm5', 'esm5/index.js', false);
-    w.set('fesm5', 'esm5/index.js', false);
-    w.set('esm2015', 'esm2015/index.js', false);
-    w.set('fesm2015', 'esm2015/index.js', false);
+    w.set('module', Paths.ESM5, false);
+    w.set('esm5', Paths.ESM5, false);
+    w.set('fesm5', Paths.ESM5, false);
+    w.set('esm2015', Paths.ESM2015, false);
+    w.set('fesm2015', Paths.ESM2015, false);
 
     if (c.get('umd')) {
       w.set('browser', 'umd/bundle.js', false);
       w.set('jsdelivr', 'umd/bundle.min.js', false);
     }
 
-    w.set('types', 'index.d.ts', false);
-    w.set('typings', 'index.d.ts', false);
+    w.set('types', Paths.TYPES, false);
+    w.set('typings', Paths.TYPES, false);
   }
 
   if (!w.has('name')) {

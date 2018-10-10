@@ -8,11 +8,12 @@ import {ObjectWriter, ObjectWriterFormat} from '../ObjectWriter';
 import {PromptableConfig} from '../PromptableConfig';
 
 const enum Conf {
-  PREP_KEY = 'if [[ $GH_TOKEN ]]; then ./.alobuild-prep-release.sh; fi;'
+  PREP_KEY = 'if [[ $GH_TOKEN ]]; then ./.alobuild-prep-release.sh; fi;',
+  TRAVIS_YML = '.travis.yml'
 }
 
 export function handle(c: PromptableConfig<InitConf>) {
-  if (fs.pathExistsSync('.travis.yml')) {
+  if (fs.pathExistsSync(Conf.TRAVIS_YML)) {
     Log.info('Skipping .travis.yml generation');
 
     return;
@@ -22,7 +23,7 @@ export function handle(c: PromptableConfig<InitConf>) {
 
   const isYarn = c.promptedPkgMgr() === PackageManager.YARN;
 
-  const w = new ObjectWriter('.travis.yml', ObjectWriterFormat.YAML);
+  const w = new ObjectWriter(Conf.TRAVIS_YML, ObjectWriterFormat.YAML);
   w.set('language', 'node_js');
   w.set('sudo', false);
   w.set('node_js', TRAVIS_NODE_VERSIONS);
@@ -90,6 +91,6 @@ export function handle(c: PromptableConfig<InitConf>) {
   }
 
   w.save();
-  Git.add('.travis.yml');
+  Git.add(Conf.TRAVIS_YML);
   Log.success('Generated .travis.yml');
 }

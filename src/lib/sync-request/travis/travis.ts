@@ -62,7 +62,8 @@ function getEnvVars$(ort: BaseArgs): string[] {
 export const getEnvVars: typeof getEnvVars$ = memoize(getEnvVars$, JSON.stringify);
 
 export function envVarExists(ort: VarExistsArgs): boolean {
-  const partialOrt: Pick<VarExistsArgs, 'owner' | 'pro' | 'repo' | 'token'> = pick(ort, [
+  type PickedProps = 'owner' | 'pro' | 'repo' | 'token';
+  const partialOrt: Pick<VarExistsArgs, PickedProps> = pick(ort, [
     'owner',
     'pro',
     'repo',

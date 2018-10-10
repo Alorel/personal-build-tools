@@ -267,7 +267,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   }
 
   @Memo
-  public promptedReleaseGhToken(prop = 'releaseGhToken'): string {
+  public promptedReleaseGhToken(prop = 'releaseGhToken'): string { //tslint:disable-line:max-line-length no-identical-functions
     return this.getPromptHidden(prop, [
       'What\'s your release GitHub token?',
       `You can create one here: ${Conf.GH_TOK_URL} `

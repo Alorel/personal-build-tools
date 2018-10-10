@@ -48,7 +48,7 @@ export function addGhUser(opts: Obj<Options>): void {
   };
 }
 
-export function addGhRepo(opts: Obj<Options>): void {
+export function addGhRepo(opts: Obj<Options>): void { //tslint:disable-line:no-identical-functions
   opts['gh-repo'] = {
     alias: 'ghr',
     describe: 'Your GitHub repository',
@@ -63,7 +63,7 @@ export function addGhToken(opts: Obj<Options>): void {
   };
 }
 
-export function addUserWebsite(opts: Obj<Options>): void {
+export function addUserWebsite(opts: Obj<Options>): void { //tslint:disable-line:no-identical-functions
   opts['user-website'] = {
     alias: 'uwebsite',
     describe: 'Your website',

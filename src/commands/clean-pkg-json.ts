@@ -53,7 +53,7 @@ function removeScripts(contents: { scripts: StrObj }, whitelist: string[], sort:
 
   let scriptNames: string[] = Object.keys(scripts);
   if (sort) {
-    scriptNames = scriptNames.sort();
+    scriptNames.sort();
   }
 
   contents.scripts = scriptNames

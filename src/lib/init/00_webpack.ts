@@ -8,9 +8,13 @@ import {PromptableConfig} from '../PromptableConfig';
 
 export const options = addUmd();
 
+const enum Paths {
+  CFG = 'webpack.config.js'
+}
+
 export function handle(c: PromptableConfig<InitConf>): void {
   let umd: string;
-  if (!(umd = c.get('umd')) || fs.pathExistsSync('webpack.config.js')) {
+  if (!(umd = c.get('umd')) || fs.pathExistsSync(Paths.CFG)) {
     Log.info('Skipping webpack.config.js');
 
     return;
@@ -52,7 +56,7 @@ module.exports = [
 `;
   }
 
-  fs.writeFileSync('webpack.config.js', contents());
-  Git.add('webpack.config.js');
+  fs.writeFileSync(Paths.CFG, contents());
+  Git.add(Paths.CFG);
   Log.success('Wrote webpack.config.js');
 }

@@ -30,7 +30,7 @@ export function addEncrypt<T extends Argv>(argv: T, alias: string | Nil = 'enc')
   return <T>argv.option('encrypt', opt);
 }
 
-export function addCfgScope<T extends Argv>(argv: T): T {
+export function addCfgScope<T extends Argv>(argv: T): T { //tslint:disable-line:no-identical-functions
   return <T>argv.positional('scope', {
     describe: 'Optional scope of the config key (defaults to global)',
     type: 'string'

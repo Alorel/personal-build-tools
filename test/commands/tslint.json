@@ -5,6 +5,10 @@
     "object-literal-sort-keys": false,
     "no-invalid-this": false,
     "no-void-expression": false,
+    "no-duplicate-string": false,
+    "no-use-of-empty-return-value": false,
+    "no-identical-functions": false,
+    "no-big-function": false,
     "max-file-line-count": false
   }
 }

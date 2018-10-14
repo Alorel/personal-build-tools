@@ -1,3 +1,15 @@
+## [4.1.3](https://github.com/Alorel/personal-build-tools/compare/4.1.2...4.1.3) (2018-10-14)
+
+
+### Bug Fixes
+
+* File paths should now get separated properly on Windows ([d9c3346](https://github.com/Alorel/personal-build-tools/commit/d9c3346))
+
+
+### Refactoring
+
+* Refactor code for new tslint rules ([23d4112](https://github.com/Alorel/personal-build-tools/commit/23d4112))
+
 ## [4.1.2](https://github.com/Alorel/personal-build-tools/compare/4.1.1...4.1.2) (2018-10-09)
 
 

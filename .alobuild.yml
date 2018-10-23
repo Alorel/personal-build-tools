@@ -4,6 +4,11 @@ global:
 clean-pkg-json:
   sort-scripts: true
 
+build:
+  out: *distDirs
+  tsconfig: tsconfig.json
+  targets: cjs
+
 copy-files:
   from:
   - package.json

@@ -13,3 +13,4 @@ coverage/
 yarn-error.log
 *.tgz
 git_gpg_keys.asc
+/.alobuild-tsconfig-*.json

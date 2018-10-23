@@ -1,13 +1,10 @@
 import * as fs from 'fs-extra';
-import {addUmd} from '../../commons/buildType';
-import {InitConf} from '../../interfaces/InitConf';
 import {Git} from '../Git';
 import {Log} from '../Log';
-import {PromptableConfig} from '../PromptableConfig';
 
-export const options = addUmd();
+export const options = {};
 
-export function handle(c: PromptableConfig<InitConf>): void {
+export function handle(): void {
   //tslint:disable:object-literal-sort-keys no-magic-numbers
   const tsc = {
     default: {
@@ -51,14 +48,6 @@ export function handle(c: PromptableConfig<InitConf>): void {
         'src',
         'test'
       ]
-    },
-    umd: {
-      extends: './tsconfig.json',
-      compilerOptions: {
-        module: 'es2015',
-        target: 'es5',
-        sourceMap: false
-      }
     }
   };
 
@@ -76,8 +65,4 @@ export function handle(c: PromptableConfig<InitConf>): void {
 
   write('tsconfig.json', 'default');
   write('tsconfig.test.json', 'test');
-
-  if (c.get('umd')) {
-    write('tsconfig.umd.json', 'umd');
-  }
 }

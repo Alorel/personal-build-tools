@@ -23,7 +23,8 @@ export function handle() {
           ],
           exclude: [
             '**/test/**/*',
-            '**/webpack.config.js'
+            '**/webpack.config.js',
+            '**/rollup.config.js'
           ],
           sourceMap: true,
           instrument: true

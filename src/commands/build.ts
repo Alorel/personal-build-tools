@@ -205,17 +205,23 @@ function buildRollup(c: BuildConf): void {
   const incFESM2015 = c.targets.includes(BuildTarget.FESM2015);
   const banner: string | null = (() => {
     if (c.lb) {
-      try {
-        const contents = fs.readFileSync('./LICENSE', 'utf8');
+      let e: Error = <any>null;
+      for (const p of ['LICENSE', 'LICENSE.txt']) {
+        try {
+          const contents = fs.readFileSync(p, 'utf8');
 
-        return [
-          '/*!',
-          contents,
-          '*/',
-          '',
-          ''
-        ].join(EOL);
-      } catch (e) {
+          return [
+            '/*!',
+            contents,
+            '*/',
+            '',
+            ''
+          ].join(EOL);
+        } catch (err) {
+          e = err;
+        }
+      }
+      if (e) {
         Log.warn(`Unable to set license banner: ${e.stack || e.toString() || e.message}`);
       }
     }

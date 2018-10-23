@@ -1,6 +1,5 @@
 import {isEmpty} from 'lodash';
 import {Options} from 'yargs';
-import {addUmd} from '../../commons/buildType';
 import {addGhRepo, addGhToken, addGhUser} from '../../commons/identity';
 import {InitConf} from '../../interfaces/InitConf';
 import {Obj} from '../../interfaces/OptionsObject';
@@ -27,7 +26,6 @@ export const options: Obj<Options> = {
 addGhUser(options);
 addGhRepo(options);
 addGhToken(options);
-addUmd(options);
 
 export function handle(c: PromptableConfig<InitConf>): void {
   const w = new ObjectWriter('package.json', ObjectWriterFormat.JSON);

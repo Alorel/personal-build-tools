@@ -1,5 +1,6 @@
 global:
   dist-dirs: &distDirs dist
+  tsconfig: tsconfig.json
 
 clean-pkg-json:
   sort-scripts: true
@@ -7,9 +8,14 @@ clean-pkg-json:
 copy-files:
   from:
   - package.json
-  - index.d.ts
   - LICENSE
   - CHANGELOG.md
   - README.md
-  - src/fixtures
   to: *distDirs
+
+build:
+  entry: src/index.ts
+  license-banner: true
+  out: *distDirs
+  umd-name: MyLib
+  externals: tslib

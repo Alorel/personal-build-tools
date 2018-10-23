@@ -1,9 +1,11 @@
+import {Base64} from './Base64';
+
 export module CLISerialiser {
   export function serialise(v: any): string {
-    return Buffer.from(JSON.stringify(v), 'utf8').toString('base64');
+    return Base64.encodeString(JSON.stringify(v));
   }
 
   export function unserialise<T = any>(v: string): T {
-    return JSON.parse(Buffer.from(v, 'base64').toString('utf8'));
+    return JSON.parse(Base64.decodeString(v));
   }
 }

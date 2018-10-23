@@ -6,6 +6,7 @@
 node_modules/
 package-lock.json
 !test/fixtures/reinstall/node_modules/
+!test/fixtures/build/node_modules/
 !test/fixtures/reinstall/package-lock.json
 dist/
 coverage/
@@ -13,3 +14,4 @@ coverage/
 yarn-error.log
 *.tgz
 git_gpg_keys.asc
+/.alobuild-tsconfig-*.json

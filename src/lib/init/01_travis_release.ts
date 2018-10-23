@@ -1,11 +1,11 @@
 import * as fs from 'fs-extra';
-import {Base64} from 'js-base64';
 import {forEach} from 'lodash';
 import {EOL} from 'os';
 import {addGhRepo, addGhUser} from '../../commons/identity';
 import {addTravisRelease, TravisEndpoint} from '../../commons/travisRelease';
 import {Chmod} from '../../const/Chmod';
 import {InitConf} from '../../interfaces/InitConf';
+import {Base64} from '../Base64';
 import {Fixture} from '../Fixture';
 import {Git} from '../Git';
 import {Log} from '../Log';
@@ -42,8 +42,8 @@ export function handle(c: PromptableConfig<InitConf>): void {
     const envVarsToSet: { [k: string]: () => string } = {
       BUILD_GPG_KEY_ID: () => c.promptedGpgKeyId(),
       BUILD_GPG_KEY_PWD: () => c.promptedGpgKeyPwd(),
-      BUILD_GPG_PRIV_KEY: () => Base64.encode(c.promptedGpgPrivkey()),
-      BUILD_GPG_PUB_KEY: () => Base64.encode(c.promptedGpgPubkey()),
+      BUILD_GPG_PRIV_KEY: () => Base64.encodeString(c.promptedGpgPrivkey()),
+      BUILD_GPG_PUB_KEY: () => Base64.encodeString(c.promptedGpgPubkey()),
       GH_TOKEN: () => c.promptedReleaseGhToken(),
       GIT_COMMITTER_EMAIL: () => c.promptedGhEmail(),
       GIT_COMMITTER_NAME: () => c.promptedName(),

@@ -95,6 +95,7 @@ describe('init', function () {
     {
       expect: `global:
   dist-dirs: &distDirs dist
+  tsconfig: tsconfig.json
 
 clean-pkg-json:
   sort-scripts: true
@@ -102,12 +103,17 @@ clean-pkg-json:
 copy-files:
   from:
   - package.json
-  - index.d.ts
   - LICENSE
   - CHANGELOG.md
   - README.md
-  - src/fixtures
   to: *distDirs
+
+build:
+  entry: src/index.ts
+  license-banner: true
+  out: *distDirs
+  umd-name: MyLib
+  externals: tslib
 `,
       file: '.alobuild.yml'
     },
@@ -263,7 +269,8 @@ generateNotes:
           ],
           exclude: [
             '**/test/**/*',
-            '**/webpack.config.js'
+            '**/webpack.config.js',
+            '**/rollup.config.js'
           ],
           sourceMap: true,
           instrument: true
@@ -295,7 +302,6 @@ generateNotes:
     let peerDeps: string[];
     let deps: any;
 
-    const webpackDeps = ['webpack', 'webpack-cli', 'ts-loader', 'lodash'];
     const baseDevDeps = uniq([
       '@alorel-personal/build-tools',
       '@alorel-personal/conventional-changelog-alorel',
@@ -307,7 +313,6 @@ generateNotes:
       '@semantic-release/npm',
       '@types/node',
       'mocha',
-      'concurrently',
       'source-map-support',
       '@types/mocha',
       'chai',
@@ -321,45 +326,25 @@ generateNotes:
       'typescript'
     ]).sort();
 
-    for (const isUmd of [true, false]) {
-      describe(`With${isUmd ? '' : 'out'} webpack`, () => {
-        before('Set cwd', mkTmpDir);
-        before('Run', isUmd ? () => run('--umd', 'foo') : runBase);
-        before('read', async () => {
-          const contents = JSON.parse(await read('package.json'));
-          devDeps = Object.keys(contents.devDependencies).sort();
-          peerDeps = Object.keys(contents.peerDependencies).sort();
-          deps = contents.dependencies;
-        });
+    before('Set cwd', mkTmpDir);
+    before('Run', runBase);
+    before('read', async () => {
+      const contents = JSON.parse(await read('package.json'));
+      devDeps = Object.keys(contents.devDependencies).sort();
+      peerDeps = Object.keys(contents.peerDependencies).sort();
+      deps = contents.dependencies;
+    });
+    it('tslib should be the only peer dependency', () => {
+      expect(peerDeps).to.deep.eq(['tslib']);
+    });
 
-        it('tslib should be the only peer dependency', () => {
-          expect(peerDeps).to.deep.eq(['tslib']);
-        });
+    it('there should be no dependencies', () => {
+      expect(deps).to.be.undefined;
+    });
 
-        it('there should be no dependencies', () => {
-          expect(deps).to.be.undefined;
-        });
-
-        it(`Dev deps ${isUmd ? 'should' : 'shouldn\'t'} have webpack deps`, () => {
-          const expected = isUmd ? uniq(baseDevDeps.concat(webpackDeps)).sort() : baseDevDeps;
-          expect(devDeps).to.deep.eq(expected);
-        });
-
-        if (isUmd) {
-          it('should have a tsconfig.umd.json', async () => {
-            expect(JSON.parse(await read('tsconfig.umd.json')))
-              .to.deep.eq({
-              extends: './tsconfig.json',
-              compilerOptions: {
-                module: 'es2015',
-                target: 'es5',
-                sourceMap: false
-              }
-            });
-          });
-        }
-      });
-    }
+    it('Should have all the dependencies', () => {
+      expect(devDeps).to.deep.eq(baseDevDeps);
+    });
   });
 
   describe('.travis.yml', () => {
@@ -586,66 +571,6 @@ generateNotes:
     });
   });
 
-  describe('webpack', () => {
-    describe('Default (skip)', () => {
-      before('Set cwd', mkTmpDir);
-      before('Run', runBase);
-
-      it('webpack.config.js should not exist', async () => {
-        expect(await exists('webpack.config.js')).to.be.false;
-      });
-    });
-
-    describe('Don\'t skip', () => {
-      let contents: string;
-      let expectedContents: string;
-      before('Set cwd', mkTmpDir);
-      before('run', () => run('--umd', 'Foo'));
-      before('read', async () => {
-        contents = await read('webpack.config.js');
-      });
-      before('set expected contents', () => {
-        expectedContents = `const {join} = require('path');
-const merge = require('lodash/merge');
-const cloneDeep = require('lodash/cloneDeep');
-
-const base = {
-  target: 'web',
-  entry: join(__dirname, 'src', 'index.ts'),
-  devtool: 'none',
-  output: {
-    path: join(__dirname, 'dist', 'umd'),
-    libraryTarget: 'umd',
-    library: 'Foo'
-  },
-  module: {
-    rules: [
-      {
-        test: /\\.ts$/,
-        use: [{
-          loader: 'ts-loader',
-          options: {
-            configFile: join(__dirname, 'tsconfig.umd.json')
-          }
-        }]
-      }
-    ]
-  }
-};
-
-module.exports = [
-  merge(cloneDeep(base), {mode: 'development', output: {filename: 'bundle.js'}}),
-  merge(cloneDeep(base), {mode: 'production', output: {filename: 'bundle.min.js'}})
-];
-`;
-      });
-
-      it('webpack.config.js should exist', () => {
-        expect(contents).to.eq(expectedContents);
-      });
-    });
-  });
-
   for (const s of testSpecs) {
     describe(s.file, () => {
       describe('Don\'t skip', () => {
@@ -672,17 +597,8 @@ module.exports = [
   }
 
   describe('pkg json defaults', () => {
-    const testUMDName = 'PJsonDefaultsTest';
-
     const topExpect = {
       name: 'test-project-name',
-      module: 'esm5/index.js',
-      esm5: 'esm5/index.js',
-      fesm5: 'esm5/index.js',
-      esm2015: 'esm2015/index.js',
-      fesm2015: 'esm2015/index.js',
-      types: 'index.d.ts',
-      typings: 'index.d.ts',
       version: '0.0.1',
       description: 'test-desc',
       keywords: ['test-keyword1', 'test-keyword2']
@@ -695,73 +611,37 @@ module.exports = [
       tslint: 'alo tslint -p tsconfig.test.json',
       'tslint:fix': 'npm run tslint -- --fix',
       prebuild: 'rimraf dist',
-      'build:es5': 'tsc --declaration',
-      'build:esm5': 'tsc --module es2015 --outDir dist/esm5',
-      'build:esm2015': 'tsc --module es2015 --outDir dist/esm2015 --target es6',
+      build: 'alo build',
       typecheck: 'tsc --noEmit',
       'typecheck:watch': 'npm run typecheck -- --watch'
     };
 
-    for (const isUmd of [false, true]) {
-      describe(`${isUmd ? 'with' : 'without'} UMD`, () => {
-        let pjson: { [k: string]: any };
-        before('Set cwd', mkTmpDir);
-        before('Run', isUmd ? () => run('--umd', testUMDName) : runBase);
-        before('read', async () => {
-          pjson = JSON.parse(await read('package.json'));
-        });
+    let pjson: { [k: string]: any };
 
-        forEach(topExpect, (expected, key) => {
-          it(key, () => {
-            let xp: any = expect(pjson[key]).to;
-            if (isObjectLike(expected)) {
-              xp = xp.deep;
-            }
-            xp.eq(expected);
-          });
-        });
-
-        describe('scripts', () => {
-          let build = '"npm run build:es5" "npm run build:esm5" "npm run build:esm2015"';
-          forEach(scriptsExpect, (expected, key) => {
-            it(key, () => {
-              expect(pjson.scripts[key]).to.eq(expected);
-            });
-          });
-
-          if (isUmd) {
-            build = `"npm run build:umd" ${build}`;
-            it('build:umd', () => {
-              expect(pjson.scripts['build:umd']).to.eq('webpack');
-            });
-          } else {
-            it('build:umd should not exist', () => {
-              expect(pjson.scripts['build:umd']).to.be.undefined;
-            });
-          }
-
-          it('build', () => {
-            expect(pjson.scripts.build).to.eq(`concurrently ${build}`);
-          });
-        });
-
-        if (isUmd) {
-          it('browser should be umd/bundle.js', () => {
-            expect(pjson.browser).to.eq('umd/bundle.js');
-          });
-          it('browser should be umd/bundle.min.js', () => {
-            expect(pjson.jsdelivr).to.eq('umd/bundle.min.js');
-          });
-        } else {
-          it('browser should not be set', () => {
-            expect(pjson.browser).to.be.undefined;
-          });
-          it('jsdelivr should not be set', () => {
-            expect(pjson.jsdelivr).to.be.undefined;
-          });
+    before('Set cwd', mkTmpDir);
+    before('Run', runBase);
+    before('read', async () => {
+      pjson = JSON.parse(await read('package.json'));
+    });
+    forEach(topExpect, (expected, key) => {
+      it(key, () => {
+        let xp: any = expect(pjson[key]).to;
+        if (isObjectLike(expected)) {
+          xp = xp.deep;
         }
+        xp.eq(expected);
       });
-    }
+    });
+    describe('scripts', () => {
+      forEach(scriptsExpect, (expected, key) => {
+        it(key, () => {
+          expect(pjson.scripts[key]).to.eq(expected);
+        });
+      });
+      it('build', () => {
+        expect(pjson.scripts.build).to.eq('alo build');
+      });
+    });
   });
 
   describe('GitHub issue templates', () => {

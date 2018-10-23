@@ -1,13 +1,11 @@
 import {uniq} from 'lodash';
 import {PKG_JSON} from '../../const/PKG_JSON';
 import {sortObjectByKey} from '../../fns/sortObjectByKey';
-import {InitConf} from '../../interfaces/InitConf';
 import {Git} from '../Git';
 import {ObjectWriter, ObjectWriterFormat} from '../ObjectWriter';
-import {PromptableConfig} from '../PromptableConfig';
 import {getPkgVersions} from '../sync-request/pkg-version/pkg-version';
 
-export function handle(c: PromptableConfig<InitConf>): void {
+export function handle(): void {
   const w = new ObjectWriter('package.json', ObjectWriterFormat.JSON);
 
   function mkFilter(key: string) {
@@ -27,7 +25,6 @@ export function handle(c: PromptableConfig<InitConf>): void {
     '@semantic-release/npm',
     '@types/node',
     'mocha',
-    'concurrently',
     'source-map-support',
     '@types/mocha',
     'chai',
@@ -40,10 +37,6 @@ export function handle(c: PromptableConfig<InitConf>): void {
     'ts-node',
     'typescript'
   ];
-
-  if (c.get('umd')) {
-    devTilde.push('webpack', 'webpack-cli', 'ts-loader', 'lodash');
-  }
 
   devTilde = uniq(devTilde).filter(mkFilter('devDependencies'));
 

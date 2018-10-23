@@ -19,7 +19,7 @@ export class Log {
   }
 }
 
-if (process.env.CI) {
+if (process.env.RUNNING_PERSONAL_BUILD_TOOLS_TESTS) {
   for (const k of ['err', 'info', 'success', 'warn']) {
     Log[k] = noop;
   }

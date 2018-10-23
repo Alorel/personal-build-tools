@@ -1,6 +1,5 @@
 import {isEmpty} from 'lodash';
 import {Options} from 'yargs';
-import {addUmd} from '../../commons/buildType';
 import {addGhRepo, addGhToken, addGhUser} from '../../commons/identity';
 import {InitConf} from '../../interfaces/InitConf';
 import {Obj} from '../../interfaces/OptionsObject';
@@ -8,12 +7,6 @@ import {Git} from '../Git';
 import {Log} from '../Log';
 import {ObjectWriter, ObjectWriterFormat} from '../ObjectWriter';
 import {PromptableConfig} from '../PromptableConfig';
-
-const enum Paths {
-  ESM5 = 'esm5/index.js',
-  ESM2015 = 'esm2015/index.js',
-  TYPES = 'index.d.ts'
-}
 
 export const options: Obj<Options> = {
   'project-desc': {
@@ -33,7 +26,6 @@ export const options: Obj<Options> = {
 addGhUser(options);
 addGhRepo(options);
 addGhToken(options);
-addUmd(options);
 
 export function handle(c: PromptableConfig<InitConf>): void {
   const w = new ObjectWriter('package.json', ObjectWriterFormat.JSON);
@@ -46,43 +38,10 @@ export function handle(c: PromptableConfig<InitConf>): void {
     w.set(['scripts', 'tslint:fix'], 'npm run tslint -- --fix', false);
     w.set('scripts.prebuild', 'rimraf dist', false);
 
-    w.set(['scripts', 'build:es5'], 'tsc --declaration', false);
-    w.set(['scripts', 'build:esm5'], 'tsc --module es2015 --outDir dist/esm5', false);
-    w.set(['scripts', 'build:esm2015'], 'tsc --module es2015 --outDir dist/esm2015 --target es6', false);
-
     w.set('scripts.typecheck', 'tsc --noEmit', false);
     w.set(['scripts', 'typecheck:watch'], 'npm run typecheck -- --watch', false);
 
-    const buildScripts = ['build:es5', 'build:esm5', 'build:esm2015'];
-
-    if (c.get('umd')) {
-      buildScripts.unshift('build:umd');
-      w.set(['scripts', 'build:umd'], 'webpack', false);
-    }
-
-    if (!w.has('scripts.build')) {
-      const joint = buildScripts.map(s => `"npm run ${s}"`)
-        .join(' ');
-      w.set('scripts.build', `concurrently ${joint}`);
-    }
-  }
-
-  function setEntryFiles() {
-    w.set('main', 'index.js', false);
-
-    w.set('module', Paths.ESM5, false);
-    w.set('esm5', Paths.ESM5, false);
-    w.set('fesm5', Paths.ESM5, false);
-    w.set('esm2015', Paths.ESM2015, false);
-    w.set('fesm2015', Paths.ESM2015, false);
-
-    if (c.get('umd')) {
-      w.set('browser', 'umd/bundle.js', false);
-      w.set('jsdelivr', 'umd/bundle.min.js', false);
-    }
-
-    w.set('types', Paths.TYPES, false);
-    w.set('typings', Paths.TYPES, false);
+    w.set('scripts.build', 'alo build', false);
   }
 
   if (!w.has('name')) {
@@ -99,8 +58,6 @@ export function handle(c: PromptableConfig<InitConf>): void {
     w.set('description', c.promptedProjectDescription());
     Log.success('Set project description');
   }
-
-  setEntryFiles();
 
   if (isEmpty(w.get('keywords'))) {
     w.set('keywords', c.promptedProjectKeywords());

@@ -27,6 +27,10 @@ export class TestFixture {
       .then(noop);
   }
 
+  public existsOut(file: string): Bluebird<boolean> {
+    return Bluebird.resolve(fs.pathExists(path.join(this.outDir(), file)));
+  }
+
   public outDir(): string;
 
   public outDir(dir: string): this;

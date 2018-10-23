@@ -13,7 +13,7 @@ install: yarn install --check-files --ignore-engines
 
 script:
   - yarn run tslint
-  - yarn run build --noEmit
+  - yarn run typecheck
   - if [[ $GH_TOKEN ]]; then yarn test --forbid-only --forbid-pending; else yarn test --forbid-only; fi;
 
 after_script: if [[ $GH_TOKEN ]]; then greenkeeper-lockfile-upload; fi;

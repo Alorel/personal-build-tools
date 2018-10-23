@@ -11,9 +11,7 @@
     "alo": "index.js"
   },
   "description": "Personal CI utils",
-  "main": "alo.js",
-  "types": "index.d.ts",
-  "typings": "index.d.ts",
+  "main": "index.js",
   "repository": "git@github.com:Alorel/personal-build-tools.git",
   "author": "Arturas Molcanovas <a.molcanovas@gmail.com>",
   "license": "MIT",

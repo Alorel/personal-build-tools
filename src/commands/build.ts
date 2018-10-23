@@ -1,11 +1,12 @@
 import {SpawnSyncOptions, SpawnSyncReturns} from 'child_process';
 import * as fs from 'fs';
-import {castArray, cloneDeep, has, merge, omit, padStart, set, uniq} from 'lodash';
+import {castArray, cloneDeep, has, merge, noop, omit, padStart, set, uniq} from 'lodash';
 import * as moment from 'moment';
 import {EOL} from 'os';
-import {join} from 'path';
+import {basename, extname, join} from 'path';
 import {sync as rimraf} from 'rimraf';
 import {RollupFileOptions} from 'rollup';
+import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {CommandModule} from 'yargs';
 import {ext} from '../const/ext';
 import {addConfig} from '../fns/add-cmd/addConfig';
@@ -27,7 +28,8 @@ const enum Conf {
   INDENT = 2,
   PAD = 2,
   PAD_MS = 3,
-  PAD_CHAR = '0'
+  PAD_CHAR = '0',
+  PKG_JSON_PATH = './package.json'
 }
 
 const enum Txt {
@@ -60,7 +62,7 @@ const command = cmdName(__filename);
 
 const defaultUmdName: string = (() => {
   try {
-    return (<any>readJson('./package.json')).name;
+    return (<any>readJson(Conf.PKG_JSON_PATH)).name;
   } catch {
     return <any>undefined;
   }
@@ -169,6 +171,9 @@ const cmd: CommandModule = {
       buildCJsOrDeclaration(c, tmpTsconfigs);
       buildESM(c, tmpTsconfigs);
       buildRollup(c);
+      Log.info('Writing package.json');
+      new PackageJsonBuilder(c).write();
+      Log.success('Wrote package.json');
       Log.success(`Build finished in ${getDuration(start)}`);
     } catch (e) {
       Log.err(`Build errored in ${getDuration(start)}`);
@@ -242,7 +247,7 @@ function buildRollup(c: BuildConf): void {
   }
 
   set(stdConf, 'output.name', c.umdName);
-  set(stdConf, 'output.amd.id', (<any>readJson('./package.json')).name);
+  set(stdConf, 'output.amd.id', (<any>readJson(Conf.PKG_JSON_PATH)).name);
 
   const execOpts: SpawnSyncOptions = {
     cwd: process.cwd(),
@@ -292,6 +297,131 @@ function buildRollup(c: BuildConf): void {
   } else {
     Log.info(Txt.SKIP_FESM5);
     Log.info(Txt.SKIP_UMD);
+  }
+}
+
+class PackageJsonBuilder {
+  private readonly pkgJson: Obj<any>;
+
+  public constructor(private readonly cfg: BuildConf) {
+    this.pkgJson = readJson(Conf.PKG_JSON_PATH) || {};
+  }
+
+  @LazyGetter()
+  private get _base(): string {
+    const ext$ = extname(this.cfg.entry);
+
+    return basename(this.cfg.entry, ext$);
+  }
+
+  @LazyGetter()
+  private get _baseJS(): string {
+    return this._base + '.js';
+  }
+
+  @LazyGetter()
+  private get browser(): string | null {
+    if (this.cfg.targets.includes(BuildTarget.UMD)) {
+      return '_bundle/umd.js';
+    }
+
+    return null;
+  }
+
+  @LazyGetter()
+  //@ts-ignore
+  private get esm2015(): string | null {
+    if (this.cfg.targets.includes(BuildTarget.ESM2015)) {
+      return `_bundle/esm2015/${this._baseJS}`;
+    }
+
+    return this.fesm5;
+  }
+
+  @LazyGetter()
+  //@ts-ignore
+  private get esm5(): string | null {
+    if (this.cfg.targets.includes(BuildTarget.ESM5)) {
+      return `_bundle/esm5/${this._baseJS}`;
+    }
+
+    return this.fesm5;
+  }
+
+  @LazyGetter()
+  //@ts-ignore
+  private get fesm2015(): string | null {
+    if (this.cfg.targets.includes(BuildTarget.FESM2015)) {
+      return '_bundle/fesm2015.js';
+    }
+
+    return null;
+  }
+
+  @LazyGetter()
+  //@ts-ignore
+  private get fesm5(): string | null {
+    if (this.cfg.targets.includes(BuildTarget.FESM5)) {
+      return '_bundle/fesm5.js';
+    }
+
+    return null;
+  }
+
+  @LazyGetter()
+  //@ts-ignore
+  private get jsdelivr(): string | null {
+    if (this.browser) {
+      return `_bundle/umd.min.js`;
+    }
+
+    return null;
+  }
+
+  @LazyGetter()
+  //@ts-ignore
+  private get main(): string | null {
+    if (this.cfg.targets.includes(BuildTarget.CJS)) {
+      return this._baseJS;
+    } else if (this.browser) {
+      return this.browser;
+    } else {
+      throw new Error('Unable to resolve main file');
+    }
+  }
+
+  @LazyGetter()
+  //@ts-ignore
+  private get module(): string | null {
+    return this.fesm5 || this.esm5;
+  }
+
+  @LazyGetter()
+  //@ts-ignore
+  private get types(): string | null {
+    if (this.cfg.targets.includes(BuildTarget.DECLARATION)) {
+      return `${this._base}.d.ts`;
+    }
+
+    return null;
+  }
+
+  public write(): void {
+    for (const p of ['main', 'browser', 'jsdelivr', 'fesm5', 'esm5', 'fesm2015', 'esm2015', 'types', 'module']) {
+      if (this[p]) {
+        this.pkgJson[p] = this[p];
+      } else {
+        delete this.pkgJson[p];
+      }
+    }
+    if (this.types) {
+      this.pkgJson.typings = this.types;
+    } else {
+      delete this.pkgJson.typings;
+    }
+
+    fs.writeFileSync(Conf.PKG_JSON_PATH, JSON.stringify(this.pkgJson, null, Conf.INDENT));
+    this.write = noop;
   }
 }
 

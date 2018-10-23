@@ -15,6 +15,7 @@ import {tmp} from '../tmp';
 type Opts = yargs.Arguments & {
   dist: string;
   formats: BuildTarget[];
+  ignoredExternals: string[];
   opts: any;
   tsconfig: any;
 };
@@ -30,6 +31,11 @@ const argv: Opts = <any>yargs
     type: 'string'
   })
   .option('dist', {
+    demandOption: true,
+    type: 'string'
+  })
+  .option('ignored-externals', {
+    coerce,
     demandOption: true,
     type: 'string'
   })
@@ -82,8 +88,8 @@ const bundleDir = join(process.cwd(), argv.dist, '_bundle');
 
       const unminifiedFile = join(bundleDir, 'umd.js');
       if (Array.isArray(opts.external) && opts.external.includes('tslib')) {
-        Log.info('Removing tslib from UMD bundle\'s externals');
-        pull(opts.external, 'tslib');
+        Log.info(`Removing ${argv.ignoredExternals.join(', ')} from UMD bundle's externals`);
+        pull(opts.external, ...argv.ignoredExternals);
       }
 
       Log.info('Compiling UMD');

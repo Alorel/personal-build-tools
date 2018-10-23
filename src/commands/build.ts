@@ -41,6 +41,8 @@ interface BuildConf {
 
   externals: string[];
 
+  ignoreUmdExternals: string[];
+
   lb: boolean;
 
   out: string;
@@ -80,6 +82,23 @@ const cmd: CommandModule = {
         coerce: castArray,
         default: [],
         describe: 'External dependencies',
+        type: 'array'
+      })
+      .option('ignore-umd-externals', {
+        alias: 'iux',
+        coerce(v: string[]): string[] {
+          let out = ['tslib'];
+
+          if (v && v.length) {
+            out.push(...v);
+
+            out = uniq(out);
+          }
+
+          return out;
+        },
+        default: ['tslib'],
+        describe: 'Override the externals option and always bundle the following packages in UMD',
         type: 'array'
       })
       .option('license-banner', {
@@ -235,6 +254,8 @@ function buildRollup(c: BuildConf): void {
     CLISerialiser.serialise(stdConf),
     '--tsconfig',
     CLISerialiser.serialise(c.tsconfig),
+    '--ignored-externals',
+    CLISerialiser.serialise(c.ignoreUmdExternals),
     '--dist',
     c.out
   ];

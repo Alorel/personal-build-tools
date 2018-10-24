@@ -32,7 +32,7 @@ stages:
 jobs:
   include:
   - stage: Release
-    node_js: stable
+    node_js: lts/*
     before_install:
     - npm i -g yarn
     - *prepKey
@@ -42,3 +42,8 @@ jobs:
     script: semantic-release
     after_success: []
     after_script: []
+  - stage: Test
+    node_js: stable
+    install: []
+    script: []
+    before_install: []

@@ -469,7 +469,7 @@ generateNotes:
             jobs: {
               include: [{
                 stage: 'Release',
-                node_js: 'stable',
+                node_js: 'lts/*',
                 before_install: [
                   'npm i -g yarn',
                   prepKey
@@ -505,7 +505,7 @@ generateNotes:
             jobs: {
               include: [{
                 stage: 'Release',
-                node_js: 'stable',
+                node_js: 'lts/*',
                 before_install: [
                   prepKey
                 ],

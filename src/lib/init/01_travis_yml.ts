@@ -75,7 +75,7 @@ export function handle(c: PromptableConfig<InitConf>) {
     ]);
     w.set('jobs.include', [{
       stage: 'Release',
-      node_js: 'stable',
+      node_js: 'lts/*',
       before_install: bfi,
       before_script: [
         `${c.promptedPkgMgr()} run build`,

@@ -30,6 +30,7 @@ export function handle(c: PromptableConfig<InitConf>): void {
         '.nyc_output/',
         'yarn-error.log',
         '*.tgz',
+        '/.alobuild-tsconfig-*.json',
         c.promptedPkgMgr() === PackageManager.YARN ? 'package-lock.json' : 'yarn.lock'
       )
       .save();

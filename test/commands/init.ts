@@ -86,6 +86,7 @@ describe('init', function () {
         '.nyc_output/',
         'yarn-error.log',
         '*.tgz',
+        '/.alobuild-tsconfig-*.json',
         'package-lock.json',
         ''
       ].join('\n'),

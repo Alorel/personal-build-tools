@@ -12,9 +12,9 @@ before_install:
 install: yarn install --check-files --ignore-engines
 
 script:
-  - yarn run tslint
-  - yarn run typecheck
-  - if [[ $GH_TOKEN ]]; then yarn test --forbid-only --forbid-pending; else yarn test --forbid-only; fi;
+- yarn run tslint
+- yarn run typecheck
+- if [[ $GH_TOKEN ]]; then yarn test --forbid-only --forbid-pending; else yarn test --forbid-only; fi;
 
 after_script: if [[ $GH_TOKEN ]]; then greenkeeper-lockfile-upload; fi;
 after_success: cat ./coverage/lcov.info | coveralls
@@ -25,14 +25,14 @@ cache:
   - /home/travis/.cache/alobuild
 
 stages:
-#- Test
+- Test
 - name: Release
   if: branch = master AND type = push AND (NOT tag IS present)
 
 jobs:
   include:
   - stage: Release
-    node_js: lts/*
+    node_js: stable
     before_install:
     - npm i -g yarn
     - *prepKey
@@ -42,8 +42,3 @@ jobs:
     script: semantic-release
     after_success: []
     after_script: []
-  - stage: Test
-    node_js: stable
-    install: []
-    script: []
-    before_install: []

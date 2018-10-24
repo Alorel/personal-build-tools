@@ -31,6 +31,14 @@ stages:
 
 jobs:
   include:
+  - stage: Test
+    node_js: stable
+    script: echo 1
+    before_install: []
+    install: []
+    after_script: []
+    after_success: []
+    before_script: []
   - stage: Release
     node_js: stable
     before_install:

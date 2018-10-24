@@ -12,7 +12,7 @@
   },
   "description": "Personal CI utils",
   "main": "index.js",
-  "repository": "ssh://git@github.com:Alorel/personal-build-tools.git",
+  "repository": "github::Alorel/personal-build-tools",
   "author": "Arturas Molcanovas <a.molcanovas@gmail.com>",
   "license": "MIT",
   "private": false,

@@ -22,7 +22,6 @@ export function handle(): void {
     '@semantic-release/changelog',
     '@semantic-release/exec',
     '@semantic-release/git',
-    '@semantic-release/npm',
     '@types/node',
     'mocha',
     'source-map-support',

@@ -39,6 +39,6 @@ jobs:
     before_script:
     - yarn run build
     - node dist/alo copy-files
-    script: semantic-release
+    script: semantic-release -r ssh://git@github.com:Alorel/personal-build-tools.git
     after_success: []
     after_script: []

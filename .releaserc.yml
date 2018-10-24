@@ -1,6 +1,5 @@
 branch: master
 tagFormat: '${version}'
-repositoryUrl: ssh://git@github.com:Alorel/personal-build-tools.git
 
 verifyConditions:
 - path: &npm '@semantic-release/npm'

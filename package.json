@@ -89,7 +89,7 @@
     "cross-env": "~5.2.0",
     "mocha": "~5.2.0",
     "nyc": "~13.1.0",
-    "semantic-release": "~15.10.5",
+    "semantic-release": "~15.10.6",
     "source-map-support": "~0.5.9",
     "ts-node": "~7.0.1",
     "uuid": "~3.3.2"

@@ -1,6 +1,6 @@
 {
   "name": "@alorel-personal/build-tools",
-  "version": "4.1.3",
+  "version": "4.2.0",
   "engines": {
     "node": ">=8.0"
   },

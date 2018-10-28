@@ -1,3 +1,27 @@
+# [4.2.0](https://github.com/Alorel/personal-build-tools.git/compare/4.1.3...4.2.0) (2018-10-28)
+
+
+### Bug Fixes
+
+* Add /.alobuild-tsconfig-*.json to generated gitignore ([5a05cc7](https://github.com/Alorel/personal-build-tools.git/commit/5a05cc7))
+
+
+### Features
+
+* The build command is now available ([8f05fa5](https://github.com/Alorel/personal-build-tools.git/commit/8f05fa5))
+
+
+### Maintenance
+
+* semantic-release/npm no longer included in default package.json dependencies ([e0ac168](https://github.com/Alorel/personal-build-tools.git/commit/e0ac168))
+* **init:** Travis release is now triggered on node version lts/* ([b69b1fa](https://github.com/Alorel/personal-build-tools.git/commit/b69b1fa))
+* **package:** Remove [@types](https://github.com/types)/moment dev dependency ([2e7ecce](https://github.com/Alorel/personal-build-tools.git/commit/2e7ecce))
+
+
+### Refactoring
+
+* Remove js-base64 dependency ([7078f6f](https://github.com/Alorel/personal-build-tools.git/commit/7078f6f))
+
 ## [4.1.3](https://github.com/Alorel/personal-build-tools/compare/4.1.2...4.1.3) (2018-10-14)
 
 

@@ -36,7 +36,6 @@ export function handle(c: PromptableConfig<InitConf>): void {
     w.set(['scripts', 'test:watch'], 'npm run test -- --watch', false);
     w.set('scripts.tslint', 'alo tslint -p tsconfig.test.json', false);
     w.set(['scripts', 'tslint:fix'], 'npm run tslint -- --fix', false);
-    w.set('scripts.prebuild', 'rimraf dist', false);
 
     w.set('scripts.typecheck', 'tsc --noEmit', false);
     w.set(['scripts', 'typecheck:watch'], 'npm run typecheck -- --watch', false);

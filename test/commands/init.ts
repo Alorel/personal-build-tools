@@ -609,7 +609,6 @@ generateNotes:
       'test:watch': 'npm run test -- --watch',
       tslint: 'alo tslint -p tsconfig.test.json',
       'tslint:fix': 'npm run tslint -- --fix',
-      prebuild: 'rimraf dist',
       build: 'alo build',
       typecheck: 'tsc --noEmit',
       'typecheck:watch': 'npm run typecheck -- --watch'

@@ -1,3 +1,12 @@
+## [4.2.1](https://github.com/Alorel/personal-build-tools.git/compare/4.2.0...4.2.1) (2018-10-29)
+
+
+### Bug Fixes
+
+* Add rollup-plugin-node-resolve ([59b1552](https://github.com/Alorel/personal-build-tools.git/commit/59b1552))
+* Remove prebuild as default script ([9d0a147](https://github.com/Alorel/personal-build-tools.git/commit/9d0a147))
+* Remove typescript as default dependency ([6241449](https://github.com/Alorel/personal-build-tools.git/commit/6241449))
+
 # [4.2.0](https://github.com/Alorel/personal-build-tools.git/compare/4.1.3...4.2.0) (2018-10-28)
 
 

@@ -85,6 +85,9 @@ const bundleDir = join(process.cwd(), argv.dist, '_bundle');
     })));
     if (incUmd) {
       const opts = cloneDeep(baseOpts);
+      //tslint:disable-next-line:no-var-requires
+      const nodeResolve: any = require('rollup-plugin-node-resolve');
+      baseOpts.plugins.push(nodeResolve());
 
       const unminifiedFile = join(bundleDir, 'umd.js');
       if (Array.isArray(opts.external) && opts.external.includes('tslib')) {

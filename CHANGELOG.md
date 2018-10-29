@@ -1,3 +1,10 @@
+## [4.2.2](https://github.com/Alorel/personal-build-tools.git/compare/4.2.1...4.2.2) (2018-10-29)
+
+
+### Bug Fixes
+
+* **build:** rollup-plugin-node-resolve is now applied to the correct settings object ([c163396](https://github.com/Alorel/personal-build-tools.git/commit/c163396))
+
 ## [4.2.1](https://github.com/Alorel/personal-build-tools.git/compare/4.2.0...4.2.1) (2018-10-29)
 
 

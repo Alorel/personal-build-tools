@@ -1,3 +1,15 @@
+# [4.3.0](https://github.com/Alorel/personal-build-tools/compare/4.2.2...4.3.0) (2018-11-02)
+
+
+### Features
+
+* **init:** Add lts/dubnium to generated node versions in .travis.yml ([6cb358b](https://github.com/Alorel/personal-build-tools/commit/6cb358b))
+
+
+### Maintenance
+
+* **init:** Remove lts/boron from generated node versions in .travis.yml ([83955da](https://github.com/Alorel/personal-build-tools/commit/83955da))
+
 ## [4.2.2](https://github.com/Alorel/personal-build-tools.git/compare/4.2.1...4.2.2) (2018-10-29)
 
 

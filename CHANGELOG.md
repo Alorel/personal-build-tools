@@ -1,3 +1,10 @@
+## [4.3.2](https://github.com/Alorel/personal-build-tools/compare/4.3.1...4.3.2) (2018-11-12)
+
+
+### Dependency updates
+
+* **package:** update rollup-plugin-typescript2 to version 0.18.0 ([7b39e3a](https://github.com/Alorel/personal-build-tools/commit/7b39e3a))
+
 ## [4.3.1](https://github.com/Alorel/personal-build-tools/compare/4.3.0...4.3.1) (2018-11-09)
 
 

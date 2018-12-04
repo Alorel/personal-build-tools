@@ -1,3 +1,15 @@
+# [4.4.0](https://github.com/Alorel/personal-build-tools/compare/4.3.2...4.4.0) (2018-12-04)
+
+
+### Features
+
+* add strictBindCallApply tsconfig flag ([231a6cf](https://github.com/Alorel/personal-build-tools/commit/231a6cf))
+
+
+### Maintenance
+
+* **init:** Remove `sudo` from generated .travis.yml files as it is getting retired ([04c4986](https://github.com/Alorel/personal-build-tools/commit/04c4986))
+
 ## [4.3.2](https://github.com/Alorel/personal-build-tools/compare/4.3.1...4.3.2) (2018-11-12)
 
 

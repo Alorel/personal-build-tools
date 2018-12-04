@@ -172,6 +172,7 @@ generateNotes:
         {
           compilerOptions: {
             module: 'commonjs',
+            strictBindCallApply: true,
             target: 'es5',
             experimentalDecorators: true,
             emitDecoratorMetadata: true,

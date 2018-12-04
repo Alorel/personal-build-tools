@@ -19,6 +19,7 @@ export function xSpawnSyncSafe(_cmd: string,
   try {
     return {
       ok: true,
+      //@ts-ignore
       result: xSpawnSync.apply(null, arguments)
     };
   } catch (e) {

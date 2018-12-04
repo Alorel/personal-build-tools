@@ -10,6 +10,7 @@ export function handle(): void {
     default: {
       compilerOptions: {
         module: 'commonjs',
+        strictBindCallApply: true,
         target: 'es5',
         experimentalDecorators: true,
         emitDecoratorMetadata: true,

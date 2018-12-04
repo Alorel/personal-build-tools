@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "strictBindCallApply": true,
     "target": "es2016",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

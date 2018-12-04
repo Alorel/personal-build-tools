@@ -320,9 +320,9 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       }
     };
     run();
-    this.data[k] = out;
+    this.data[k] = <any>out;
 
-    return out;
+    return <any>out;
   }
 
   private getPromptEmail<K extends keyof T>(k: K, question: string, forbidEmpty = true, strict = true): T[K] {
@@ -343,7 +343,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       return this.data[k];
     } else {
       const idx = rl.keyInSelect(opts, question, {cancel: false});
-      this.data[k] = opts[idx];
+      this.data[k] = <any>opts[idx];
 
       return this.data[k];
     }
@@ -358,11 +358,11 @@ export class PromptableConfig<T extends { [k: string]: any }> {
         v = askFn();
       } while (!v);
 
-      this.data[k] = v;
+      this.data[k] = <any>v;
 
       return this.data[k];
     } else {
-      this.data[k] = askFn();
+      this.data[k] = <any>askFn();
 
       return this.data[k];
     }

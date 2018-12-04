@@ -25,7 +25,6 @@ export function handle(c: PromptableConfig<InitConf>) {
 
   const w = new ObjectWriter(Conf.TRAVIS_YML, ObjectWriterFormat.YAML);
   w.set('language', 'node_js');
-  w.set('sudo', false);
   w.set('node_js', TRAVIS_NODE_VERSIONS);
 
   const beforeInstall: string[] = [];

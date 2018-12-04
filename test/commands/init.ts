@@ -363,7 +363,6 @@ generateNotes:
       return merge(
         {
           language: 'node_js',
-          sudo: false,
           node_js: TRAVIS_NODE_VERSIONS,
           before_install: [
             'npm i -g greenkeeper-lockfile',
@@ -392,7 +391,6 @@ generateNotes:
       return merge(
         {
           language: 'node_js',
-          sudo: false,
           node_js: TRAVIS_NODE_VERSIONS,
           before_install: [
             'npm i -g yarn greenkeeper-lockfile',

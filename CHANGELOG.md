@@ -1,3 +1,10 @@
+## [4.4.1](https://github.com/Alorel/personal-build-tools/compare/4.4.0...4.4.1) (2018-12-09)
+
+
+### Dependency updates
+
+* **package:** update rollup-plugin-node-resolve to version 4.0.0 ([2c44ae2](https://github.com/Alorel/personal-build-tools/commit/2c44ae2))
+
 # [4.4.0](https://github.com/Alorel/personal-build-tools/compare/4.3.2...4.4.0) (2018-12-04)
 
 

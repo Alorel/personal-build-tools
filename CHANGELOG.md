@@ -1,3 +1,10 @@
+## [4.4.4](https://github.com/Alorel/personal-build-tools/compare/4.4.3...4.4.4) (2019-02-15)
+
+
+### Dependency updates
+
+* **package:** update yargs to version 13.1.0 ([680201e](https://github.com/Alorel/personal-build-tools/commit/680201e))
+
 ## [4.4.3](https://github.com/Alorel/personal-build-tools/compare/4.4.2...4.4.3) (2019-01-16)
 
 

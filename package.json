@@ -42,7 +42,7 @@
     "readline-sync": "^1.4.0",
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.0",
-    "request-promise": "^4.2.0",
+    "request-promise": "^4.2.4",
     "rimraf": "^2.6.0",
     "rollup": "~0.68.0",
     "rollup-plugin-node-resolve": "^4.0.0",

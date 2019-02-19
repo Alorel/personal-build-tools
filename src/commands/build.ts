@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import {EOL} from 'os';
 import {basename, extname, join} from 'path';
 import {sync as rimraf} from 'rimraf';
-import {RollupFileOptions} from 'rollup';
+import {RollupOptions} from 'rollup';
 import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {CommandModule} from 'yargs';
 import {ext} from '../const/ext';
@@ -70,8 +70,8 @@ const defaultUmdName: string = (() => {
 const tscBin = getBin('typescript', 'tsc');
 const rollupCmdFile = require.resolve(`../lib/build/cmd.${ext}`);
 
-const cmd: CommandModule = {
-  builder(argv) {
+const cmd: CommandModule<BuildConf, BuildConf> = {
+  builder(argv): any {
     return addConfig(argv, command)
       .option('entry', {
         alias: 'e',
@@ -160,7 +160,7 @@ const cmd: CommandModule = {
   },
   command,
   describe: 'Build the project',
-  handler(c: BuildConf) {
+  handler(c) {
     const start = Date.now();
     validate(c);
     Log.info(`Clearing ${c.out}`);
@@ -431,7 +431,7 @@ class PackageJsonBuilder {
   }
 }
 
-function loadRollupConfig(c: BuildConf): RollupFileOptions {
+function loadRollupConfig(c: BuildConf): RollupOptions {
   try {
     if (c.rollup) {
       const fullPath = join(process.cwd(), c.rollup);

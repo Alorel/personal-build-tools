@@ -22,8 +22,8 @@ const initModules: InitModule[] = fs.readdirSync(modulesDir, 'utf8')
   .sort()
   .map(p => require(join(modulesDir, p)));
 
-const cmd: CommandModule = {
-  builder(argv: Argv) {
+const cmd: CommandModule<any, InitConf> = {
+  builder(argv: Argv): any {
     addConfig(argv, 'init');
     const opts: Obj<Options> = {};
     for (const mod of initModules) {

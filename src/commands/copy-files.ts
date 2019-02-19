@@ -21,8 +21,8 @@ interface FromTo {
 
 const command = cmdName(__filename);
 
-const cmd: CommandModule = {
-  builder(argv) {
+const cmd: CommandModule<any, Conf> = {
+  builder(argv): any {
     return addConfig(argv, command)
       .option('from', {
         alias: 'f',

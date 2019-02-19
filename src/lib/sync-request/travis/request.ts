@@ -65,7 +65,7 @@ yargs
     global: true,
     type: 'string'
   })
-  .command({
+  .command<SetArgs>({
     command: 'get-env-vars',
     describe: 'Get a list of env var names',
     handler(c: BaseArgs) {
@@ -94,8 +94,8 @@ yargs
         });
     }
   })
-  .command({
-    builder(argv) {
+  .command<SetArgs>({
+    builder(argv: yargs.Argv<any>): any {
       return argv
         .option('public', {
           default: false,
@@ -112,7 +112,7 @@ yargs
     },
     command: 'set-env-var',
     describe: 'Set an env var',
-    handler(c: SetArgs) {
+    handler(c) {
       const payload: any = {
         'env_var.name': c.name,
         'env_var.public': c.public,

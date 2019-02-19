@@ -26,8 +26,8 @@ function tryJson5Parse(v: any): any {
   }
 }
 
-const cmd: CommandModule = {
-  builder(argv) {
+const cmd: CommandModule<any, CfgSetConf> = {
+  builder(argv): any {
     addCfgKey(argv);
     applyGlobalGroup(argv);
     addEncrypt(argv);

@@ -1,3 +1,16 @@
+## [4.4.5](https://github.com/Alorel/personal-build-tools/compare/4.4.4...4.4.5) (2019-02-19)
+
+
+### Bug Fixes
+
+* Generated package.json scripts now prepend node path ([17b1ef2](https://github.com/Alorel/personal-build-tools/commit/17b1ef2))
+* Updated mocha.opts generator for mocha v6 ([73b8a00](https://github.com/Alorel/personal-build-tools/commit/73b8a00))
+
+
+### Dependency updates
+
+* **package:** update rollup to version 1.2.2 ([cc5b760](https://github.com/Alorel/personal-build-tools/commit/cc5b760))
+
 ## [4.4.4](https://github.com/Alorel/personal-build-tools/compare/4.4.3...4.4.4) (2019-02-15)
 
 

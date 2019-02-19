@@ -16,13 +16,10 @@ export function handle(): void {
       '--full-trace',
       '-r ts-node/register',
       '-r source-map-support/register',
-      '-t 10000',
-      '--trace-deprecation',
-      '--trace-warnings',
-      '--throw-deprecation',
+      '-t 20000',
       '--recursive',
-      '--watch-extensions ts',
-      'test/**/*.ts'
+      '--extension ts',
+      'test'
     ].join('\n') + '\n';
     fs.writeFileSync(Paths.MOCHA_OPTS, contents);
     Git.add(Paths.MOCHA_OPTS);

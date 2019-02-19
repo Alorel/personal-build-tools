@@ -231,13 +231,10 @@ generateNotes:
         '--full-trace',
         '-r ts-node/register',
         '-r source-map-support/register',
-        '-t 10000',
-        '--trace-deprecation',
-        '--trace-warnings',
-        '--throw-deprecation',
+        '-t 20000',
         '--recursive',
-        '--watch-extensions ts',
-        'test/**/*.ts'
+        '--extension ts',
+        'test'
       ].join('\n') + '\n',
       file: 'mocha.opts'
     },

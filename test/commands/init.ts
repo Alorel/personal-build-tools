@@ -605,12 +605,12 @@ generateNotes:
     const scriptsExpect = {
       pretest: 'rimraf coverage',
       test: 'nyc mocha --opts ./mocha.opts',
-      'test:watch': 'npm run test -- --watch',
+      'test:watch': 'npm --scripts-prepend-node-path=auto run test -- --watch',
       tslint: 'alo tslint -p tsconfig.test.json',
-      'tslint:fix': 'npm run tslint -- --fix',
+      'tslint:fix': 'npm --scripts-prepend-node-path=auto run tslint -- --fix',
       build: 'alo build',
       typecheck: 'tsc --noEmit',
-      'typecheck:watch': 'npm run typecheck -- --watch'
+      'typecheck:watch': 'npm --scripts-prepend-node-path=auto run typecheck -- --watch'
     };
 
     let pjson: { [k: string]: any };

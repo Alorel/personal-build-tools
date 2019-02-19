@@ -18,14 +18,14 @@
   "private": false,
   "scripts": {
     "alo": "ts-node src/index.ts",
-    "build": "npm run alo -- build",
+    "build": "npm --scripts-prepend-node-path=auto run alo -- build",
     "typecheck": "tsc --noEmit",
-    "typecheck:watch": "npm run typecheck -- --watch",
-    "tslint": "npm run alo -- tslint -p tsconfig.test.json",
-    "tslint:fix": "npm run tslint -- --fix",
+    "typecheck:watch": "npm --scripts-prepend-node-path=auto run typecheck -- --watch",
+    "tslint": "npm --scripts-prepend-node-path=auto run alo -- tslint -p tsconfig.test.json",
+    "tslint:fix": "npm --scripts-prepend-node-path=auto run tslint -- --fix",
     "pretest": "rimraf coverage",
     "test": "cross-env RUNNING_PERSONAL_BUILD_TOOLS_TESTS=1 nyc mocha --opts ./mocha.opts",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm --scripts-prepend-node-path=auto run test -- --watch"
   },
   "dependencies": {
     "chalk": "^2.4.0",
@@ -92,7 +92,7 @@
     "nyc": "~13.3.0",
     "semantic-release": "~15.13.0",
     "source-map-support": "~0.5.9",
-    "ts-node": "~7.0.1",
+    "ts-node": "^7.0.1",
     "uuid": "~3.3.2"
   }
 }

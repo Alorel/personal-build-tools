@@ -4,10 +4,8 @@
 -r ts-node/register
 -r source-map-support/register
 -t 20000
---trace-deprecation
---trace-warnings
---throw-deprecation
 --recursive
---watch-extensions ts
-test/commands/**/*.ts
-test/general/**/*.ts
+--exclude **/fixtures/**
+--extension ts
+test/commands
+test/general

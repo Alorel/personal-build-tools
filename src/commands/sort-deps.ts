@@ -16,8 +16,8 @@ interface Conf {
   indent: number;
 }
 
-const cmd: CommandModule = {
-  builder(argv) {
+const cmd: CommandModule<any, Conf> = {
+  builder(argv): any {
     return addConfig(argv, command)
       .option('cwd', {
         alias: 'w',

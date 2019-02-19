@@ -17,8 +17,8 @@ interface Config {
 
 const command = cmdName(__filename);
 
-const cmd: CommandModule = {
-  builder(argv) {
+const cmd: CommandModule<any, Config> = {
+  builder(argv): any {
     return addConfig(argv, command)
       .positional('pkgMgr', {
         describe: 'Package manager in use. Can be inferred from existing lockfile.',

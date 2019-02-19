@@ -4,8 +4,8 @@ import {applyGlobalGroup} from '../../fns/add-cmd/applyGlobalGroup';
 import {cmdName} from '../../fns/cmdName';
 import {ConfigWriter} from '../../lib/ConfigWriter';
 
-const cmd: CommandModule = {
-  builder(argv) {
+const cmd: CommandModule<any, CfgRmConf> = {
+  builder(argv): any {
     applyGlobalGroup(argv);
     addCfgKey(argv);
 

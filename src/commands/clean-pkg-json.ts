@@ -82,8 +82,8 @@ function sortDeps(contents: { dependencies?: StrObj; devDependencies?: StrObj; p
   }
 }
 
-const cmd: CommandModule = {
-  builder(argv) {
+const cmd: CommandModule<any, Conf> = {
+  builder(argv): any {
     const rmFields = [
       'devDependencies',
       'greenkeeper',

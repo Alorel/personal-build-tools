@@ -116,8 +116,8 @@ class Conf {
   public tslintVersion: boolean;
 }
 
-const cmd: CommandModule = {
-  builder(argv: Argv): Argv {
+const cmd: CommandModule<{}, Conf> = {
+  builder(argv: Argv): any {
     return argv.options(availableOpts);
   },
   command: 'tslint',
@@ -133,7 +133,8 @@ const cmd: CommandModule = {
     for (const optname of Object.keys(availableOpts)) {
       if (!(optname in c)) {
         continue;
-      } else if (optname === 'tslint-version') {
+      }
+      if (optname === 'tslint-version') {
         args.push('--version');
       } else {
         args.push(`--${optname}`);

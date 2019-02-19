@@ -119,8 +119,8 @@ function processJs(dirs: string[]): void {
 
 const command = cmdName(__filename);
 
-const cmd: CommandModule = {
-  builder(argv) {
+const cmd: CommandModule<any, Conf> = {
+  builder(argv): any {
     return addConfig(argv, command)
       .option('dist-dirs', {
         alias: 'd',

@@ -8,8 +8,12 @@ function prompt(): boolean {
   return readline.keyInYNStrict('Are you sure you want to remove shared config? ');
 }
 
-const cmd: CommandModule = {
-  builder(argv) {
+interface Yes {
+  yes: boolean;
+}
+
+const cmd: CommandModule<any, Yes> = {
+  builder(argv): any {
     return applyGlobalGroup(argv)
       .option('yes', {
         alias: 'y',
@@ -20,7 +24,7 @@ const cmd: CommandModule = {
   },
   command: cmdName(__filename),
   describe: 'Fully clear config shared by all projects',
-  handler(c: { yes: boolean }) {
+  handler(c: Yes) {
     if (!c.yes && !prompt()) {
       process.exit(1);
     }

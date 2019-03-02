@@ -1,3 +1,5 @@
+## [4.4.8](https://github.com/Alorel/personal-build-tools/compare/4.4.7...4.4.8) (2019-03-02)
+
 ## [4.4.7](https://github.com/Alorel/personal-build-tools/compare/4.4.6...4.4.7) (2019-03-01)
 
 

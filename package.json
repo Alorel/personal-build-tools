@@ -86,7 +86,7 @@
     "@types/yargs": "~12.0.0",
     "bluebird": "~3.5.1",
     "chai": "~4.2.0",
-    "coveralls": "~3.0.2",
+    "coveralls": "~3.0.3",
     "cross-env": "~5.2.0",
     "mocha": "~6.0.0",
     "nyc": "~13.3.0",

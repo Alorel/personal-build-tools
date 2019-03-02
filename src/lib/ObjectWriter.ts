@@ -1,6 +1,6 @@
 import * as fs from 'fs-extra';
+import {LazyGetter} from 'lazy-get-decorator';
 import {get, has, noop, PropertyPath, set} from 'lodash';
-import {LazyGetter} from 'typescript-lazy-get-decorator';
 import * as YAML from 'yamljs';
 import {AbstractReadWriter} from './AbstractReadWriter';
 

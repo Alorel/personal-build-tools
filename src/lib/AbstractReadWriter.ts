@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
+import {LazyGetter} from 'lazy-get-decorator';
 import {noop} from 'lodash';
 import {dirname} from 'path';
-import {LazyGetter} from 'typescript-lazy-get-decorator';
 
 export abstract class AbstractReadWriter {
   protected readonly file: string;

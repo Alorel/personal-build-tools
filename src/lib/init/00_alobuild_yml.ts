@@ -10,7 +10,7 @@ const enum Conf {
 export function handle() {
   if (fs.pathExistsSync('.alobuild.yml')) {
     Log.info('Skipping .alobuild.yml');
-  }  else {
+  } else {
     new Fixture('init').copy(Conf.FILE, Conf.FILE);
     Git.add(Conf.FILE);
     Log.success('Generated .alobuild.yml');

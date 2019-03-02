@@ -1,12 +1,12 @@
 import {SpawnSyncOptions, SpawnSyncReturns} from 'child_process';
 import * as fs from 'fs';
+import {LazyGetter} from 'lazy-get-decorator';
 import {castArray, cloneDeep, has, merge, noop, omit, padStart, set, uniq} from 'lodash';
 import * as moment from 'moment';
 import {EOL} from 'os';
 import {basename, extname, join} from 'path';
 import {sync as rimraf} from 'rimraf';
 import {RollupOptions} from 'rollup';
-import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {CommandModule} from 'yargs';
 import {ext} from '../const/ext';
 import {addConfig} from '../fns/add-cmd/addConfig';

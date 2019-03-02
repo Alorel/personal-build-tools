@@ -1,4 +1,4 @@
-import {LazyGetter} from 'typescript-lazy-get-decorator';
+import {LazyGetter} from 'lazy-get-decorator';
 import {xSpawnSyncSafe} from '../fns/xSpawn';
 
 export class Git {

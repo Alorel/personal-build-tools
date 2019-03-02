@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra';
-import {LazyGetter} from 'typescript-lazy-get-decorator';
+import {LazyGetter} from 'lazy-get-decorator';
 import {Options} from 'yargs';
 import {addPkgMgrToOptions} from '../../commons/addPkgMgr';
 import {addGhRepo, addGhUser} from '../../commons/identity';

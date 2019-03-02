@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
+import {LazyGetter} from 'lazy-get-decorator';
 import {cloneDeep, isEmpty, memoize} from 'lodash';
 import * as rl$ from 'readline-sync';
-import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {IS_CI} from '../const/IS_CI';
 import {lastDirname} from '../fns/lastDirname';
 import {readJson} from '../fns/readJson';

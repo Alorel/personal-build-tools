@@ -1,8 +1,8 @@
 import * as Bluebird from 'bluebird';
 import * as fs from 'fs-extra';
+import {LazyGetter} from 'lazy-get-decorator';
 import {noop} from 'lodash';
 import * as path from 'path';
-import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {globAsync} from './globAsync';
 import {tmpDir} from './tmp-test';
 

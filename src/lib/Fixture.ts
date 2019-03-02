@@ -1,7 +1,7 @@
 import * as fs from 'fs-extra';
+import {LazyGetter} from 'lazy-get-decorator';
 import {template} from 'lodash';
 import {dirname, join} from 'path';
-import {LazyGetter} from 'typescript-lazy-get-decorator';
 import {Chmod} from '../const/Chmod';
 
 const FIXTURE_DIR = join(__dirname, '..', 'fixtures');

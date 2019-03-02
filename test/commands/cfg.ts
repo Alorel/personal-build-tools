@@ -2,6 +2,7 @@ import {expect} from 'chai';
 import {SpawnOptions} from 'child_process';
 import * as xSpawn from 'cross-spawn';
 import * as fs from 'fs-extra';
+import {Readable} from 'stream';
 import {v4 as uuid} from 'uuid';
 import {alo} from '../../src/alo';
 import {getBin} from '../../src/fns/getBin';
@@ -54,7 +55,7 @@ describe('cfg', () => {
         };
 
         const proc = xSpawn(bin, args, opts);
-        proc.stderr.on('data', (data: Buffer) => {
+        (<Readable>proc.stderr).on('data', (data: Buffer) => {
           stderr$ = Buffer.concat([stderr$, data]);
         });
 

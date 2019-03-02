@@ -73,8 +73,8 @@ export class TestFixture {
 
   public write(): Bluebird<void> {
     return Bluebird.all([this.sourceFiles(true), <any>this.emptyOutDir()])
-      .spread<string[]>(sourceAbs => sourceAbs)
-      .map<any>(sourceAbs => {
+      .spread<string[], string[]>(sourceAbs => sourceAbs)
+      .map(sourceAbs => {
         const dirname = path.dirname(sourceAbs);
         const relative = path.relative(this.dir, sourceAbs);
 

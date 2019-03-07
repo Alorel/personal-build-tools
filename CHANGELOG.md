@@ -1,3 +1,11 @@
+## [4.4.10](https://github.com/Alorel/personal-build-tools/compare/4.4.9...4.4.10) (2019-03-07)
+
+
+### Dependency updates
+
+* **package:** update rollup to version 1.5.0 ([c537fc3](https://github.com/Alorel/personal-build-tools/commit/c537fc3))
+* **package:** update ts-node to version 8.0.3 ([80e7204](https://github.com/Alorel/personal-build-tools/commit/80e7204)), closes [#68](https://github.com/Alorel/personal-build-tools/issues/68)
+
 ## [4.4.9](https://github.com/Alorel/personal-build-tools/compare/4.4.8...4.4.9) (2019-03-02)
 
 ## [4.4.8](https://github.com/Alorel/personal-build-tools/compare/4.4.7...4.4.8) (2019-03-02)

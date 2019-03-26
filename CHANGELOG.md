@@ -1,3 +1,10 @@
+## [4.4.14](https://github.com/Alorel/personal-build-tools/compare/4.4.13...4.4.14) (2019-03-26)
+
+
+### Dependency updates
+
+* **package:** update tmp to version 0.1.0 ([282a674](https://github.com/Alorel/personal-build-tools/commit/282a674))
+
 ## [4.4.13](https://github.com/Alorel/personal-build-tools/compare/4.4.12...4.4.13) (2019-03-20)
 
 

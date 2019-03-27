@@ -1,3 +1,23 @@
+## [4.4.15](https://github.com/Alorel/personal-build-tools/compare/4.4.14...4.4.15) (2019-03-27)
+
+
+### Dependency updates
+
+* **package:** update lazy-get-decorator to version 2.1.0 ([c78c2b1](https://github.com/Alorel/personal-build-tools/commit/c78c2b1))
+* **package:** update rollup to version 1.7.3 ([1213dcd](https://github.com/Alorel/personal-build-tools/commit/1213dcd))
+* **package:** update tslint to version 5.14.0 ([78a8241](https://github.com/Alorel/personal-build-tools/commit/78a8241))
+* **package:** update typescript to version 3.3.4000 ([9e9b0d4](https://github.com/Alorel/personal-build-tools/commit/9e9b0d4))
+
+
+### Maintenance
+
+* Update types versions ([2bc723e](https://github.com/Alorel/personal-build-tools/commit/2bc723e))
+
+
+### Refactoring
+
+* Refactored code for updated typings ([85a3adc](https://github.com/Alorel/personal-build-tools/commit/85a3adc))
+
 ## [4.4.14](https://github.com/Alorel/personal-build-tools/compare/4.4.13...4.4.14) (2019-03-26)
 
 

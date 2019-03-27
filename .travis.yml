@@ -1,20 +1,20 @@
 language: node_js
 node_js:
-- lts/dubnium
-- lts/carbon
-- stable
+  - lts/dubnium
+  - lts/carbon
+  - stable
 
 before_install:
-- npm i -g yarn greenkeeper-lockfile
-- &prepKey if [[ $GH_TOKEN ]]; then ./.alobuild-prep-release.sh; fi;
-- greenkeeper-lockfile-update
+  - npm i -g yarn greenkeeper-lockfile
+  - &prepKey if [[ $GH_TOKEN ]]; then ./.alobuild-prep-release.sh; fi;
+  - greenkeeper-lockfile-update
 
 install: yarn install --check-files --ignore-engines
 
 script:
-- yarn run tslint
-- yarn run typecheck
-- if [[ $GH_TOKEN ]]; then yarn test --forbid-only --forbid-pending; else yarn test --forbid-only; fi;
+  - yarn run tslint
+  - yarn run typecheck
+  - if [[ $GH_TOKEN ]]; then yarn test --forbid-only --forbid-pending; else yarn test --forbid-only; fi;
 
 after_script: if [[ $GH_TOKEN ]]; then greenkeeper-lockfile-upload; fi;
 after_success: cat ./coverage/lcov.info | coveralls
@@ -22,23 +22,23 @@ after_success: cat ./coverage/lcov.info | coveralls
 cache:
   yarn: true
   directories:
-  - /home/travis/.cache/alobuild
+    - /home/travis/.cache/alobuild
 
 stages:
-- Test
-- name: Release
-  if: branch = master AND type = push AND (NOT tag IS present)
+  - Test
+  - name: Release
+    if: branch = master AND type = push AND (NOT tag IS present)
 
 jobs:
   include:
-  - stage: Release
-    node_js: stable
-    before_install:
-    - npm i -g yarn
-    - *prepKey
-    before_script:
-    - yarn run build
-    - node dist/alo copy-files
-    script: semantic-release
-    after_success: []
-    after_script: []
+    - stage: Release
+      node_js: stable
+      before_install:
+        - npm i -g yarn
+        - *prepKey
+      before_script:
+        - yarn run build
+        - node dist/alo copy-files
+      script: semantic-release
+      after_success: []
+      after_script: []

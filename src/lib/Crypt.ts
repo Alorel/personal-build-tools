@@ -30,7 +30,7 @@ export class Crypt {
     const decipher = crypto.createDecipheriv(Conf.CIPHER, key, iv);
     decipher.setAuthTag(tag);
 
-    const out = decipher.update(text, 'binary', 'utf8') + decipher.final('utf8');
+    const out = decipher.update(<any>text, 'binary', 'utf8') + decipher.final('utf8');
 
     if (!out) {
       throw new Error('Unable to decrypt');
@@ -59,6 +59,6 @@ export class Crypt {
   }
 
   public static isEncrypted(v: any): v is Encrypted {
-    return !!v && isObject(v) && typeof v.__encrypted === 'string';
+    return !!v && isObject(v) && typeof (<any>v).__encrypted === 'string';
   }
 }

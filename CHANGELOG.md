@@ -1,3 +1,26 @@
+# [4.5.0](https://github.com/Alorel/personal-build-tools/compare/4.4.16...4.5.0) (2019-04-02)
+
+
+### Dependency updates
+
+* **package:** update tslint to version 5.15.0 ([4e36a51](https://github.com/Alorel/personal-build-tools/commit/4e36a51))
+* **package:** update typescript to version 3.4.1 ([71484b1](https://github.com/Alorel/personal-build-tools/commit/71484b1))
+
+
+### Features
+
+* Tsconfigs are now generated as incremental (TS 3.4) ([6b42b32](https://github.com/Alorel/personal-build-tools/commit/6b42b32))
+
+
+### Maintenance
+
+* typecheck script now checks tests too ([f1c62f8](https://github.com/Alorel/personal-build-tools/commit/f1c62f8))
+
+
+### Refactoring
+
+* Refactored code for updated [@types](https://github.com/types)/tmp typings ([f4c1a71](https://github.com/Alorel/personal-build-tools/commit/f4c1a71))
+
 ## [4.4.16](https://github.com/Alorel/personal-build-tools/compare/4.4.15...4.4.16) (2019-04-02)
 
 

@@ -5,5 +5,5 @@ export function tmpDir(): string {
 }
 
 export function tmpFile(ext = '.tmp'): string {
-  return tmp.fileSync({unsafeCleanup: true, postfix: ext}).name;
+  return tmp.fileSync({postfix: ext}).name;
 }

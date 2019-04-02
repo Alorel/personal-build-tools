@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "incremental": true,
+    "tsBuildInfoFile": "./.tsbuildinfo",
     "strictBindCallApply": true,
     "target": "es2016",
     "experimentalDecorators": true,

@@ -826,7 +826,7 @@
         "signature": "8df4e68f6b5c7fdb39092d5fb490d1b4b98ffe09f7d9fe0fe0bc9b1a90d41f93"
       },
       "/home/art/dev/JavaScript/personal-build-tools/src/lib/init/00_tsc_build.ts": {
-        "version": "83e906a93bb38fbf466019086d4e3c670a588c2ba9dff27a3f57262cdfd5982e",
+        "version": "9a88ee5a6e600ab702ad75b29621eeea77cd5588830e04ad2418cdda59de2ddf",
         "signature": "4b1eac18006caa2bdfa65dad6529091108c2c1681ff510e20c48c6f88ff400dc"
       },
       "/home/art/dev/JavaScript/personal-build-tools/src/lib/init/00_tslint.ts": {
@@ -953,8 +953,8 @@
       "incremental": true,
       "tsBuildInfoFile": "/home/art/dev/JavaScript/personal-build-tools/.tsbuildinfo",
       "strictBindCallApply": true,
-      "project": "/home/art/dev/JavaScript/personal-build-tools/.alobuild-tsconfig-190098vR6f8VzZnpL.json",
-      "configFilePath": "/home/art/dev/JavaScript/personal-build-tools/.alobuild-tsconfig-190098vR6f8VzZnpL.json"
+      "project": "/home/art/dev/JavaScript/personal-build-tools/.alobuild-tsconfig-297638x9leQ8bB8xR.json",
+      "configFilePath": "/home/art/dev/JavaScript/personal-build-tools/.alobuild-tsconfig-297638x9leQ8bB8xR.json"
     },
     "referencedMap": {
       "/home/art/dev/JavaScript/personal-build-tools/node_modules/typescript/lib/lib.es5.d.ts": [

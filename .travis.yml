@@ -38,7 +38,8 @@ jobs:
         - *prepKey
       before_script:
         - yarn run build
-        - node dist/alo copy-files
+        - ls dist -l
+        - node dist/alo.js copy-files
       script: semantic-release
       after_success: []
       after_script: []

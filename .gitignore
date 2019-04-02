@@ -2,6 +2,7 @@
 /tmp.ts
 /tmp.js
 /tmp.sh
+/.tsbuildinfo
 .idea/
 node_modules/
 package-lock.json

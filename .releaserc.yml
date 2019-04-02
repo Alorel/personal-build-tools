@@ -23,7 +23,6 @@ prepare:
       - package.json
       - yarn.lock
       - README.md
-      - .tsbuildinfo
 
 publish:
   - path: *npm

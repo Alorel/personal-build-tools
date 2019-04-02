@@ -123,34 +123,35 @@ build:
 tagFormat: '\${version}'
 
 verifyConditions:
-- path: &npm '@semantic-release/npm'
-  pkgRoot: '.'
-- &gh '@semantic-release/github'
+  - path: &npm '@semantic-release/npm'
+    pkgRoot: '.'
+  - &gh '@semantic-release/github'
 
 prepare:
-- '@semantic-release/changelog'
-- '@alorel-personal/semantic-release'
-- *npm
-- path: &exec '@semantic-release/exec'
-  cmd: yarn run doctoc
-- path: *exec
-  cmd: alo copy-files
-- path: *exec
-  cmd: alo clean-dist
-- path: *exec
-  cmd: alo clean-pkg-json
-- path: '@semantic-release/git'
-  message: 'chore(release): \${nextRelease.version}'
-  assets:
-  - CHANGELOG.md
-  - README.md
-  - package.json
-  - yarn.lock
+  - '@semantic-release/changelog'
+  - '@alorel-personal/semantic-release'
+  - *npm
+  - path: &exec '@semantic-release/exec'
+    cmd: yarn run doctoc
+  - path: *exec
+    cmd: alo copy-files
+  - path: *exec
+    cmd: alo clean-dist
+  - path: *exec
+    cmd: alo clean-pkg-json
+  - path: '@semantic-release/git'
+    message: 'chore(release): \${nextRelease.version}'
+    assets:
+      - CHANGELOG.md
+      - README.md
+      - package.json
+      - yarn.lock
+      - .tsbuildinfo
 
 publish:
-- path: *npm
-  pkgRoot: './dist'
-- *gh
+  - path: *npm
+    pkgRoot: './dist'
+  - *gh
 
 generateNotes:
   config: '@alorel-personal/conventional-changelog-alorel'
@@ -172,6 +173,8 @@ generateNotes:
         {
           compilerOptions: {
             module: 'commonjs',
+            incremental: true,
+            tsBuildInfoFile: './.tsbuildinfo',
             strictBindCallApply: true,
             target: 'es5',
             experimentalDecorators: true,

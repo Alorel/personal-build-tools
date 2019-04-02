@@ -10,6 +10,8 @@ export function handle(): void {
     default: {
       compilerOptions: {
         module: 'commonjs',
+        incremental: true,
+        tsBuildInfoFile: './.tsbuildinfo',
         strictBindCallApply: true,
         target: 'es5',
         experimentalDecorators: true,

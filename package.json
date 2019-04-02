@@ -19,7 +19,7 @@
   "scripts": {
     "alo": "ts-node src/index.ts",
     "build": "npm --scripts-prepend-node-path=auto run alo -- build",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit -p tsconfig.test.json",
     "typecheck:watch": "npm --scripts-prepend-node-path=auto run typecheck -- --watch",
     "tslint": "npm --scripts-prepend-node-path=auto run alo -- tslint -p tsconfig.test.json",
     "tslint:fix": "npm --scripts-prepend-node-path=auto run tslint -- --fix",

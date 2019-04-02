@@ -1,5 +1,8 @@
-import * as tmp$ from 'tmp';
+import {dirSync, fileSync, setGracefulCleanup} from 'tmp';
 
-tmp$.setGracefulCleanup();
+setGracefulCleanup();
 
-export const tmp = tmp$;
+export const tmp = {
+  dirSync,
+  fileSync
+};

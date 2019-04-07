@@ -1,3 +1,15 @@
+## [4.5.1](https://github.com/Alorel/personal-build-tools/compare/4.5.0...4.5.1) (2019-04-07)
+
+
+### Dependency updates
+
+* **package:** update rollup to version 1.9.0 ([3c1a5a4](https://github.com/Alorel/personal-build-tools/commit/3c1a5a4))
+
+
+### Maintenance
+
+* Exclude tsbuildinfo from git ([f5b6b58](https://github.com/Alorel/personal-build-tools/commit/f5b6b58))
+
 # [4.5.0](https://github.com/Alorel/personal-build-tools/compare/4.4.16...4.5.0) (2019-04-02)
 
 

@@ -1,3 +1,11 @@
+## [4.5.3](https://github.com/Alorel/personal-build-tools/compare/4.5.2...4.5.3) (2019-04-17)
+
+
+### Dependency updates
+
+* **package:** update log-symbols to version 3.0.0 ([0d90c97](https://github.com/Alorel/personal-build-tools/commit/0d90c97))
+* **package:** update tslint to version 5.16.0 ([df9cdfc](https://github.com/Alorel/personal-build-tools/commit/df9cdfc))
+
 ## [4.5.2](https://github.com/Alorel/personal-build-tools/compare/4.5.1...4.5.2) (2019-04-11)
 
 

@@ -1,3 +1,10 @@
+## [4.5.5](https://github.com/Alorel/personal-build-tools/compare/4.5.4...4.5.5) (2019-05-04)
+
+
+### Dependency updates
+
+* **package:** update rollup to version 1.11.1 ([7a06816](https://github.com/Alorel/personal-build-tools/commit/7a06816)), closes [#97](https://github.com/Alorel/personal-build-tools/issues/97)
+
 ## [4.5.4](https://github.com/Alorel/personal-build-tools/compare/4.5.3...4.5.4) (2019-04-24)
 
 

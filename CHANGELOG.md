@@ -1,3 +1,18 @@
+## [4.5.6](https://github.com/Alorel/personal-build-tools/compare/4.5.5...4.5.6) (2019-05-10)
+
+
+### Dependency updates
+
+* **package:** update glob to version 7.1.4 ([736e75f](https://github.com/Alorel/personal-build-tools/commit/736e75f))
+* **package:** update lazy-get-decorator to version 2.2.0 ([e4bcbeb](https://github.com/Alorel/personal-build-tools/commit/e4bcbeb))
+* **package:** update rollup to version 1.11.3 ([8938bc7](https://github.com/Alorel/personal-build-tools/commit/8938bc7))
+* **package:** update typescript to version 3.4.5 ([8850d54](https://github.com/Alorel/personal-build-tools/commit/8850d54))
+
+
+### Refactoring
+
+* **reinstall:** The lockfile is now deleted after node_modules ([4b378e1](https://github.com/Alorel/personal-build-tools/commit/4b378e1))
+
 ## [4.5.5](https://github.com/Alorel/personal-build-tools/compare/4.5.4...4.5.5) (2019-05-04)
 
 

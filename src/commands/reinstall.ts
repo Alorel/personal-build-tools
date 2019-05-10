@@ -45,6 +45,10 @@ const cmd: CommandModule<any, Config> = {
       }
       const pkgMgr = new PromptableConfig<Config>(c$).promptedPkgMgr();
 
+      Log.info('Removing node_modules');
+      rmrf('node_modules');
+      Log.success('Removed node_modules');
+
       if (!c$.keepLockfile) {
         if (pkgMgr === PackageManager.YARN) {
           rmrf('yarn.lock');
@@ -56,10 +60,6 @@ const cmd: CommandModule<any, Config> = {
       } else {
         Log.info('Keeping lockfile');
       }
-
-      Log.info('Removing node_modules');
-      rmrf('node_modules');
-      Log.success('Removed node_modules');
 
       Log.info(`Running ${pkgMgr} install`);
       const args: string[] = ['install'];

@@ -1,3 +1,10 @@
+## [4.5.7](https://github.com/Alorel/personal-build-tools/compare/4.5.6...4.5.7) (2019-05-14)
+
+
+### Dependency updates
+
+* **package:** update fs-extra to version 8.0.1 ([085ff31](https://github.com/Alorel/personal-build-tools/commit/085ff31)), closes [#102](https://github.com/Alorel/personal-build-tools/issues/102)
+
 ## [4.5.6](https://github.com/Alorel/personal-build-tools/compare/4.5.5...4.5.6) (2019-05-10)
 
 

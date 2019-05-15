@@ -1,3 +1,17 @@
+## [4.5.8](https://github.com/Alorel/personal-build-tools/compare/4.5.7...4.5.8) (2019-05-15)
+
+
+### Dependency updates
+
+* **package:** update rollup to version 1.12.0 ([73e923c](https://github.com/Alorel/personal-build-tools/commit/73e923c))
+* **package:** update rollup-plugin-node-resolve to version 5.0.0 ([16ff6d6](https://github.com/Alorel/personal-build-tools/commit/16ff6d6))
+* **package:** update yargs to version 13.2.4 ([88383a0](https://github.com/Alorel/personal-build-tools/commit/88383a0))
+
+
+### Maintenance
+
+* Refresh package lock ([ea79c9c](https://github.com/Alorel/personal-build-tools/commit/ea79c9c))
+
 ## [4.5.7](https://github.com/Alorel/personal-build-tools/compare/4.5.6...4.5.7) (2019-05-14)
 
 

@@ -1,3 +1,10 @@
+## [4.5.13](https://github.com/Alorel/personal-build-tools/compare/4.5.12...4.5.13) (2019-07-02)
+
+
+### Dependency updates
+
+* **package:** update delete-empty to version 3.0.0 ([457c9f8](https://github.com/Alorel/personal-build-tools/commit/457c9f8))
+
 ## [4.5.12](https://github.com/Alorel/personal-build-tools/compare/4.5.11...4.5.12) (2019-06-24)
 
 

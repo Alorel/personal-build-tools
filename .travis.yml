@@ -6,7 +6,6 @@ node_js:
 
 before_install:
   - npm i -g yarn greenkeeper-lockfile
-  - &prepKey if [[ $GH_TOKEN ]]; then ./.alobuild-prep-release.sh; fi;
   - greenkeeper-lockfile-update
 
 install: yarn install --check-files --ignore-engines
@@ -33,9 +32,7 @@ jobs:
   include:
     - stage: Release
       node_js: stable
-      before_install:
-        - npm i -g yarn
-        - *prepKey
+      before_install: npm i -g yarn
       before_script:
         - yarn run build
         - ls dist -l

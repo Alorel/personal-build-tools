@@ -1,3 +1,15 @@
+## [4.5.14](https://github.com/Alorel/personal-build-tools/compare/4.5.13...4.5.14) (2019-07-10)
+
+
+### Bug Fixes
+
+* Skip generating GPG config for CI ([c09d628](https://github.com/Alorel/personal-build-tools/commit/c09d628))
+
+
+### Dependency updates
+
+* **package:** update tslint to version 5.18.0 ([354caee](https://github.com/Alorel/personal-build-tools/commit/354caee))
+
 ## [4.5.13](https://github.com/Alorel/personal-build-tools/compare/4.5.12...4.5.13) (2019-07-02)
 
 

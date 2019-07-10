@@ -10,14 +10,6 @@ export enum TravisEndpoint {
 export interface HasTravisRelease {
   ghEmail: string;
 
-  gpgKeyId: string;
-
-  gpgKeyPwd: string;
-
-  gpgPrivkey: string;
-
-  gpgPubkey: string;
-
   releaseGhToken: string;
 
   releaseNpmToken: string;
@@ -32,26 +24,9 @@ export interface HasTravisRelease {
 }
 
 export function addTravisRelease(opts: Obj<Options> = {}): Obj<Options> {
-  const gpg = ' for the GPG key used for signing release commits.';
   const assigned: Obj<Options> = {
     'gh-email': {
       describe: 'Your GitHub email',
-      type: 'string'
-    },
-    'gpg-key-id': {
-      describe: `Key ID${gpg}`,
-      type: 'string'
-    },
-    'gpg-key-pwd': {
-      describe: `Password${gpg}`,
-      type: 'string'
-    },
-    'gpg-privkey': {
-      describe: `Private key contents${gpg}`,
-      type: 'string'
-    },
-    'gpg-pubkey': {
-      describe: `Public key contents${gpg}`,
       type: 'string'
     },
     'release-gh-token': {

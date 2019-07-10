@@ -168,26 +168,6 @@ export class PromptableConfig<T extends { [k: string]: any }> {
   }
 
   @Memo
-  public promptedGpgKeyId(prop = 'gpgKeyId'): string {
-    return this.getPromptHidden(prop, 'What\'s GPG key ID? ');
-  }
-
-  @Memo
-  public promptedGpgKeyPwd(prop = 'gpgKeyPwd'): string {
-    return this.getPromptHidden(prop, 'What\'s GPG key password? ');
-  }
-
-  @Memo
-  public promptedGpgPrivkey(prop = 'gpgPrivkey'): string {
-    return this.getPromptHidden(prop, 'Paste your GPG private key contents: ');
-  }
-
-  @Memo
-  public promptedGpgPubkey(prop = 'gpgPubkey'): string {
-    return this.getPrompt(prop, 'Paste your GPG public key contents: ');
-  }
-
-  @Memo
   public promptedLicense(prop = 'license'): License {
     let pjson: null | PackageJson;
     if (this.has(prop)) {

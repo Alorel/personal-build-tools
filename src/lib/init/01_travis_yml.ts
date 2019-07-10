@@ -8,7 +8,6 @@ import {ObjectWriter, ObjectWriterFormat} from '../ObjectWriter';
 import {PromptableConfig} from '../PromptableConfig';
 
 const enum Conf {
-  PREP_KEY = 'if [[ $GH_TOKEN ]]; then ./.alobuild-prep-release.sh; fi;',
   TRAVIS_YML = '.travis.yml'
 }
 
@@ -27,16 +26,10 @@ export function handle(c: PromptableConfig<InitConf>) {
   w.set('language', 'node_js');
   w.set('node_js', TRAVIS_NODE_VERSIONS);
 
-  const beforeInstall: string[] = [];
-  if (isYarn) {
-    beforeInstall.push('npm i -g yarn greenkeeper-lockfile');
-  } else {
-    beforeInstall.push('npm i -g greenkeeper-lockfile');
-  }
-  beforeInstall.push(
-    Conf.PREP_KEY,
+  const beforeInstall: string[] = [
+    isYarn ? 'npm i -g yarn greenkeeper-lockfile' : 'npm i -g greenkeeper-lockfile',
     'greenkeeper-lockfile-update'
-  );
+  ];
 
   w.set('before_install', beforeInstall);
   w.set('install', isYarn ? 'yarn install --check-files' : 'npm install');
@@ -59,7 +52,7 @@ export function handle(c: PromptableConfig<InitConf>) {
 
   if (!shouldSkipRelease) {
     Log.info('Generating release info @ .travis.yml');
-    const bfi: string[] = [Conf.PREP_KEY];
+    const bfi: string[] = [];
     if (isYarn) {
       bfi.unshift('npm i -g yarn');
     }
@@ -72,10 +65,23 @@ export function handle(c: PromptableConfig<InitConf>) {
         if: 'branch = master AND type = push AND (NOT tag IS present)'
       }
     ]);
+    let finalReleaseBeforeInstall: string | string[];
+
+    switch (bfi.length) {
+      case 0:
+        finalReleaseBeforeInstall = [];
+        break;
+      case 1:
+        finalReleaseBeforeInstall = bfi[0];
+        break;
+      default:
+        finalReleaseBeforeInstall = bfi;
+    }
+
     w.set('jobs.include', [{
       stage: 'Release',
       node_js: 'stable',
-      before_install: bfi,
+      before_install: finalReleaseBeforeInstall,
       before_script: [
         `${c.promptedPkgMgr()} run build`,
         'alo copy-files'

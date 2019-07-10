@@ -350,7 +350,6 @@ generateNotes:
   describe('.travis.yml', () => {
     //tslint:disable:object-literal-sort-keys
     let contents: { [k: string]: any };
-    const prepKey = 'if [[ $GH_TOKEN ]]; then ./.alobuild-prep-release.sh; fi;';
 
     function withPkgMgrNpm(args: string[] = baseArgs): string[] {
       const copy = args.slice(0);
@@ -367,7 +366,6 @@ generateNotes:
           node_js: TRAVIS_NODE_VERSIONS,
           before_install: [
             'npm i -g greenkeeper-lockfile',
-            prepKey,
             'greenkeeper-lockfile-update'
           ],
           install: 'npm install',
@@ -395,7 +393,6 @@ generateNotes:
           node_js: TRAVIS_NODE_VERSIONS,
           before_install: [
             'npm i -g yarn greenkeeper-lockfile',
-            prepKey,
             'greenkeeper-lockfile-update'
           ],
           install: 'yarn install --check-files',
@@ -468,10 +465,7 @@ generateNotes:
               include: [{
                 stage: 'Release',
                 node_js: 'stable',
-                before_install: [
-                  'npm i -g yarn',
-                  prepKey
-                ],
+                before_install: 'npm i -g yarn',
                 before_script: [
                   'yarn run build',
                   'alo copy-files'
@@ -504,9 +498,7 @@ generateNotes:
               include: [{
                 stage: 'Release',
                 node_js: 'stable',
-                before_install: [
-                  prepKey
-                ],
+                before_install: [],
                 before_script: [
                   'npm run build',
                   'alo copy-files'

@@ -13,7 +13,7 @@ function getDef(): Options {
 }
 
 export function addPkgMgrToOptions<T extends Obj<Options>>(opts: T): T {
-  opts[NAME] = getDef();
+  (<any>opts)[NAME] = getDef();
 
   return opts;
 }

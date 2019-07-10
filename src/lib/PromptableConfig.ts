@@ -129,7 +129,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       return this.get<any>(prop);
     } else if (!IS_CI && this.ghRepoFromMetadata) {
       if (rl.keyInYNStrict(`Is your GitHub repo ${Colour.cyan(this.ghRepoFromMetadata)}? `)) {
-        this.data[prop] = this.ghRepoFromMetadata;
+        (<any>this.data)[prop] = this.ghRepoFromMetadata;
 
         return this.ghRepoFromMetadata;
       } else {
@@ -156,7 +156,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
       return this.get<any>(prop);
     } else if (!IS_CI && this.ghUserFromMetadata) {
       if (rl.keyInYNStrict(`Is your GitHub username ${Colour.cyan(this.ghUserFromMetadata)}? `)) {
-        this.data[prop] = this.ghUserFromMetadata;
+        (<any>this.data)[prop] = this.ghUserFromMetadata;
 
         return this.ghUserFromMetadata;
       } else {
@@ -193,7 +193,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
     if (this.has(prop)) {
       return this.get(prop);
     } else if ((pjson = readJson()) && isLicense(pjson.license)) {
-      this.data[prop] = pjson.license;
+      (<any>this.data)[prop] = pjson.license;
 
       return pjson.license;
     }
@@ -233,7 +233,7 @@ export class PromptableConfig<T extends { [k: string]: any }> {
     const ghProjRemote = getGhRepoData(tok, user, repo);
 
     if (ghProjRemote && ghProjRemote.description) {
-      this.data[prop] = ghProjRemote.description;
+      (<any>this.data)[prop] = ghProjRemote.description;
 
       return this.data[prop];
     }
@@ -254,11 +254,11 @@ export class PromptableConfig<T extends { [k: string]: any }> {
     if (this.has(prop)) {
       return this.get(prop);
     } else if (this.ghRepoFromMetadata && ask(this.ghRepoFromMetadata)) {
-      this.data[prop] = this.ghRepoFromMetadata;
+      (<any>this.data)[prop] = this.ghRepoFromMetadata;
 
       return this.ghRepoFromMetadata;
     } else if (ask((dir = lastDirname()))) {
-      this.data[prop] = dir;
+      (<any>this.data)[prop] = dir;
 
       return dir;
     } else {

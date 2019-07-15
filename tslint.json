@@ -1,6 +1,8 @@
 {
   "extends": "./node_modules/@alorel-personal/tslint-rules/tslint.json",
   "rules": {
-    "import-blacklist": false
+    "import-blacklist": false,
+    "completed-docs": false,
+    "strict-comparisons": false
   }
 }

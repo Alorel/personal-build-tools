@@ -91,6 +91,10 @@ yargs
               'setting.value': true
             }
           });
+        })
+        .catch((e: any) => {
+          console.error(e);
+          process.exit(1);
         });
     }
   })

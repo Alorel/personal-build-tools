@@ -19,7 +19,7 @@ export class Git {
     return false;
   }
 
-  public static cfg(key: string, val: string, global?: boolean): boolean {
+  public static cfg(key: string, val: string, global = false): boolean {
     const args: string[] = ['config'];
     if (global) {
       args.push('--global');

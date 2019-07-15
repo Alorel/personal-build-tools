@@ -1,3 +1,15 @@
+## [4.5.16](https://github.com/Alorel/personal-build-tools/compare/4.5.15...4.5.16) (2019-07-15)
+
+
+### Bug Fixes
+
+* Remove lts/carbon from travis node versions ([36636a7](https://github.com/Alorel/personal-build-tools/commit/36636a7))
+
+
+### Dependency updates
+
+* **package:** update rollup to version 1.17.0 ([538d1af](https://github.com/Alorel/personal-build-tools/commit/538d1af))
+
 ## [4.5.15](https://github.com/Alorel/personal-build-tools/compare/4.5.14...4.5.15) (2019-07-12)
 
 

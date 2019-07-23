@@ -1,3 +1,22 @@
+# [4.6.0](https://github.com/Alorel/personal-build-tools/compare/4.5.17...4.6.0) (2019-07-23)
+
+
+### Bug Fixes
+
+* init command will now generate a typescript dependency ([96a6868](https://github.com/Alorel/personal-build-tools/commit/96a6868))
+
+
+### Dependency updates
+
+* **package:** update lodash to version 4.17.15 ([c4e7108](https://github.com/Alorel/personal-build-tools/commit/c4e7108))
+* **package:** update typescript to version 3.5.3 ([e928d9f](https://github.com/Alorel/personal-build-tools/commit/e928d9f))
+* **package:** update yargs to version 13.3.0 ([5a1e618](https://github.com/Alorel/personal-build-tools/commit/5a1e618))
+
+
+### Features
+
+* The build command now supports a skipPackageFields option ([a5f4af9](https://github.com/Alorel/personal-build-tools/commit/a5f4af9))
+
 ## [4.5.17](https://github.com/Alorel/personal-build-tools/compare/4.5.16...4.5.17) (2019-07-23)
 
 

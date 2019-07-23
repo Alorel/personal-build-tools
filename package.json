@@ -36,7 +36,7 @@
     "json-to-graphql-query": "^1.7.0",
     "json5": "^2.0.0",
     "lazy-get-decorator": "^2.2.0",
-    "lodash": "^4.17.0",
+    "lodash": "^4.17.15",
     "log-symbols": "^3.0.0",
     "moment": "^2.24.0",
     "readline-sync": "^1.4.0",

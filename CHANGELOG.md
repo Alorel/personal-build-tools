@@ -1,3 +1,10 @@
+## [4.5.17](https://github.com/Alorel/personal-build-tools/compare/4.5.16...4.5.17) (2019-07-23)
+
+
+### Bug Fixes
+
+* Stop generating incremental tsconfigs ([32de40e](https://github.com/Alorel/personal-build-tools/commit/32de40e))
+
 ## [4.5.16](https://github.com/Alorel/personal-build-tools/compare/4.5.15...4.5.16) (2019-07-15)
 
 

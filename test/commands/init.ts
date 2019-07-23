@@ -146,7 +146,6 @@ prepare:
       - README.md
       - package.json
       - yarn.lock
-      - .tsbuildinfo
 
 publish:
   - path: *npm
@@ -173,8 +172,6 @@ generateNotes:
         {
           compilerOptions: {
             module: 'commonjs',
-            incremental: true,
-            tsBuildInfoFile: './.tsbuildinfo',
             strictBindCallApply: true,
             target: 'es5',
             experimentalDecorators: true,

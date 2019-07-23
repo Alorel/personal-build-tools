@@ -51,6 +51,8 @@ interface BuildConf {
 
   rollup: string;
 
+  skipPackageFields: boolean;
+
   targets: BuildTarget[];
 
   tsconfig: Obj<any>;
@@ -107,6 +109,11 @@ const cmd: CommandModule<BuildConf, BuildConf> = {
         alias: 'lb',
         default: false,
         describe: 'Include the license as a banner in FESM & UMD bundles',
+        type: 'boolean'
+      })
+      .option('skip-package-fields', {
+        default: false,
+        describe: 'Skip generating package mainFields',
         type: 'boolean'
       })
       .option('out', {
@@ -171,9 +178,13 @@ const cmd: CommandModule<BuildConf, BuildConf> = {
       buildCJsOrDeclaration(c, tmpTsconfigs);
       buildESM(c, tmpTsconfigs);
       buildRollup(c);
-      Log.info('Writing package.json');
-      new PackageJsonBuilder(c).write();
-      Log.success('Wrote package.json');
+      if (c.skipPackageFields) {
+        Log.info('Skipping package.json mainFields');
+      } else {
+        Log.info('Writing package.json');
+        new PackageJsonBuilder(c).write();
+        Log.success('Wrote package.json');
+      }
       Log.success(`Build finished in ${getDuration(start)}`);
     } catch (e) {
       Log.err(`Build errored in ${getDuration(start)}`);

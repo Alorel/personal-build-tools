@@ -33,7 +33,8 @@ export function handle(): void {
     'nyc',
     'rimraf',
     'tslib',
-    'ts-node'
+    'ts-node',
+    'typescript'
   ];
 
   devTilde = uniq(devTilde).filter(mkFilter('devDependencies'));

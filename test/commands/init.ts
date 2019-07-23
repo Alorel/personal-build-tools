@@ -320,7 +320,8 @@ generateNotes:
       'nyc',
       'rimraf',
       'tslib',
-      'ts-node'
+      'ts-node',
+      'typescript'
     ]).sort();
 
     before('Set cwd', mkTmpDir);

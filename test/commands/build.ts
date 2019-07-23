@@ -103,9 +103,9 @@ describe(Const.NAME, function () {
     typings: 'index.d.ts'
   };
 
-  describe('Full', () => {
+  function generateFullTest(args: string | string[]): void {
     before('fixtures', copyFixture);
-    before('run', () => alo(baseArgs));
+    before('run', () => alo(args));
 
     for (const file of files) {
       it(`${file} should exist`, async () => {
@@ -144,6 +144,10 @@ describe(Const.NAME, function () {
       const contents = await fixture.readOut('dist/_bundle/umd.js');
       expect(contents).to.include(`global.${Const.UMD_NAME} = `);
     });
+  }
+
+  describe('Full', () => {
+    generateFullTest(baseArgs);
 
     describe('package.json', function () {
       before('Read package.json', async () => {
@@ -167,6 +171,26 @@ describe(Const.NAME, function () {
           }
           this.addTest(new Test(title, fn));
         });
+      });
+
+      it('', noop);
+    });
+  });
+
+  describe('Skip package fields', () => {
+    generateFullTest([...baseArgs, '--skip-package-fields']);
+
+    describe('package.json', function () {
+      before('Read package.json', async () => {
+        pkgJson = await fixture.readOutAndParse('package.json');
+      });
+
+      before('Generate tests', () => {
+        for (const field of Object.keys(pkgJsonExpect)) {
+          this.addTest(new Test(`Shouldn't have ${field}`, () => {
+            expect(pkgJson[field]).to.be.undefined;
+          }));
+        }
       });
 
       it('', noop);
@@ -323,7 +347,7 @@ describe(Const.NAME, function () {
       before('Modify file list', () => {
         const pulled = [
           'dist/_bundle/fesm2015.js',
-          'dist/_bundle/fesm2015.js.map',
+          'dist/_bundle/fesm2015.js.map'
         ];
         pull(files, ...pulled);
         noExist.push(...pulled);
@@ -380,7 +404,7 @@ describe(Const.NAME, function () {
       before('Modify file list', () => {
         const pulled = [
           'dist/_bundle/fesm5.js',
-          'dist/_bundle/fesm5.js.map',
+          'dist/_bundle/fesm5.js.map'
         ];
         pull(files, ...pulled);
         noExist.push(...pulled);
@@ -438,7 +462,7 @@ describe(Const.NAME, function () {
       before('Modify file list', () => {
         const pulled = [
           'dist/index.d.ts',
-          'dist/loopy.d.ts',
+          'dist/loopy.d.ts'
         ];
         pull(files, ...pulled);
         noExist.push(...pulled);
@@ -496,7 +520,7 @@ describe(Const.NAME, function () {
       before('Modify file list', () => {
         const pulled = [
           'dist/_bundle/esm2015/index.js',
-          'dist/_bundle/esm2015/index.js.map',
+          'dist/_bundle/esm2015/index.js.map'
         ];
         pull(files, ...pulled);
         noExist.push(...pulled);
@@ -553,7 +577,7 @@ describe(Const.NAME, function () {
       before('Modify file list', () => {
         const pulled = [
           'dist/_bundle/esm5/index.js',
-          'dist/_bundle/esm5/index.js.map',
+          'dist/_bundle/esm5/index.js.map'
         ];
         pull(files, ...pulled);
         noExist.push(...pulled);

@@ -1,3 +1,10 @@
+# [4.7.0](https://github.com/Alorel/personal-build-tools/compare/4.6.0...4.7.0) (2019-07-24)
+
+
+### Features
+
+* **build:** skip-clean option ([09ef469](https://github.com/Alorel/personal-build-tools/commit/09ef469))
+
 # [4.6.0](https://github.com/Alorel/personal-build-tools/compare/4.5.17...4.6.0) (2019-07-23)
 
 

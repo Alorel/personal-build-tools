@@ -164,7 +164,7 @@ const cmd: CommandModule<BuildConf, BuildConf> = {
             if (last.extends) {
               path = last.extends;
             }
-          } while (last && last.extends);
+          } while (last.extends);
 
           return out;
         },

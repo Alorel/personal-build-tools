@@ -51,6 +51,8 @@ interface BuildConf {
 
   rollup: string;
 
+  skipClean: boolean;
+
   skipPackageFields: boolean;
 
   targets: BuildTarget[];
@@ -87,6 +89,11 @@ const cmd: CommandModule<BuildConf, BuildConf> = {
         default: [],
         describe: 'External dependencies',
         type: 'array'
+      })
+      .option('skip-clean', {
+        default: false,
+        describe: 'Don\'t clean the output directory before building',
+        type: 'boolean'
       })
       .option('ignore-umd-externals', {
         alias: 'iux',
@@ -170,9 +177,13 @@ const cmd: CommandModule<BuildConf, BuildConf> = {
   handler(c) {
     const start = Date.now();
     validate(c);
-    Log.info(`Clearing ${c.out}`);
-    rimraf(c.out);
-    Log.success(`${c.out} cleared.`);
+    if (c.skipClean) {
+      Log.info(`Skipping cleaning ${c.out}`);
+    } else {
+      Log.info(`Clearing ${c.out}`);
+      rimraf(c.out);
+      Log.success(`${c.out} cleared.`);
+    }
     const tmpTsconfigs: string[] = [];
     try {
       buildCJsOrDeclaration(c, tmpTsconfigs);

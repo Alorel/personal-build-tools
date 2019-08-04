@@ -1,3 +1,15 @@
+## [4.7.1](https://github.com/Alorel/personal-build-tools/compare/4.7.0...4.7.1) (2019-08-04)
+
+
+### Dependency updates
+
+* **package:** update rollup to version 1.18.0 ([b7229fe](https://github.com/Alorel/personal-build-tools/commit/b7229fe))
+
+
+### Maintenance
+
+* Remove unnecessary condition check in build script ([c4d2946](https://github.com/Alorel/personal-build-tools/commit/c4d2946))
+
 # [4.7.0](https://github.com/Alorel/personal-build-tools/compare/4.6.0...4.7.0) (2019-07-24)
 
 

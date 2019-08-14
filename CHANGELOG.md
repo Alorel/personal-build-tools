@@ -1,3 +1,10 @@
+## [4.7.3](https://github.com/Alorel/personal-build-tools/compare/4.7.2...4.7.3) (2019-08-14)
+
+
+### Dependency updates
+
+* **package:** update rimraf to version 3.0.0 ([f9d3b4c](https://github.com/Alorel/personal-build-tools/commit/f9d3b4c))
+
 ## [4.7.2](https://github.com/Alorel/personal-build-tools/compare/4.7.1...4.7.2) (2019-08-05)
 
 

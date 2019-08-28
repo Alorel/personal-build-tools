@@ -1,3 +1,12 @@
+## [4.7.4](https://github.com/Alorel/personal-build-tools/compare/4.7.3...4.7.4) (2019-08-28)
+
+
+### Dependency updates
+
+* **package:** update rollup to version 1.20.2 ([536cf16](https://github.com/Alorel/personal-build-tools/commit/536cf16)), closes [#148](https://github.com/Alorel/personal-build-tools/issues/148)
+* **package:** update rollup-plugin-typescript2 to version 0.23.0 ([f4fbf08](https://github.com/Alorel/personal-build-tools/commit/f4fbf08))
+* **package:** update yargs to version 14.0.0 ([a81d238](https://github.com/Alorel/personal-build-tools/commit/a81d238))
+
 ## [4.7.3](https://github.com/Alorel/personal-build-tools/compare/4.7.2...4.7.3) (2019-08-14)
 
 

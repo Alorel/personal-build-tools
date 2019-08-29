@@ -17,6 +17,7 @@ script:
 after_script: if [[ $GH_TOKEN ]]; then greenkeeper-lockfile-upload; fi;
 after_success: cat ./coverage/lcov.info | coveralls
 
+before_cache: rm -rf ./node_modules/.cache
 cache:
   yarn: true
   directories:

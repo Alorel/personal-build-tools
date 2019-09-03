@@ -1,3 +1,10 @@
+## [4.7.6](https://github.com/Alorel/personal-build-tools/compare/4.7.5...4.7.6) (2019-09-03)
+
+
+### Dependency updates
+
+* **package:** update cross-spawn to version 7.0.0 ([7e0b736](https://github.com/Alorel/personal-build-tools/commit/7e0b736))
+
 ## [4.7.5](https://github.com/Alorel/personal-build-tools/compare/4.7.4...4.7.5) (2019-08-29)
 
 

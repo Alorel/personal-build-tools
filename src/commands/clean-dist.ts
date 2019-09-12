@@ -34,16 +34,28 @@ function processDts(dirs: string[]): void {
   }
 
   const reg = /^export\s*{};?\s*$/;
+  let stat: fs.Stats;
+  let lines: string[];
+  let contents: string;
 
   for (const file of files) {
-    const contents: string = fs.readFileSync(file, 'utf8');
-    const lines = getNonEmptyLines(contents);
+    try {
+      stat = fs.lstatSync(file);
+      if (!stat.isFile()) {
+        continue;
+      }
+      contents = fs.readFileSync(file, 'utf8');
+      lines = getNonEmptyLines(contents);
 
-    if (lines.length !== 1 || !reg.test(lines[0])) {
-      continue;
+      if (lines.length !== 1 || !reg.test(lines[0])) {
+        continue;
+      }
+
+      fs.unlinkSync(file);
+    } catch (e) {
+      console.error('Error processing', file, e);
+      process.exit(1);
     }
-
-    fs.unlinkSync(file);
   }
 }
 
@@ -101,18 +113,32 @@ function processJs(dirs: string[]): void {
     return;
   }
 
+  let contents: string;
+  let lines: string[];
+  let mapFile: string;
+  let stat: fs.Stats;
+
   for (const file of files) {
-    const contents: string = fs.readFileSync(file, 'utf8');
-    const lines = getNonEmptyLines(contents);
+    try {
+      stat = fs.lstatSync(file);
+      if (!stat.isFile()) {
+        continue;
+      }
+      contents = fs.readFileSync(file, 'utf8');
+      lines = getNonEmptyLines(contents);
 
-    if (!shouldDeleteJs(lines)) {
-      continue;
-    }
+      if (!shouldDeleteJs(lines)) {
+        continue;
+      }
 
-    fs.unlinkSync(file);
-    const mapFile = join(dirname(file), `${basename(file)}.map`);
-    if (fs.existsSync(mapFile)) {
-      fs.unlinkSync(mapFile);
+      fs.unlinkSync(file);
+      mapFile = join(dirname(file), `${basename(file)}.map`);
+      if (fs.existsSync(mapFile)) {
+        fs.unlinkSync(mapFile);
+      }
+    } catch (e) {
+      console.error('Error processing', file, e);
+      process.exit(1);
     }
   }
 }

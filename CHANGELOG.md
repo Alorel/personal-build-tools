@@ -1,3 +1,15 @@
+## [4.7.8](https://github.com/Alorel/personal-build-tools/compare/4.7.7...4.7.8) (2019-09-12)
+
+
+### Bug Fixes
+
+* **clean-dist:** It will now check if the path is a file before cleaning ([3edf896](https://github.com/Alorel/personal-build-tools/commit/3edf896))
+
+
+### Maintenance
+
+* Update dependencies ([5c36ccf](https://github.com/Alorel/personal-build-tools/commit/5c36ccf))
+
 ## [4.7.7](https://github.com/Alorel/personal-build-tools/compare/4.7.6...4.7.7) (2019-09-09)
 
 

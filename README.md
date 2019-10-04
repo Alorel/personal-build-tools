@@ -1,5 +1,5 @@
 # Personal CI build tools
 
-[![Coverage Status](https://coveralls.io/repos/github/Alorel/personal-build-tools/badge.svg?branch=4.7.9)](https://coveralls.io/github/Alorel/personal-build-tools?branch=4.7.9)
-[![Build Status](https://travis-ci.com/Alorel/personal-build-tools.svg?branch=4.7.9)](https://travis-ci.com/Alorel/personal-build-tools)
+[![Coverage Status](https://coveralls.io/repos/github/Alorel/personal-build-tools/badge.svg?branch=4.7.10)](https://coveralls.io/github/Alorel/personal-build-tools?branch=4.7.10)
+[![Build Status](https://travis-ci.com/Alorel/personal-build-tools.svg?branch=4.7.10)](https://travis-ci.com/Alorel/personal-build-tools)
 [![Greenkeeper badge](https://badges.greenkeeper.io/Alorel/ngx-decorators.svg)](https://greenkeeper.io/)

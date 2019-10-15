@@ -1,3 +1,10 @@
+## [4.7.11](https://github.com/Alorel/personal-build-tools/compare/4.7.10...4.7.11) (2019-10-15)
+
+
+### Dependency updates
+
+* **package:** update rollup to version 1.24.0 ([6f90240](https://github.com/Alorel/personal-build-tools/commit/6f90240))
+
 ## [4.7.10](https://github.com/Alorel/personal-build-tools/compare/4.7.9...4.7.10) (2019-10-04)
 
 

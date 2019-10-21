@@ -32,7 +32,7 @@
     "custom-tslint-formatters": "2.4.0",
     "delete-empty": "^3.0.0",
     "fs-extra": "^8.0.1",
-    "glob": "^7.1.4",
+    "glob": "^7.1.5",
     "json-to-graphql-query": "^1.7.0",
     "json5": "^2.0.0",
     "lazy-get-decorator": "^2.2.0",

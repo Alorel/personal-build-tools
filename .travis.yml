@@ -3,6 +3,10 @@ node_js:
   - lts/dubnium
   - stable
 
+env:
+  global:
+    - COVERALLS_PARALLEL=true
+
 before_install:
   - npm i -g yarn greenkeeper-lockfile
   - greenkeeper-lockfile-update
@@ -40,3 +44,6 @@ jobs:
       script: semantic-release
       after_success: []
       after_script: []
+
+notifications:
+  webhooks: https://coveralls.io/webhook

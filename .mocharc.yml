@@ -1,0 +1,12 @@
+checkLeaks: true
+exit: true
+fullTrace: false
+require:
+  - ts-node/register
+  - source-map-support/register
+exclude:
+  - '**/fixtures/**'
+recursive: true
+timeout: 20000
+extension: ts
+spec: test

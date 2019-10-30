@@ -24,7 +24,7 @@
     "tslint": "npm --scripts-prepend-node-path=auto run alo -- tslint -p tsconfig.test.json",
     "tslint:fix": "npm --scripts-prepend-node-path=auto run tslint -- --fix",
     "pretest": "rimraf coverage",
-    "test": "cross-env RUNNING_PERSONAL_BUILD_TOOLS_TESTS=1 nyc mocha --opts ./mocha.opts test/commands test/general"
+    "test": "cross-env RUNNING_PERSONAL_BUILD_TOOLS_TESTS=1 nyc mocha test/commands test/general"
   },
   "dependencies": {
     "chalk": "^2.4.2",

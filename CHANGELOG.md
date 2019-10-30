@@ -1,3 +1,15 @@
+## [4.7.15](https://github.com/Alorel/personal-build-tools/compare/4.7.14...4.7.15) (2019-10-30)
+
+
+### Bug Fixes
+
+* Reverted typescript rollup plugin update ([](https://github.com/Alorel/personal-build-tools/commit/edb9e83))
+
+
+### Maintenance
+
+* Move to new mocha config file format ([](https://github.com/Alorel/personal-build-tools/commit/5c1c9f3))
+
 ## [4.7.14](https://github.com/Alorel/personal-build-tools/compare/4.7.13...4.7.14) (2019-10-29)
 
 

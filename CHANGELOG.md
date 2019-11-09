@@ -1,3 +1,10 @@
+## [4.7.17](https://github.com/Alorel/personal-build-tools/compare/4.7.16...4.7.17) (2019-11-09)
+
+
+### Dependency updates
+
+* **package:** update chalk to version 3.0.0 ([](https://github.com/Alorel/personal-build-tools/commit/8e4108b))
+
 ## [4.7.16](https://github.com/Alorel/personal-build-tools/compare/4.7.15...4.7.16) (2019-11-06)
 
 

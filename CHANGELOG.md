@@ -1,3 +1,10 @@
+## [4.7.19](https://github.com/Alorel/personal-build-tools/compare/4.7.18...4.7.19) (2019-11-17)
+
+
+### Dependency updates
+
+* **package:** update yargs to version 15.0.1 ([](https://github.com/Alorel/personal-build-tools/commit/c99ddff))
+
 ## [4.7.18](https://github.com/Alorel/personal-build-tools/compare/4.7.17...4.7.18) (2019-11-12)
 
 

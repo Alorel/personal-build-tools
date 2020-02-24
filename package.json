@@ -91,6 +91,6 @@
     "semantic-release": "~15.13.24",
     "source-map-support": "~0.5.13",
     "ts-node": "^8.0.3",
-    "uuid": "~3.3.3"
+    "uuid": "~7.0.0"
   }
 }
